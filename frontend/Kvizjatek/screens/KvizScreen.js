@@ -1,8 +1,7 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-const lekerdez = async () =>
-{
-    
+const lekerdez = async () => {
+  let x = await fetch()
 }
 
 export default function App() {
