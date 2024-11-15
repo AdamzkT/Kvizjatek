@@ -2,12 +2,15 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { Ipcim1 } from '../Ipcim';
 import { useEffect, useState } from 'react';
 
-export default function App() {
+export default function KvizScreen() {
   const [adatok,setAdatok] = useState([]);
 
   const lekerdez = async () => {
+    console.log('1')
     let x = await fetch(`http://${Ipcim1}/kerdesek`)
+    console.log('2')
     let y = await x.json()
+    console.log('3')
     setAdatok(y)
     console.log(adatok)
   }
@@ -16,8 +19,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Button>AAA</Button>
-      <Text>{adatok[0].kerdes}</Text>
+      <Button title='AAA'/>
     </View>
   );
 }
