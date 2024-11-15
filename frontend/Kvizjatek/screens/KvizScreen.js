@@ -4,22 +4,25 @@ import { useEffect, useState } from 'react';
 
 export default function KvizScreen() {
   const [adatok,setAdatok] = useState([]);
+  const [kerdes,setKerdes] = useState("");
+  const [valaszok,setValaszok] = useState([]);
+  const [joValasz,setJoValasz] = useState("");
 
   const lekerdez = async () => {
-    console.log('1')
-    let x = await fetch(`http://${Ipcim1}/kerdesek`)
-    console.log('2')
+    let x = await fetch(`${Ipcim1}/kerdesek`)
     let y = await x.json()
-    console.log('3')
     setAdatok(y)
-    console.log(adatok)
+    setKerdes(adatok[0].kerdes)
+    setJoValasz(adatok[0].valasz_jo)
   }
 
   useEffect(() => {lekerdez()},[])
 
   return (
     <View style={styles.container}>
-      <Button title='AAA'/>
+      <Button title='Új kérdés'/>
+      <Text>{kerdes}</Text>
+      <Text>{joValasz}</Text>
     </View>
   );
 }
