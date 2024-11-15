@@ -1,13 +1,23 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
-
-const lekerdez = async () => {
-  let x = await fetch()
-}
+import { Ipcim1 } from '../Ipcim';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+  const [adatok,setAdatok] = useState([]);
+
+  const lekerdez = async () => {
+    let x = await fetch(`http://${Ipcim1}/kerdesek`)
+    let y = await x.json()
+    setAdatok(y)
+    console.log(adatok)
+  }
+
+  useEffect(() => {lekerdez()},[])
+
   return (
     <View style={styles.container}>
       <Button>AAA</Button>
+      <Text>{adatok[0].kerdes}</Text>
     </View>
   );
 }
