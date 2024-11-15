@@ -1,5 +1,6 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { Ipcim1 } from '../Ipcim';
+import { Ipcim2 } from '../Ipcim';
 import { useEffect, useState } from 'react';
 
 export default function KvizScreen() {
@@ -18,9 +19,15 @@ export default function KvizScreen() {
 
   useEffect(() => {lekerdez()},[])
 
+  const ujKerdes = () => {
+    let ujIndex = Math.floor(Math.random() * adatok.length)
+    setKerdes(adatok[ujIndex].kerdes)
+    setJoValasz(adatok[ujIndex].valasz_jo)
+  }
+
   return (
     <View style={styles.container}>
-      <Button title='Új kérdés'/>
+      <Button title='Új kérdés' onPress={() => ujKerdes()}/>
       <Text>{kerdes}</Text>
       <Text>{joValasz}</Text>
     </View>
