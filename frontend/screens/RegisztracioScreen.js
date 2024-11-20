@@ -1,5 +1,5 @@
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import {useState } from 'react';
+import { useState } from 'react';
 
 export default function RegisztracioScreen(navigation) {
     const [felhasznalo, setFelhasznalo] = useState('')

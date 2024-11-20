@@ -1,5 +1,5 @@
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import {useState } from 'react';
+import { useState } from 'react';
 
 export default function BejelentkezesScreen({navigation}) {
     const [felhasznalo, setFelhasznalo] = useState('')
