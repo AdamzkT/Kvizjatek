@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Nov 18. 10:47
+-- Létrehozás ideje: 2024. Nov 20. 08:18
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -43,6 +43,24 @@ INSERT INTO `felhasznalok` (`email`, `nev`, `jelszo`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `kategoriak`
+--
+
+CREATE TABLE `kategoriak` (
+  `id` int(11) NOT NULL,
+  `nev` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `kategoriak`
+--
+
+INSERT INTO `kategoriak` (`id`, `nev`) VALUES
+(1, 'teszt');
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `kerdesek`
 --
 
@@ -78,7 +96,7 @@ CREATE TABLE `kvizek` (
   `id` int(11) NOT NULL,
   `felhasznalo_email` varchar(255) NOT NULL,
   `nev` varchar(50) NOT NULL,
-  `kategoria` varchar(30) NOT NULL,
+  `kategoria_id` int(11) NOT NULL,
   `leiras` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -86,8 +104,8 @@ CREATE TABLE `kvizek` (
 -- A tábla adatainak kiíratása `kvizek`
 --
 
-INSERT INTO `kvizek` (`id`, `felhasznalo_email`, `nev`, `kategoria`, `leiras`) VALUES
-(1, 'valaki@gmail.com', 'Teszt kvíz', 'Tesztelés', 'Teszt Teszt Teszt Teszt ');
+INSERT INTO `kvizek` (`id`, `felhasznalo_email`, `nev`, `kategoria_id`, `leiras`) VALUES
+(1, 'valaki@gmail.com', 'Teszt kvíz', 1, 'Teszt Teszt Teszt Teszt ');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -98,6 +116,12 @@ INSERT INTO `kvizek` (`id`, `felhasznalo_email`, `nev`, `kategoria`, `leiras`) V
 --
 ALTER TABLE `felhasznalok`
   ADD PRIMARY KEY (`email`);
+
+--
+-- A tábla indexei `kategoriak`
+--
+ALTER TABLE `kategoriak`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- A tábla indexei `kerdesek`
@@ -111,11 +135,18 @@ ALTER TABLE `kerdesek`
 --
 ALTER TABLE `kvizek`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `felhasznalo_email` (`felhasznalo_email`);
+  ADD KEY `felhasznalo_email` (`felhasznalo_email`),
+  ADD KEY `kategoria` (`kategoria_id`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
+
+--
+-- AUTO_INCREMENT a táblához `kategoriak`
+--
+ALTER TABLE `kategoriak`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `kerdesek`
@@ -143,7 +174,8 @@ ALTER TABLE `kerdesek`
 -- Megkötések a táblához `kvizek`
 --
 ALTER TABLE `kvizek`
-  ADD CONSTRAINT `kvizek_ibfk_1` FOREIGN KEY (`felhasznalo_email`) REFERENCES `felhasznalok` (`email`);
+  ADD CONSTRAINT `kvizek_ibfk_1` FOREIGN KEY (`felhasznalo_email`) REFERENCES `felhasznalok` (`email`),
+  ADD CONSTRAINT `kvizek_ibfk_2` FOREIGN KEY (`kategoria_id`) REFERENCES `kategoriak` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
