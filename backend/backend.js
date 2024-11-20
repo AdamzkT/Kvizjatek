@@ -111,6 +111,32 @@ app.get('/osszes_tabla', (req, res) => {
 })
 
 
+app.post('/kviz_kerdesek', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.id
+    ]
+
+    connection.query(`
+        SELECT * FROM kerdesek
+        WHERE kviz_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
