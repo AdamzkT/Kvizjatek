@@ -87,30 +87,6 @@ app.get('/felhasznalok', (req, res) => {
 })
 
 
-app.get('/osszes_tabla', (req, res) => {
-    kapcsolat()
-
-    connection.query(`
-        SELECT * FROM kvizek
-        INNER JOIN kerdesek ON kvizek.id = kerdesek.kviz_id
-        INNER JOIN felhasznalok ON kvizek.felhasznalo_email = felhasznalok.email
-        `, (err, rows, fields) => {
-        if (err)
-        {
-            console.log("Hiba")
-            console.log(err)
-            res.status(500).send("Hiba")
-        }
-        else{
-            console.log(rows)
-            res.status(200).send(rows)
-        }
-    })
-
-    connection.end() 
-})
-
-
 app.post('/kviz_kerdesek', (req, res) => {
     kapcsolat()
 
@@ -131,6 +107,36 @@ app.post('/kviz_kerdesek', (req, res) => {
         else{
             console.log(rows)
             res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
+app.post('/uzenet_kuldes', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.felhasznalo_email,
+        req.body.tema,
+        req.body.tipus,
+        req.body.uzenet
+    ]
+
+    connection.query(`
+        INSERT INTO visszajelzesek 
+        VALUES(null, ?, ?, ?, ?)
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Üzenet elküldve!")
+            res.status(200).send("Üzenet elküldve!")
         }
     })
 
