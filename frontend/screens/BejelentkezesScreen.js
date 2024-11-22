@@ -1,6 +1,6 @@
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
-import { Ipcim1 } from '../Ipcim';
+import Ipcim from '../Ipcim';
 
 export default function BejelentkezesScreen({navigation}) {
     const [felhasznalo, setFelhasznalo] = useState("")
@@ -8,7 +8,7 @@ export default function BejelentkezesScreen({navigation}) {
     const [megjegyzes, setMegjegyzes] = useState("")
 
     const bejelentkezes = async (felhasznalo,jelszo) => {
-      let x = await fetch(`${Ipcim1}/bejelentkezes`, {
+      let x = await fetch(`${Ipcim.Ipcim1}/bejelentkezes`, {
         method: "POST",
         headers: {
         'Accept': 'application/json',

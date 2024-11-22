@@ -156,7 +156,7 @@ app.post('/bejelentkezes', (req, res) => {
 
     connection.query(`
         SELECT * from felhasznalok
-        WHERE (email = ? OR nev = ?) AND jelszo = ?;
+        WHERE (email LIKE BINARY "" OR nev LIKE BINARY "Valaki") AND jelszo LIKE BINARY "valaki";
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
