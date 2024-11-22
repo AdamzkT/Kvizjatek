@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Nov 20. 08:21
+-- Létrehozás ideje: 2024. Nov 20. 10:01
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -109,6 +109,27 @@ CREATE TABLE `kvizek` (
 INSERT INTO `kvizek` (`id`, `felhasznalo_email`, `nev`, `kategoria_id`, `leiras`) VALUES
 (1, 'valaki@gmail.com', 'Teszt kvíz', 1, 'Teszt Teszt Teszt Teszt ');
 
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `visszajelzesek`
+--
+
+CREATE TABLE `visszajelzesek` (
+  `id` int(11) NOT NULL,
+  `felhasznalo_email` varchar(255) NOT NULL,
+  `tema` varchar(50) NOT NULL,
+  `tipus` varchar(255) NOT NULL,
+  `uzenet` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `visszajelzesek`
+--
+
+INSERT INTO `visszajelzesek` (`id`, `felhasznalo_email`, `tema`, `tipus`, `uzenet`) VALUES
+(1, 'valaki@gmail.com', 'tema', 'javaslat', 'uzenet');
+
 --
 -- Indexek a kiírt táblákhoz
 --
@@ -141,6 +162,13 @@ ALTER TABLE `kvizek`
   ADD KEY `kategoria` (`kategoria_id`);
 
 --
+-- A tábla indexei `visszajelzesek`
+--
+ALTER TABLE `visszajelzesek`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `felhasznalo_email` (`felhasznalo_email`);
+
+--
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
@@ -163,6 +191,12 @@ ALTER TABLE `kvizek`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT a táblához `visszajelzesek`
+--
+ALTER TABLE `visszajelzesek`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
 -- Megkötések a kiírt táblákhoz
 --
 
@@ -178,6 +212,12 @@ ALTER TABLE `kerdesek`
 ALTER TABLE `kvizek`
   ADD CONSTRAINT `kvizek_ibfk_1` FOREIGN KEY (`felhasznalo_email`) REFERENCES `felhasznalok` (`email`),
   ADD CONSTRAINT `kvizek_ibfk_2` FOREIGN KEY (`kategoria_id`) REFERENCES `kategoriak` (`id`);
+
+--
+-- Megkötések a táblához `visszajelzesek`
+--
+ALTER TABLE `visszajelzesek`
+  ADD CONSTRAINT `visszajelzesek_ibfk_1` FOREIGN KEY (`felhasznalo_email`) REFERENCES `felhasznalok` (`email`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
