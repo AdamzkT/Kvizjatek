@@ -144,6 +144,64 @@ app.post('/uzenet_kuldes', (req, res) => {
 })
 
 
+app.post('/bejelentkezes', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.email,
+        req.body.nev,
+        req.body.jelszo,
+    ]
+
+    connection.query(`
+        SELECT * from felhasznalok
+        WHERE (email = ? OR nev = ?) AND jelszo = ?;
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres bejelentkezés!")
+            res.status(200).send("Sikeres bejelentkezés!")
+        }
+    })
+
+    connection.end() 
+})
+
+
+app.post('/regisztracio', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.email,
+        req.body.nev,
+        req.body.jelszo,
+    ]
+
+    connection.query(`
+        INSERT INTO felhasznalok
+        VALUES(?, ?, ?)
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres regisztráció!")
+            res.status(200).send("Sikeres regisztráció!")
+        }
+    })
+
+    connection.end() 
+})
+
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
