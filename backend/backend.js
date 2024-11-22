@@ -48,6 +48,7 @@ app.get('/kvizek', (req, res) => {
     connection.query(`
         SELECT * FROM kvizek
         INNER JOIN kerdesek ON kvizek.id = kerdesek.kviz_id
+        INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.id
         `, (err, rows, fields) => {
         if (err)
         {
