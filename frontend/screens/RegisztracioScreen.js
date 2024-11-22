@@ -10,8 +10,9 @@ export default function RegisztracioScreen(navigation) {
 
     const signIn = () =>{
         setMegjegyzes('')
-        let jo = true
-        if(felhasznalo == "" || email == "" || jelszo == "" || jelszo2 == "") { setMegjegyzes("Minden adatot meg kell adni"); jo = false}
+        let jo = false
+        if (felhasznalo == "" || email == "" || jelszo == "" || jelszo2 == "") { setMegjegyzes("Minden adatot meg kell adni"); }
+        else if (jelszo != jelszo2) {setMegjegyzes("Jelszavaknak meg kell egyeznie")}
         
     }
 
