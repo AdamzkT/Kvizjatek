@@ -8,7 +8,7 @@ export default function BejelentkezesScreen({navigation}) {
     const [megjegyzes, setMegjegyzes] = useState("")
 
     const bejelentkezes = async (felhasznalo,jelszo) => {
-      let x = await fetch(`${Ipcim.Ipcim2}/bejelentkezes`, {
+      let x = await fetch(`${Ipcim.Ipcim1}/bejelentkezes`, {
         method: "POST",
         headers: {
         'Accept': 'application/json',
