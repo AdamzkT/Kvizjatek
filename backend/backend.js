@@ -164,8 +164,8 @@ app.post('/bejelentkezes', (req, res) => {
             res.status(500).send("Hiba")
         }
         else{
-            console.log("Sikeres bejelentkezés!")
-            res.status(200).send("Sikeres bejelentkezés!")
+            console.log(rows)
+            res.status(200).send(rows)
         }
     })
 
