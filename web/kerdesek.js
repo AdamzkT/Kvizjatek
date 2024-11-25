@@ -9,7 +9,6 @@ async function kerdesek_fetch(kviz_id) {
     let y = await x.json();
     kerdesek_megjelenit(y);
 }
-kerdesek_fetch(1)
 
 const kerdesek_megjelenit = (adatok) =>{
     console.log(adatok)
@@ -27,4 +26,20 @@ const kerdesek_megjelenit = (adatok) =>{
         `
     }
     document.getElementById("kerdesek_tablazat").innerHTML = sz
+}
+
+
+
+//chatGPT
+const getQueryParam = (param) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+};
+
+const kviz_id = getQueryParam("kviz_id");
+
+if (kviz_id) {
+    kerdesek_fetch(kviz_id);
+} else {
+    console.error("No kviz_id provided in the URL.");
 }

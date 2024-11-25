@@ -1,4 +1,3 @@
-//Kvízek------------------------------------------------------------------------------------------------------------------------------
 async function kvizek_fetch() {
     let x = await fetch("http://localhost:3000/kvizek");
     let y = await x.json();
@@ -19,7 +18,7 @@ const kvizek_megjelenit = (adatok) =>{
                 <td>${item.kategoria_nev}</td>
                 <td>${item.kviz_leiras}</td>
                 <td>
-                    <button type="button" onclick="kerdesek_fetch(${item.kviz_id})">Kérdések</button>
+                    <button type="button" onclick="window.location.href='kerdesek.html?kviz_id=${item.kviz_id}'">Kérdések</button>
                 </td>
             </tr>
 
