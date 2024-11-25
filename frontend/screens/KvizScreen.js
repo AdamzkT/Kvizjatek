@@ -1,6 +1,5 @@
 import { Alert, Button, StyleSheet, Text, View } from 'react-native';
-import { Ipcim1 } from '../Ipcim';
-import { Ipcim2 } from '../Ipcim';
+import Ipcim from '../Ipcim';
 import { useEffect, useState } from 'react';
 
 export default function KvizScreen() {
@@ -25,7 +24,7 @@ export default function KvizScreen() {
   }
 
   const lekerdez = async () => {
-    let x = await fetch(`${Ipcim1}/kerdesek`)
+    let x = await fetch(`${Ipcim.Ipcim1}/kerdesek`)
     let y = await x.json()
     setAdatok(y)
     setKerdes(y[0].kerdes)

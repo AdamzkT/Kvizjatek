@@ -47,8 +47,8 @@ app.get('/kvizek', (req, res) => {
 
     connection.query(`
         SELECT * FROM kvizek
-        INNER JOIN kerdesek ON kvizek.id = kerdesek.kviz_id
-        INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.id
+        INNER JOIN kerdesek ON kvizek.kviz_id = kerdesek.kviz_id
+        INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.kategoria_id
         `, (err, rows, fields) => {
         if (err)
         {
@@ -120,9 +120,9 @@ app.post('/uzenet_kuldes', (req, res) => {
 
     let parameterek = [
         req.body.felhasznalo_email,
-        req.body.tema,
-        req.body.tipus,
-        req.body.uzenet
+        req.body.visszajelzes_tema,
+        req.body.visszajelzes_tipus,
+        req.body.visszajelzes_uzenet
     ]
 
     connection.query(`
@@ -149,14 +149,14 @@ app.post('/bejelentkezes', (req, res) => {
     kapcsolat()
 
     let parameterek = [
-        req.body.email,
-        req.body.nev,
-        req.body.jelszo,
+        req.body.felhasznalo_email,
+        req.body.felhasznalo_nev,
+        req.body.felhasznalo_jelszo,
     ]
 
     connection.query(`
         SELECT * from felhasznalok
-        WHERE (email LIKE BINARY ? OR nev LIKE BINARY ?) AND jelszo LIKE BINARY ?;
+        WHERE (felhasznalo_email LIKE BINARY ? OR felhasznalo_nev LIKE BINARY ?) AND felhasznalo_jelszo LIKE BINARY ?;
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
@@ -178,9 +178,9 @@ app.post('/regisztracio', (req, res) => {
     kapcsolat()
 
     let parameterek = [
-        req.body.email,
-        req.body.nev,
-        req.body.jelszo,
+        req.body.felhasznalo_email,
+        req.body.felhasznalo_nev,
+        req.body.felhasznalo_jelszo,
     ]
 
     connection.query(`
@@ -207,13 +207,13 @@ app.post('/regisztracio_ellenorzes', (req, res) => {
     kapcsolat()
 
     let parameterek = [
-        req.body.email,
-        req.body.nev
+        req.body.felhasznalo_email,
+        req.body.felhasznalo_nev
     ]
 
     connection.query(`
         SELECT * from felhasznalok
-        WHERE email = ? OR nev = ?;
+        WHERE felhasznalo_email = ? OR felhasznalo_nev = ?;
         `, parameterek, (err, rows, fields) => {
         if (err)
         {

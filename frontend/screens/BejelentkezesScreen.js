@@ -15,9 +15,9 @@ export default function BejelentkezesScreen({navigation}) {
         'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          "email" : felhasznalo,
-          "nev" : felhasznalo,
-          "jelszo" : jelszo,
+          "felhasznalo_email" : felhasznalo,
+          "felhasznalo_nev" : felhasznalo,
+          "felhasznalo_jelszo" : jelszo,
         })
       });
       let y = await x.json()

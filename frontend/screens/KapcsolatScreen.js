@@ -13,9 +13,9 @@ export default function KapcsolatScreen() {
     let adatok = 
     {
         "felhasznalo_email":email,
-        "tema":tema,
-        "tipus":tipus,
-        "uzenet":uzenet
+        "visszajelzes_tema":tema,
+        "visszajelzes_tipus":tipus,
+        "visszajelzes_uzenet":uzenet
     }
     
     const felvitel = async () =>{
