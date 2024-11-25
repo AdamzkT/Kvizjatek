@@ -12,9 +12,8 @@ const kvizek_megjelenit = (adatok) =>{
     for (const item of adatok) {
         sz += `
         <tr>
-            <td>${item.kviz_id}</td>
-            <td>${item.felhasznalo_email}</td>
             <td>${item.kviz_nev}</td>
+            <td>${item.felhasznalo_email}</td>
             <td>${item.kategoria_nev}</td>
             <td>${item.kviz_leiras}</td>
         </tr>

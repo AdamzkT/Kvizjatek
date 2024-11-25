@@ -47,6 +47,29 @@ app.get('/kvizek', (req, res) => {
 
     connection.query(`
         SELECT * FROM kvizek
+        INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.kategoria_id
+        `, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
+app.get('/kvizek_kerdesekkel', (req, res) => {
+    kapcsolat()
+
+    connection.query(`
+        SELECT * FROM kvizek
         INNER JOIN kerdesek ON kvizek.kviz_id = kerdesek.kviz_id
         INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.kategoria_id
         `, (err, rows, fields) => {
