@@ -115,7 +115,7 @@ app.post('/kviz_kerdesek', (req, res) => {
     kapcsolat()
 
     let parameterek = [
-        req.body.id
+        req.body.kviz_id
     ]
 
     connection.query(`
