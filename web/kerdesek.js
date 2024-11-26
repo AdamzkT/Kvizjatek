@@ -29,7 +29,9 @@ const kerdesek_megjelenit = (y) => {
             <td><button type="button" class="modositas" onclick="kerdesek_modositas(${item.kerdes_id})">
                 <img src="kepek/edit.png" alt="" class="img-fluid">
             </button></td>
-            <td><button type="button" class="torles" onclick="torles_ellenorzes(${item.kerdes_id})">X</button></td>
+            <td><button type="button" class="torles" onclick="torles_ellenorzes(${item.kerdes_id})">
+                <img src="kepek/delete.png" alt="" class="img-fluid">
+            </button></td>
         </tr>
         `
     }

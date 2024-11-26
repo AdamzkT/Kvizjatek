@@ -3,18 +3,51 @@ table tr{
     vertical-align: middle;
 }
 
+
 .torles{
-    color: red;
     background-color: darkred;
     width: 40px;
     height: 40px;
     font-weight: bold;
+    border-color: rgb(90, 0, 0);
 }
+
+.torles:hover{
+    background-color: rgb(124, 0, 0);
+}
+
+.torles:active{
+    background-color: rgb(104, 1, 1);
+}
+
 
 .modositas{
     width: 40px;
     height: 40px;
+    border-color: grey;
+}
+
+.modositas:hover{
+    background-color: rgb(214, 214, 214);
+}
+
+.modositas:active{
+    background-color: rgb(190, 190, 190);
+}
+
+
+.kerdesek_gomb{
+    height: 40px;
     font-weight: bold;
+    border-color: grey;
+}
+
+.kerdesek_gomb:hover{
+    background-color: rgb(214, 214, 214);
+}
+
+.kerdesek_gomb:active{
+    background-color: rgb(190, 190, 190);
 }
 
 /*Felugró üzenetek*/

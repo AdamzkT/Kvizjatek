@@ -18,12 +18,14 @@ const kvizek_megjelenit = (adatok) =>{
                 <td>${item.kategoria_nev}</td>
                 <td>${item.kviz_leiras}</td>
                 <td>
-                    <button type="button" onclick="window.location.href='kerdesek.html?kviz_id=${item.kviz_id}'">Kérdések</button>
+                    <button type="button" onclick="window.location.href='kerdesek.html?kviz_id=${item.kviz_id}'" class="kerdesek_gomb">Kérdések</button>
                 </td>
                 <td><button type="button" class="modositas">
                     <img src="kepek/edit.png" alt="" class="img-fluid">
                 </button></td>
-                <td><button type="button" class="torles">X</button></td>
+                <td><button type="button" class="torles">
+                    <img src="kepek/delete.png" alt="" class="img-fluid">
+                </button></td>
             </tr>
         `
     }
