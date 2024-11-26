@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Nov 20. 10:01
+-- Létrehozás ideje: 2024. Nov 26. 13:40
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -30,16 +30,16 @@ USE `kvizjatek`;
 --
 
 CREATE TABLE `felhasznalok` (
-  `email` varchar(255) NOT NULL,
-  `nev` varchar(20) NOT NULL,
-  `jelszo` varchar(64) NOT NULL
+  `felhasznalo_email` varchar(255) NOT NULL,
+  `felhasznalo_nev` varchar(20) NOT NULL,
+  `felhasznalo_jelszo` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `felhasznalok`
 --
 
-INSERT INTO `felhasznalok` (`email`, `nev`, `jelszo`) VALUES
+INSERT INTO `felhasznalok` (`felhasznalo_email`, `felhasznalo_nev`, `felhasznalo_jelszo`) VALUES
 ('valaki@gmail.com', 'Valaki', 'valaki');
 
 -- --------------------------------------------------------
@@ -49,16 +49,18 @@ INSERT INTO `felhasznalok` (`email`, `nev`, `jelszo`) VALUES
 --
 
 CREATE TABLE `kategoriak` (
-  `id` int(11) NOT NULL,
-  `nev` varchar(255) NOT NULL
+  `kategoria_id` int(11) NOT NULL,
+  `kategoria_nev` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `kategoriak`
 --
 
-INSERT INTO `kategoriak` (`id`, `nev`) VALUES
-(1, 'teszt');
+INSERT INTO `kategoriak` (`kategoria_id`, `kategoria_nev`) VALUES
+(1, 'teszt'),
+(2, 'Történelem'),
+(3, 'Természet');
 
 -- --------------------------------------------------------
 
@@ -67,7 +69,7 @@ INSERT INTO `kategoriak` (`id`, `nev`) VALUES
 --
 
 CREATE TABLE `kerdesek` (
-  `id` int(11) NOT NULL,
+  `kerdes_id` int(11) NOT NULL,
   `kviz_id` int(11) NOT NULL,
   `kerdes` varchar(255) NOT NULL,
   `valasz_jo` varchar(50) NOT NULL,
@@ -81,12 +83,13 @@ CREATE TABLE `kerdesek` (
 -- A tábla adatainak kiíratása `kerdesek`
 --
 
-INSERT INTO `kerdesek` (`id`, `kviz_id`, `kerdes`, `valasz_jo`, `valasz_rossz1`, `valasz_rossz2`, `valasz_rossz3`, `kep`) VALUES
+INSERT INTO `kerdesek` (`kerdes_id`, `kviz_id`, `kerdes`, `valasz_jo`, `valasz_rossz1`, `valasz_rossz2`, `valasz_rossz3`, `kep`) VALUES
 (1, 1, 'Mi a fővárosa Magyarországnak?', 'Budapest', 'Debrecen', 'Szeged', 'Pécs', 'magyarorszag.jpg'),
 (2, 1, 'Melyik bolygó a legnagyobb a Naprendszerben?', 'Jupiter', 'Mars', 'Föld', 'Vénusz', 'bolygok.jpg'),
 (3, 1, 'Milyen színű a fű?', 'Zöld', 'Kék', 'Sárga', 'Vörös', 'fu.png'),
 (4, 1, 'Ki festette a Mona Lisát?', 'Leonardo da Vinci', 'Pablo Picasso', 'Vincent van Gogh', 'Claude Monet', 'mona_lisa.jpg'),
-(5, 1, 'Milyen állat a delfin?', 'Emlős', 'Hüllő', 'Madár', 'Hal', 'delfin.png');
+(5, 1, 'Milyen állat a delfin?', 'Emlős', 'Hüllő', 'Madár', 'Hal', 'delfin.png'),
+(6, 2, 'Mikor tört ki a második világháború?', '1939', '1940', '1938', '1941', 'kep.png');
 
 -- --------------------------------------------------------
 
@@ -95,19 +98,20 @@ INSERT INTO `kerdesek` (`id`, `kviz_id`, `kerdes`, `valasz_jo`, `valasz_rossz1`,
 --
 
 CREATE TABLE `kvizek` (
-  `id` int(11) NOT NULL,
+  `kviz_id` int(11) NOT NULL,
   `felhasznalo_email` varchar(255) NOT NULL,
-  `nev` varchar(50) NOT NULL,
+  `kviz_nev` varchar(50) NOT NULL,
   `kategoria_id` int(11) NOT NULL,
-  `leiras` varchar(255) NOT NULL
+  `kviz_leiras` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `kvizek`
 --
 
-INSERT INTO `kvizek` (`id`, `felhasznalo_email`, `nev`, `kategoria_id`, `leiras`) VALUES
-(1, 'valaki@gmail.com', 'Teszt kvíz', 1, 'Teszt Teszt Teszt Teszt ');
+INSERT INTO `kvizek` (`kviz_id`, `felhasznalo_email`, `kviz_nev`, `kategoria_id`, `kviz_leiras`) VALUES
+(1, 'valaki@gmail.com', 'Teszt kvíz', 1, 'Teszt Teszt Teszt Teszt '),
+(2, 'valaki@gmail.com', 'Világtörténelem', 2, 'Teszteld a tudásod a világ történelméről.');
 
 -- --------------------------------------------------------
 
@@ -116,18 +120,18 @@ INSERT INTO `kvizek` (`id`, `felhasznalo_email`, `nev`, `kategoria_id`, `leiras`
 --
 
 CREATE TABLE `visszajelzesek` (
-  `id` int(11) NOT NULL,
+  `visszajelzes_id` int(11) NOT NULL,
   `felhasznalo_email` varchar(255) NOT NULL,
-  `tema` varchar(50) NOT NULL,
-  `tipus` varchar(255) NOT NULL,
-  `uzenet` varchar(255) NOT NULL
+  `visszajelzes_tema` varchar(50) NOT NULL,
+  `visszajelzes_tipus` varchar(255) NOT NULL,
+  `visszajelzes_uzenet` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `visszajelzesek`
 --
 
-INSERT INTO `visszajelzesek` (`id`, `felhasznalo_email`, `tema`, `tipus`, `uzenet`) VALUES
+INSERT INTO `visszajelzesek` (`visszajelzes_id`, `felhasznalo_email`, `visszajelzes_tema`, `visszajelzes_tipus`, `visszajelzes_uzenet`) VALUES
 (1, 'valaki@gmail.com', 'tema', 'javaslat', 'uzenet');
 
 --
@@ -138,26 +142,26 @@ INSERT INTO `visszajelzesek` (`id`, `felhasznalo_email`, `tema`, `tipus`, `uzene
 -- A tábla indexei `felhasznalok`
 --
 ALTER TABLE `felhasznalok`
-  ADD PRIMARY KEY (`email`);
+  ADD PRIMARY KEY (`felhasznalo_email`);
 
 --
 -- A tábla indexei `kategoriak`
 --
 ALTER TABLE `kategoriak`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`kategoria_id`);
 
 --
 -- A tábla indexei `kerdesek`
 --
 ALTER TABLE `kerdesek`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`kerdes_id`),
   ADD KEY `kviz_id` (`kviz_id`);
 
 --
 -- A tábla indexei `kvizek`
 --
 ALTER TABLE `kvizek`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`kviz_id`),
   ADD KEY `felhasznalo_email` (`felhasznalo_email`),
   ADD KEY `kategoria` (`kategoria_id`);
 
@@ -165,7 +169,7 @@ ALTER TABLE `kvizek`
 -- A tábla indexei `visszajelzesek`
 --
 ALTER TABLE `visszajelzesek`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`visszajelzes_id`),
   ADD KEY `felhasznalo_email` (`felhasznalo_email`);
 
 --
@@ -176,25 +180,25 @@ ALTER TABLE `visszajelzesek`
 -- AUTO_INCREMENT a táblához `kategoriak`
 --
 ALTER TABLE `kategoriak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `kategoria_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `kerdesek`
 --
 ALTER TABLE `kerdesek`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `kerdes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT a táblához `kvizek`
 --
 ALTER TABLE `kvizek`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `kviz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `visszajelzesek`
 --
 ALTER TABLE `visszajelzesek`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `visszajelzes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -204,20 +208,20 @@ ALTER TABLE `visszajelzesek`
 -- Megkötések a táblához `kerdesek`
 --
 ALTER TABLE `kerdesek`
-  ADD CONSTRAINT `kerdesek_ibfk_1` FOREIGN KEY (`kviz_id`) REFERENCES `kvizek` (`id`);
+  ADD CONSTRAINT `kerdesek_ibfk_1` FOREIGN KEY (`kviz_id`) REFERENCES `kvizek` (`kviz_id`);
 
 --
 -- Megkötések a táblához `kvizek`
 --
 ALTER TABLE `kvizek`
-  ADD CONSTRAINT `kvizek_ibfk_1` FOREIGN KEY (`felhasznalo_email`) REFERENCES `felhasznalok` (`email`),
-  ADD CONSTRAINT `kvizek_ibfk_2` FOREIGN KEY (`kategoria_id`) REFERENCES `kategoriak` (`id`);
+  ADD CONSTRAINT `kvizek_ibfk_1` FOREIGN KEY (`felhasznalo_email`) REFERENCES `felhasznalok` (`felhasznalo_email`),
+  ADD CONSTRAINT `kvizek_ibfk_2` FOREIGN KEY (`kategoria_id`) REFERENCES `kategoriak` (`kategoria_id`);
 
 --
 -- Megkötések a táblához `visszajelzesek`
 --
 ALTER TABLE `visszajelzesek`
-  ADD CONSTRAINT `visszajelzesek_ibfk_1` FOREIGN KEY (`felhasznalo_email`) REFERENCES `felhasznalok` (`email`);
+  ADD CONSTRAINT `visszajelzesek_ibfk_1` FOREIGN KEY (`felhasznalo_email`) REFERENCES `felhasznalok` (`felhasznalo_email`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
