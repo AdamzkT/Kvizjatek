@@ -20,8 +20,11 @@ const kvizek_megjelenit = (adatok) =>{
                 <td>
                     <button type="button" onclick="window.location.href='kerdesek.html?kviz_id=${item.kviz_id}'">Kérdések</button>
                 </td>
+                <td><button type="button" class="modositas">
+                    <img src="kepek/pencil3.png" alt="" class="img-fluid">
+                </button></td>
+                <td><button type="button" class="torles">X</button></td>
             </tr>
-
         `
     }
     document.getElementById("kvizek_tablazat").innerHTML = sz

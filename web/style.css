@@ -1,0 +1,17 @@
+table tr{
+    vertical-align: middle;
+}
+
+.torles{
+    color: red;
+    background-color: darkred;
+    width: 40px;
+    height: 40px;
+    font-weight: bold;
+}
+
+.modositas{
+    width: 40px;
+    height: 40px;
+    font-weight: bold;
+}
