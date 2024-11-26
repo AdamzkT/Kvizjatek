@@ -19,7 +19,7 @@ function kapcsolat()
     connection.connect()
 }
 
-
+//----------------------------------------------------------------------------------GET----------------------------------------------------------------------------------
 app.get('/kerdesek', (req, res) => {
     kapcsolat()
 
@@ -111,6 +111,7 @@ app.get('/felhasznalok', (req, res) => {
 })
 
 
+//----------------------------------------------------------------------------------POST----------------------------------------------------------------------------------
 app.post('/kviz_kerdesek', (req, res) => {
     kapcsolat()
 
@@ -252,6 +253,61 @@ app.post('/regisztracio_ellenorzes', (req, res) => {
 
     connection.end() 
 })
+
+
+app.post('/kerdes_id_alapjan', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kerdes_id
+    ]
+
+    connection.query(`
+        SELECT kerdes FROM kerdesek
+        WHERE kerdes_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+//----------------------------------------------------------------------------------DELETE----------------------------------------------------------------------------------
+app.delete('/kerdesek_torles', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kerdes_id
+    ]
+
+    connection.query(`
+        DELETE FROM kerdesek
+        WHERE kerdes_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres törlés.")
+            res.status(200).send("Sikeres törlés.")
+        }
+    })
+
+    connection.end() 
+})
+
+
 
 
 app.listen(port, () => {
