@@ -3,7 +3,6 @@ table tr{
     vertical-align: middle;
 }
 
-
 /*Gombok*/
 .gombok:hover{
     background-color: rgb(214, 214, 214);
@@ -45,7 +44,6 @@ table tr{
     border-color: grey;
 }
 
-
 /*Felugró üzenetek*/
 #uzenet_kulso_id{
     display: none;
@@ -85,4 +83,23 @@ table tr{
     color: gray;
     font-style: italic;
     font-size: 20px;
+}
+
+/*Módosítás html*/
+.modositas_cimkek{
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+
+.modositas_bemenetek{
+    display: block;
+    margin: 0 auto;
+    width: 750px;
+    font-size: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 3px solid black;
 }

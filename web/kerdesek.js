@@ -26,7 +26,7 @@ const kerdesek_megjelenit = (y) => {
             <td>${item.valasz_rossz1}</td>
             <td>${item.valasz_rossz2}</td>
             <td>${item.valasz_rossz3}</td>
-            <td><button type="button" class="modositas_gomb gombok" onclick="kerdesek_modositas(${item.kerdes_id})">
+            <td><button type="button" class="modositas_gomb gombok" onclick="window.location.href='kerdesek_modositas.html?kerdes_id=${item.kerdes_id}'">
                 <img src="kepek/edit.png" alt="" class="img-fluid">
             </button></td>
             <td><button type="button" class="torles_gomb" onclick="torles_ellenorzes(${item.kerdes_id})">
@@ -69,7 +69,6 @@ async function torles_ellenorzes(id) {
     });
     let y = await x.json();
 
-    console.log(adatok)
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
     uzenet_ablak.style.display = "table"
     let uzenet = document.getElementById("uzenet")
@@ -83,10 +82,25 @@ async function torles_ellenorzes(id) {
 
 
 //Módosítás
+async function kerdes_fetch(kerdes_id) {
+    let x = await fetch("http://localhost:3000/kerdes_id_alapjan",{
+        method: "POST",
+        body: JSON.stringify({
+            "kerdes_id":kerdes_id
+        }),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
+    let y = await x.json();
+    kerdes_megjelenit(y);
+}
+
+const kerdes_megjelenit = (y) => {
+    console.log(y)
+}
+
 const kerdesek_modositas = (id) => {
 
 }
-
 
 
 //Egyéb
@@ -100,15 +114,29 @@ const uzenet_eltuntetes = () => {
 
 
 //chatGPT
-const getQueryParam = (param) => {
+const getQueryParam_kviz = (param) => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
 };
 
-const kviz_id = getQueryParam("kviz_id");
+const kviz_id = getQueryParam_kviz("kviz_id");
 
 if (kviz_id) {
     kerdesek_fetch(kviz_id);
 } else {
     console.error("No kviz_id provided in the URL.");
+}
+
+
+const getQueryParam_kerdes = (param) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+};
+
+const kerdes_id = getQueryParam_kerdes("kerdes_id");
+
+if (kerdes_id) {
+    kerdes_fetch(kerdes_id);
+} else {
+    console.error("No kerdes_id provided in the URL.");
 }

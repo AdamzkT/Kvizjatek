@@ -12,26 +12,22 @@
     <div id="navbar_doboz"></div>
 
     <div class="container">
-        <h1 id="cim">Kérdések</h1>
+        <h1 id="cim">Kérdések módosítás</h1>
 
         <button type="button" id="vissza_gomb" class="gombok" onclick="history.back()">Vissza</button>
 
-        <table class="tablazat table table-striped table-dark table-hover">
-            <thead>
-                <tr>
-                    <th>kerdes</th>
-                    <th>valasz_jo</th>
-                    <th>valasz_rossz1</th>
-                    <th>valasz_rossz2</th>
-                    <th>valasz_rossz3</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="kerdesek_tablazat">
-
-            </tbody>
-        </table>
+        <div id="modositas_doboz">
+            <p class="modositas_cimkek">Kérdés</p>
+            <input type="text" name="" id="" class="modositas_bemenetek" maxlength="255">
+            <p class="modositas_cimkek">Jó válasz</p>
+            <input type="text" name="" id="" class="modositas_bemenetek" maxlength="50">
+            <p class="modositas_cimkek">Rossz válasz1</p>
+            <input type="text" name="" id="" class="modositas_bemenetek" maxlength="50">
+            <p class="modositas_cimkek">Rossz válasz2</p>
+            <input type="text" name="" id="" class="modositas_bemenetek" maxlength="50">
+            <p class="modositas_cimkek">Rossz válasz3</p>
+            <input type="text" name="" id="" class="modositas_bemenetek" maxlength="50">
+        </div>
 
         <div class="uzenet_kulso" id="uzenet_kulso_id">
             <div class="uzenet_kozepso">

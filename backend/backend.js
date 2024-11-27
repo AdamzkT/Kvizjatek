@@ -266,7 +266,7 @@ app.post('/kerdes_id_alapjan', (req, res) => {
     ]
 
     connection.query(`
-        SELECT kerdes FROM kerdesek
+        SELECT * FROM kerdesek
         WHERE kerdes_id = ?
         `, parameterek, (err, rows, fields) => {
         if (err)
