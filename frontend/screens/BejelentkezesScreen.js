@@ -1,11 +1,16 @@
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
 import Ipcim from '../Ipcim';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function BejelentkezesScreen({navigation}) {
     const [felhasznalo, setFelhasznalo] = useState("")
     const [jelszo, setJelszo] = useState("")
     const [megjegyzes, setMegjegyzes] = useState("")
+
+    const storeData = async (value) => {
+      await AsyncStorage.setItem('@felhasznalo_email', value);
+  };
 
     const bejelentkezes = async (felhasznalo,jelszo) => {
       let x = await fetch(`${Ipcim.Ipcim1}/bejelentkezes`, {
@@ -22,7 +27,7 @@ export default function BejelentkezesScreen({navigation}) {
       });
       let y = await x.json()
       if(y.length == 0) { setMegjegyzes("Rossz felhasználónév vagy jelszó.") }
-      else if(y.length == 1) { Alert.alert("Sikeres bejelentkezés"); setMegjegyzes(""); setFelhasznalo(""); setJelszo(""); }
+      else if(y.length == 1) { Alert.alert("Sikeres bejelentkezés"); storeData(y[0].felhasznalo_email); navigation.navigate('Kvíz') }
       else { Alert.alert("Valami nagyon nem jó") }
     }
 
