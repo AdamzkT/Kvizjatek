@@ -9,6 +9,7 @@ export default function KapcsolatScreen() {
   const [uzenet, setUzenet] = useState("")
   const [email, setEmail] = useState("valaki@gmail.com")
 
+  //Üzenet felvitele adatbázisba
   const kuldes = (email, tema, tipus, uzenet) => {
     let adatok = 
     {

@@ -26,10 +26,10 @@ const kerdesek_megjelenit = (y) => {
             <td>${item.valasz_rossz1}</td>
             <td>${item.valasz_rossz2}</td>
             <td>${item.valasz_rossz3}</td>
-            <td><button type="button" class="modositas" onclick="kerdesek_modositas(${item.kerdes_id})">
+            <td><button type="button" class="modositas_gomb gombok" onclick="kerdesek_modositas(${item.kerdes_id})">
                 <img src="kepek/edit.png" alt="" class="img-fluid">
             </button></td>
-            <td><button type="button" class="torles" onclick="torles_ellenorzes(${item.kerdes_id})">
+            <td><button type="button" class="torles_gomb" onclick="torles_ellenorzes(${item.kerdes_id})">
                 <img src="kepek/delete.png" alt="" class="img-fluid">
             </button></td>
         </tr>
