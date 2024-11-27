@@ -1,3 +1,4 @@
+//Megjelenítés
 async function kvizek_fetch() {
     let x = await fetch("http://localhost:3000/kvizek");
     let y = await x.json();
