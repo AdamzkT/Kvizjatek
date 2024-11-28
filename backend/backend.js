@@ -66,6 +66,28 @@ app.get('/kvizek', (req, res) => {
 })
 
 
+app.get('/kategoriak', (req, res) => {
+    kapcsolat()
+
+    connection.query(`
+        SELECT * FROM kategoriak
+        `, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
 app.get('/kvizek_kerdesekkel', (req, res) => {
     kapcsolat()
 
@@ -284,6 +306,34 @@ app.post('/kerdes_id_alapjan', (req, res) => {
     connection.end() 
 })
 
+
+app.post('/kviz_id_alapjan', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kviz_id
+    ]
+
+    connection.query(`
+        SELECT * FROM kvizek
+        WHERE kviz_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
 //----------------------------------------------------------------------------------PUT----------------------------------------------------------------------------------
 
 app.put('/kerdes_modositas', (req, res) => {
@@ -317,6 +367,38 @@ app.put('/kerdes_modositas', (req, res) => {
 
     connection.end() 
 })
+
+
+app.put('/kviz_modositas', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kviz_nev,
+        req.body.kategoria_id,
+        req.body.kviz_leiras,
+        req.body.kviz_id,
+    ]
+
+    connection.query(`
+        UPDATE kvizek SET
+        kviz_nev = ?, kategoria_id = ?, kviz_leiras = ?
+        WHERE kviz_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres módosítás.")
+            res.status(200).send("Sikeres módosítás.")
+        }
+    })
+
+    connection.end() 
+})
+
 
 //----------------------------------------------------------------------------------DELETE----------------------------------------------------------------------------------
 

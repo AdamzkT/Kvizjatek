@@ -12,23 +12,21 @@
     <div id="navbar_doboz"></div>
 
     <div class="container">
-        <h1 id="cim">Kérdés módosítása</h1>
+        <h1 id="cim">Kvíz módosítása</h1>
 
         <button type="button" id="vissza_gomb" class="gombok" onclick="history.back()">Vissza</button>
 
         <div id="modositas_doboz">
-            <p class="modositas_cimkek">Kérdés</p>
-            <textarea id="kerdes_modositas" rows="3" class="modositas_bemenetek" maxlength="255"></textarea>
-            <p class="modositas_cimkek">Jó válasz</p>
-            <input type="text" id="valasz_jo_modositas" class="modositas_bemenetek" maxlength="50">
-            <p class="modositas_cimkek">Rossz válasz1</p>
-            <input type="text" id="valasz_rossz1_modositas" class="modositas_bemenetek" maxlength="50">
-            <p class="modositas_cimkek">Rossz válasz2</p>
-            <input type="text" id="valasz_rossz2_modositas" class="modositas_bemenetek" maxlength="50">
-            <p class="modositas_cimkek">Rossz válasz3</p>
-            <input type="text" id="valasz_rossz3_modositas" class="modositas_bemenetek" maxlength="50">
+            <p class="modositas_cimkek">Kvíz neve</p>
+            <input type="text" id="kviz_nev_modositas" class="modositas_bemenetek" maxlength="50">
+            <p class="modositas_cimkek">Kategória</p>
+            <select id="kategoria_modositas" class="modositas_bemenetek">
+  
+            </select>
+            <p class="modositas_cimkek">Leírás</p>
+            <textarea id="leiras_modositas" rows="5" class="modositas_bemenetek" maxlength="255"></textarea>
 
-            <button type="button"id="modositas_ok_gomb">Módosítás</button>
+            <button type="button" id="modositas_ok_gomb">Módosítás</button>
         </div>
 
         <div class="uzenet_kulso" id="uzenet_kulso_id">
@@ -48,7 +46,7 @@
 
 
     <script src="navbar.js"></script>
-    <script src="kerdesek.js"></script>
+    <script src="kvizek.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

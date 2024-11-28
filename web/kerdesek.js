@@ -14,7 +14,7 @@ async function kerdesek_fetch(kviz_id) {
 }
 
 const kerdesek_megjelenit = (y) => {
-    console.log(y)
+    //console.log(y)
     adatok = y
 
     let sz = ""
@@ -35,7 +35,11 @@ const kerdesek_megjelenit = (y) => {
         </tr>
         `
     }
-    document.getElementById("kerdesek_tablazat").innerHTML = sz
+    try {
+        document.getElementById("kerdesek_tablazat").innerHTML = sz
+    } catch (error) {
+        
+    }
 }
 
 
@@ -55,7 +59,7 @@ async function kerdesek_torles(id){
     let uzenet = document.getElementById("uzenet")
     uzenet.innerHTML = `
         <h2>${y}</h2>
-        <button type="button" class="btn btn-secondary" onclick="uzenet_eltuntetes()">OK</button>
+        <button type="button" class="btn btn-secondary" onclick="kerdes_uzenet_eltuntetes()">OK</button>
     `
 }
 
@@ -76,7 +80,7 @@ async function torles_ellenorzes(id) {
         <h2>Biztosan ki akarod törölni ezt a kérdést?</h2>
         <p id="idezet">„${y[0].kerdes}”</p>
         <button type="button" class="btn btn-danger" onclick="kerdesek_torles(${id})">Igen</button>
-        <button type="button" class="btn btn-secondary" onclick="uzenet_eltuntetes()">Nem</button>
+        <button type="button" class="btn btn-secondary" onclick="kerdes_uzenet_eltuntetes()">Nem</button>
     `
 }
 
@@ -95,7 +99,7 @@ async function kerdes_fetch(kerdes_id) {
 }
 
 const kerdes_megjelenit = (adat) => {
-    console.log(adat)
+    //console.log(adat)
 
     document.getElementById("kerdes_modositas").value = adat[0].kerdes
     document.getElementById("valasz_jo_modositas").value = adat[0].valasz_jo
@@ -104,11 +108,11 @@ const kerdes_megjelenit = (adat) => {
     document.getElementById("valasz_rossz3_modositas").value = adat[0].valasz_rossz3
 
     document.getElementById("modositas_ok_gomb").addEventListener("click", function(){
-        modositas_ellenorzes(adat[0].kerdes_id)
+        kerdes_modositas_ellenorzes(adat[0].kerdes_id)
     })
 }
 
-async function kerdesek_modositas(kerdes_id) {
+async function kerdes_modositas(kerdes_id) {
     let x = await fetch("http://localhost:3000/kerdes_modositas",{
         method: "PUT",
         body: JSON.stringify({
@@ -128,24 +132,24 @@ async function kerdesek_modositas(kerdes_id) {
     let uzenet = document.getElementById("uzenet")
     uzenet.innerHTML = `
         <h2>${y}</h2>
-        <button type="button" class="btn btn-secondary" onclick="uzenet_eltuntetes()">OK</button>
+        <button type="button" class="btn btn-secondary" onclick="kerdes_uzenet_eltuntetes()">OK</button>
     `
 }
 
-const modositas_ellenorzes = (id) => {
+const kerdes_modositas_ellenorzes = (id) => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
     uzenet_ablak.style.display = "table"
     let uzenet = document.getElementById("uzenet")
     uzenet.innerHTML = `
         <h2>Biztosan akarod módosítani ezt a kérdést?</h2>
-        <button type="button" class="btn btn-success" onclick="kerdesek_modositas(${id})">Igen</button>
-        <button type="button" class="btn btn-secondary" onclick="uzenet_eltuntetes()">Nem</button>
+        <button type="button" class="btn btn-success" onclick="kerdes_modositas(${id})">Igen</button>
+        <button type="button" class="btn btn-secondary" onclick="kerdes_uzenet_eltuntetes()">Nem</button>
     `
 }
 
 
 //Egyéb
-const uzenet_eltuntetes = () => {
+const kerdes_uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
     uzenet_ablak.style.display = "none"
 
@@ -164,8 +168,6 @@ const kviz_id = getQueryParam_kviz("kviz_id");
 
 if (kviz_id) {
     kerdesek_fetch(kviz_id);
-} else {
-    console.error("No kviz_id provided in the URL.");
 }
 
 
@@ -178,6 +180,4 @@ const kerdes_id = getQueryParam_kerdes("kerdes_id");
 
 if (kerdes_id) {
     kerdes_fetch(kerdes_id);
-} else {
-    console.error("No kerdes_id provided in the URL.");
 }
