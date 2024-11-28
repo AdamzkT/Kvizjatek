@@ -284,6 +284,40 @@ app.post('/kerdes_id_alapjan', (req, res) => {
     connection.end() 
 })
 
+//----------------------------------------------------------------------------------PUT----------------------------------------------------------------------------------
+
+app.put('/kerdes_modositas', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kerdes,
+        req.body.valasz_jo,
+        req.body.valasz_rossz1,
+        req.body.valasz_rossz2,
+        req.body.valasz_rossz3,
+        req.body.kerdes_id,
+    ]
+
+    connection.query(`
+        UPDATE kerdesek SET
+        kerdes = ?, valasz_jo = ?, valasz_rossz1 = ?, valasz_rossz2 = ?, valasz_rossz3 = ?
+        WHERE kerdes_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres módosítás.")
+            res.status(200).send("Sikeres módosítás.")
+        }
+    })
+
+    connection.end() 
+})
+
 //----------------------------------------------------------------------------------DELETE----------------------------------------------------------------------------------
 
 app.delete('/kerdesek_torles', (req, res) => {

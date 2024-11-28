@@ -4,22 +4,25 @@ table tr{
 }
 
 /*Gombok*/
+.gombok{
+    background-color: rgb(223, 223, 223);
+}
 .gombok:hover{
-    background-color: rgb(214, 214, 214);
+    background-color: rgb(248, 248, 248);
 }
 .gombok:active{
     background-color: rgb(190, 190, 190);
 }
 
 .torles_gomb{
-    background-color: darkred;
+    border-color: rgb(90, 0, 0);
     width: 40px;
     height: 40px;
     font-weight: bold;
-    border-color: rgb(90, 0, 0);
+    background-color: rgb(124, 0, 0);
 }
 .torles_gomb:hover{
-    background-color: rgb(124, 0, 0);
+    background-color: rgb(155, 13, 13);
 }
 .torles_gomb:active{
     background-color: rgb(104, 1, 1);
@@ -42,6 +45,24 @@ table tr{
     height: 40px;
     font-weight: bold;
     border-color: grey;
+}
+
+#modositas_ok_gomb{
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 25px;
+    border-radius: 20px;
+    background-color: rgb(126, 233, 126);
+    border: 3px solid green;
+}
+#modositas_ok_gomb:hover{
+    background-color: rgb(155, 245, 155);
+}
+#modositas_ok_gomb:active{
+    background-color: rgb(107, 212, 107);
 }
 
 /*Felugró üzenetek*/

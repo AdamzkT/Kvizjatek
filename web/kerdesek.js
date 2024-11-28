@@ -55,7 +55,7 @@ async function kerdesek_torles(id){
     let uzenet = document.getElementById("uzenet")
     uzenet.innerHTML = `
         <h2>${y}</h2>
-        <button type="button" class="btn btn-danger" onclick="uzenet_eltuntetes()">OK</button>
+        <button type="button" class="btn btn-secondary" onclick="uzenet_eltuntetes()">OK</button>
     `
 }
 
@@ -94,12 +94,53 @@ async function kerdes_fetch(kerdes_id) {
     kerdes_megjelenit(y);
 }
 
-const kerdes_megjelenit = (y) => {
-    console.log(y)
+const kerdes_megjelenit = (adat) => {
+    console.log(adat)
+
+    document.getElementById("kerdes_modositas").value = adat[0].kerdes
+    document.getElementById("valasz_jo_modositas").value = adat[0].valasz_jo
+    document.getElementById("valasz_rossz1_modositas").value = adat[0].valasz_rossz1
+    document.getElementById("valasz_rossz2_modositas").value = adat[0].valasz_rossz2
+    document.getElementById("valasz_rossz3_modositas").value = adat[0].valasz_rossz3
+
+    document.getElementById("modositas_ok_gomb").addEventListener("click", function(){
+        modositas_ellenorzes(adat[0].kerdes_id)
+    })
 }
 
-const kerdesek_modositas = (id) => {
+async function kerdesek_modositas(kerdes_id) {
+    let x = await fetch("http://localhost:3000/kerdes_modositas",{
+        method: "PUT",
+        body: JSON.stringify({
+            "kerdes":document.getElementById("kerdes_modositas").value,
+            "valasz_jo":document.getElementById("valasz_jo_modositas").value,
+            "valasz_rossz1":document.getElementById("valasz_rossz1_modositas").value,
+            "valasz_rossz2":document.getElementById("valasz_rossz2_modositas").value,
+            "valasz_rossz3":document.getElementById("valasz_rossz3_modositas").value,
+            "kerdes_id":kerdes_id
+        }),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
+    let y = await x.text();
 
+    let uzenet_ablak = document.getElementById("uzenet_kulso_id")
+    uzenet_ablak.style.display = "table"
+    let uzenet = document.getElementById("uzenet")
+    uzenet.innerHTML = `
+        <h2>${y}</h2>
+        <button type="button" class="btn btn-secondary" onclick="uzenet_eltuntetes()">OK</button>
+    `
+}
+
+const modositas_ellenorzes = (id) => {
+    let uzenet_ablak = document.getElementById("uzenet_kulso_id")
+    uzenet_ablak.style.display = "table"
+    let uzenet = document.getElementById("uzenet")
+    uzenet.innerHTML = `
+        <h2>Biztosan akarod módosítani ezt a kérdést?</h2>
+        <button type="button" class="btn btn-success" onclick="kerdesek_modositas(${id})">Igen</button>
+        <button type="button" class="btn btn-secondary" onclick="uzenet_eltuntetes()">Nem</button>
+    `
 }
 
 
