@@ -1,4 +1,4 @@
-//Megjelenítés
+//-----------------------------------------------------------------------------------------Megjelenítés-----------------------------------------------------------------------------------------
 var adatok = []
 
 async function kerdesek_fetch(kviz_id) {
@@ -43,7 +43,7 @@ const kerdesek_megjelenit = (y) => {
 }
 
 
-//Törlés
+//-----------------------------------------------------------------------------------------Törlés-----------------------------------------------------------------------------------------
 async function kerdesek_torles_ellenorzes(id) {
     let x = await fetch("http://localhost:3000/kerdes_id_alapjan",{
         method: "POST",
@@ -84,7 +84,7 @@ async function kerdesek_torles(id){
 }
 
 
-//Módosítás
+//-----------------------------------------------------------------------------------------Módosítás-----------------------------------------------------------------------------------------
 async function kerdes_fetch(kerdes_id) {
     let x = await fetch("http://localhost:3000/kerdes_id_alapjan",{
         method: "POST",
@@ -147,7 +147,7 @@ const kerdes_modositas_ellenorzes = (id) => {
 }
 
 
-//Egyéb
+//-----------------------------------------------------------------------------------------Egyéb-----------------------------------------------------------------------------------------
 const kerdes_uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
     uzenet_ablak.style.display = "none"
@@ -157,7 +157,7 @@ const kerdes_uzenet_eltuntetes = () => {
 
 
 
-//chatGPT
+//-----------------------------------------------------------------------------------------chatGPT-----------------------------------------------------------------------------------------
 const getQueryParam_kviz = (param) => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
