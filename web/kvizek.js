@@ -67,7 +67,7 @@ async function kategoriak_fetch() {
     let y = await x.json();
     kategoriak_megjelenit(y);
 }
-kategoriak_fetch()
+
 
 const kategoriak_megjelenit = (adatok) => {
     let sz = ""
@@ -135,5 +135,5 @@ const getQueryParam_kviz_modositas = (param) => {
 const kviz_id_modositas = getQueryParam_kviz_modositas("kviz_id");
 
 if (kviz_id_modositas) {
-    kviz_fetch(kviz_id_modositas);
+    kategoriak_fetch().then(() => kviz_fetch(kviz_id_modositas).then(kviz_megjelenit));
 }
