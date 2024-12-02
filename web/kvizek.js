@@ -135,5 +135,7 @@ const getQueryParam_kviz_modositas = (param) => {
 const kviz_id_modositas = getQueryParam_kviz_modositas("kviz_id");
 
 if (kviz_id_modositas) {
-    kategoriak_fetch().then(() => kviz_fetch(kviz_id_modositas).then(kviz_megjelenit));
+    kategoriak_fetch()
+    .then(() => kviz_fetch(kviz_id_modositas)
+    .then(kviz_megjelenit));
 }
