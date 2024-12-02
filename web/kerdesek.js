@@ -29,7 +29,7 @@ const kerdesek_megjelenit = (y) => {
             <td><button type="button" class="modositas_gomb gombok" onclick="window.location.href='kerdesek_modositas.html?kerdes_id=${item.kerdes_id}'">
                 <img src="kepek/edit.png" alt="" class="img-fluid">
             </button></td>
-            <td><button type="button" class="torles_gomb" onclick="torles_ellenorzes(${item.kerdes_id})">
+            <td><button type="button" class="torles_gomb" onclick="kerdesek_torles_ellenorzes(${item.kerdes_id})">
                 <img src="kepek/delete.png" alt="" class="img-fluid">
             </button></td>
         </tr>
@@ -44,26 +44,7 @@ const kerdesek_megjelenit = (y) => {
 
 
 //Törlés
-async function kerdesek_torles(id){
-    let x = await fetch("http://localhost:3000/kerdesek_torles",{
-        method: "DELETE",
-        body: JSON.stringify({
-            "kerdes_id":id
-        }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-    });
-    let y = await x.text();
-
-    let uzenet_ablak = document.getElementById("uzenet_kulso_id")
-    uzenet_ablak.style.display = "table"
-    let uzenet = document.getElementById("uzenet")
-    uzenet.innerHTML = `
-        <h2>${y}</h2>
-        <button type="button" class="btn btn-secondary" onclick="kerdes_uzenet_eltuntetes()">OK</button>
-    `
-}
-
-async function torles_ellenorzes(id) {
+async function kerdesek_torles_ellenorzes(id) {
     let x = await fetch("http://localhost:3000/kerdes_id_alapjan",{
         method: "POST",
         body: JSON.stringify({
@@ -81,6 +62,24 @@ async function torles_ellenorzes(id) {
         <p id="idezet">„${y[0].kerdes}”</p>
         <button type="button" class="btn btn-danger" onclick="kerdesek_torles(${id})">Igen</button>
         <button type="button" class="btn btn-secondary" onclick="kerdes_uzenet_eltuntetes()">Nem</button>
+    `
+}
+async function kerdesek_torles(id){
+    let x = await fetch("http://localhost:3000/kerdesek_torles",{
+        method: "DELETE",
+        body: JSON.stringify({
+            "kerdes_id":id
+        }),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
+    let y = await x.text();
+
+    let uzenet_ablak = document.getElementById("uzenet_kulso_id")
+    uzenet_ablak.style.display = "table"
+    let uzenet = document.getElementById("uzenet")
+    uzenet.innerHTML = `
+        <h2>${y}</h2>
+        <button type="button" class="btn btn-secondary" onclick="kerdes_uzenet_eltuntetes()">OK</button>
     `
 }
 

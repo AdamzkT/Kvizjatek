@@ -429,6 +429,49 @@ app.delete('/kerdesek_torles', (req, res) => {
 })
 
 
+app.delete('/kvizek_torles', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kviz_id
+    ]
+
+    //kérdések törlése
+    connection.query(`
+        DELETE FROM kerdesek
+        WHERE kviz_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            //ha sikeres, kvíz törlése
+            connection.query(`
+                DELETE FROM kvizek
+                WHERE kviz_id = ?
+                `, parameterek, (err, rows, fields) => {
+                if (err)
+                {
+                    console.log("Hiba")
+                    console.log(err)
+                    res.status(500).send("Hiba")
+                }
+                else{
+                    console.log("Sikeres törlés.")
+                    res.status(200).send("Sikeres törlés.")
+                }
+            })
+        }
+    })
+
+    res.on('finish', () => {
+        connection.end();
+    });
+})
+
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 app.listen(port, () => {

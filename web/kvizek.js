@@ -25,7 +25,7 @@ const kvizek_megjelenit = (adatok) =>{
                     <img src="kepek/edit.png" alt="" class="img-fluid">
                 </button></td>
                 <td><button type="button" class="torles_gomb gombok">
-                    <img src="kepek/delete.png" alt="" class="img-fluid">
+                    <img src="kepek/delete.png" alt="" class="img-fluid" onclick="kvizek_torles_ellenorzes(${item.kviz_id})">
                 </button></td>
             </tr>
         `
@@ -36,6 +36,7 @@ const kvizek_megjelenit = (adatok) =>{
         
     }
 }
+
 
 //Módosítás
 async function kviz_fetch(kviz_id) {
@@ -116,6 +117,49 @@ const kviz_modositas_ellenorzes = (id) => {
         <button type="button" class="btn btn-secondary" onclick="kviz_uzenet_eltuntetes()">Nem</button>
     `
 }
+
+
+//Törlés
+async function kvizek_torles_ellenorzes(id) {
+    let x = await fetch("http://localhost:3000/kviz_id_alapjan",{
+        method: "POST",
+        body: JSON.stringify({
+            "kviz_id":id
+        }),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
+    let y = await x.json();
+
+    let uzenet_ablak = document.getElementById("uzenet_kulso_id")
+    uzenet_ablak.style.display = "table"
+    let uzenet = document.getElementById("uzenet")
+    uzenet.innerHTML = `
+        <h2>Biztosan ki akarod törölni ezt a kvízet?</h2>
+        <p id="idezet">„${y[0].kviz_nev}”</p>
+        <button type="button" class="btn btn-danger" onclick="kvizek_torles(${id})">Igen</button>
+        <button type="button" class="btn btn-secondary" onclick="kviz_uzenet_eltuntetes()">Nem</button>
+    `
+}
+
+async function kvizek_torles(id){
+    let x = await fetch("http://localhost:3000/kvizek_torles",{
+        method: "DELETE",
+        body: JSON.stringify({
+            "kviz_id":id
+        }),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
+    let y = await x.text();
+
+    let uzenet_ablak = document.getElementById("uzenet_kulso_id")
+    uzenet_ablak.style.display = "table"
+    let uzenet = document.getElementById("uzenet")
+    uzenet.innerHTML = `
+        <h2>${y}</h2>
+        <button type="button" class="btn btn-secondary" onclick="kviz_uzenet_eltuntetes()">OK</button>
+    `
+}
+
 
 //Egyéb
 const kviz_uzenet_eltuntetes = () => {
