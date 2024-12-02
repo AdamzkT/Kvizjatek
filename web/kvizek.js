@@ -135,6 +135,7 @@ async function kvizek_torles_ellenorzes(id) {
     let uzenet = document.getElementById("uzenet")
     uzenet.innerHTML = `
         <h2>Biztosan ki akarod törölni ezt a kvízet?</h2>
+        <h2 style="color: red;">Ez ki fogja törölni a kvíz kérdéseit is!</h2>
         <p id="idezet">„${y[0].kviz_nev}”</p>
         <button type="button" class="btn btn-danger" onclick="kvizek_torles(${id})">Igen</button>
         <button type="button" class="btn btn-secondary" onclick="kviz_uzenet_eltuntetes()">Nem</button>
