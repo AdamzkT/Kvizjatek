@@ -1,0 +1,27 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# build files
+dist/
+web-build/
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# OS-specific files
+.DS_Store
+*.pem
+
+# local env files
+.env
+.env*.local
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
