@@ -75,6 +75,7 @@ table tr{
     height: 40px;
     font-weight: bold;
     border-color: grey;
+    float: left;
 }
 
 #modositas_ok_gomb{

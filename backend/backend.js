@@ -364,6 +364,38 @@ app.post('/kviz_id_alapjan', (req, res) => {
 })
 
 
+app.post('/kerdesek_kereses/:keresett', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kviz_id,
+        '%' + req.params.keresett + '%',
+        '%' + req.params.keresett + '%',
+        '%' + req.params.keresett + '%',
+        '%' + req.params.keresett + '%',
+        '%' + req.params.keresett + '%',
+    ]
+
+    connection.query(`
+        SELECT * FROM kerdesek
+        WHERE kviz_id = ? AND (kerdes LIKE ? OR valasz_jo LIKE ? OR valasz_rossz1 LIKE ? OR valasz_rossz2 LIKE ? OR valasz_rossz3 LIKE ?)
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
 //----------------------------------------------------------------------------------PUT----------------------------------------------------------------------------------
 
 app.put('/kerdes_modositas', (req, res) => {

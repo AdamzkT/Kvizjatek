@@ -147,6 +147,31 @@ const kerdes_modositas_ellenorzes = (id) => {
 }
 
 
+//-----------------------------------------------------------------------------------------Keresés-----------------------------------------------------------------------------------------
+const kerdesek_kereses_ellenorzes = () =>
+{
+    let keresett = document.getElementById("kereses_bemenet").value;
+    if(document.getElementById("kereses_bemenet").value == "")
+    {
+        kerdesek_fetch(kviz_id);
+    }
+    else 
+    kerdesek_kereses(keresett);
+}
+
+async function kerdesek_kereses(keresett) {
+    let x = await fetch("http://localhost:3000/kerdesek_kereses/" + keresett, {
+        method: "POST",
+        body: JSON.stringify({
+            "kviz_id":kviz_id
+        }),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
+    let y = await x.json();
+    kerdesek_megjelenit(y);
+}
+
+
 //-----------------------------------------------------------------------------------------Egyéb-----------------------------------------------------------------------------------------
 const kerdes_uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
