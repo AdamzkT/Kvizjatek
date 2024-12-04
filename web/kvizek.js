@@ -162,6 +162,25 @@ async function kvizek_torles(id){
 }
 
 
+//-----------------------------------------------------------------------------------------Keresés-----------------------------------------------------------------------------------------
+const kvizek_kereses_ellenorzes = () =>
+{
+    let keresett = document.getElementById("kereses_bemenet").value;
+    if(document.getElementById("kereses_bemenet").value == "")
+    {
+        kvizek_fetch();
+    }
+    else 
+    kvizek_kereses(keresett);
+}
+
+async function kvizek_kereses(keresett) {
+    let x = await fetch("http://localhost:3000/kvizek_kereses/" + keresett);
+    let y = await x.json();
+    kvizek_megjelenit(y);
+}
+
+
 //-----------------------------------------------------------------------------------------Egyéb-----------------------------------------------------------------------------------------
 const kviz_uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
