@@ -88,6 +88,28 @@ app.get('/kategoriak', (req, res) => {
 })
 
 
+app.get('/visszajelzesek', (req, res) => {
+    kapcsolat()
+
+    connection.query(`
+        SELECT * FROM visszajelzesek
+        `, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
 app.get('/kvizek_kerdesekkel', (req, res) => {
     kapcsolat()
 

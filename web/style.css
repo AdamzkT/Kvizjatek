@@ -1,6 +1,10 @@
 /*Egyéb*/
 #cim{
     text-align: center;
+}
+
+#cim_vissza_gomb{
+    text-align: center;
     position: absolute;
     left: 50%; /* Move the h1 to the center */
     transform: translateX(-50%); /* Adjust to exact center */
@@ -159,4 +163,36 @@ table tr{
     border-radius: 10px;
     text-align: center;
     border: 3px solid black;
+}
+
+/*Visszajelzések html*/
+#visszajelzesek_doboz{
+    color: white;
+}
+
+.visszajelzesek_kartya{
+    border: 5px solid rgb(48, 48, 48);
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px gray;
+    background-color: rgb(114, 114, 114);
+    text-align: center;
+    padding: 20px;
+}
+
+.felhasznalo_email{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.visszajelzes_tema{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.visszajelzes_tipus{
+    font-size: 20px;
+}
+
+.visszajelzes_uzenet{
+    font-size: 20px;
 }
