@@ -12,7 +12,7 @@ const visszajelzesek_megjelenit = (adatok) =>{
     let sz = ""
     for (const item of adatok) {
         sz += `
-        <div class="col-lg-3 cold-md-4 col-sm-6">
+        <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="visszajelzesek_kartya">
                 <p class="felhasznalo_email">${item.felhasznalo_email}</p>
                 <p class="visszajelzes_tema">${item.visszajelzes_tema}</p>
@@ -22,9 +22,5 @@ const visszajelzesek_megjelenit = (adatok) =>{
         </div>
         `
     }
-    try {
-        document.getElementById("visszajelzesek_doboz").innerHTML = sz
-    } catch (error) {
-        
-    }
+    document.getElementById("visszajelzesek_doboz").innerHTML = sz
 }

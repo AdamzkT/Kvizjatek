@@ -196,3 +196,15 @@ table tr{
 .visszajelzes_uzenet{
     font-size: 20px;
 }
+
+.szures{
+    text-align: center;
+}
+
+#visszajelzes_tipusok{
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
