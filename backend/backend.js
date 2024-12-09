@@ -255,7 +255,7 @@ app.post('/uzenet_kuldes', (req, res) => {
 
     connection.query(`
         INSERT INTO visszajelzesek 
-        VALUES(null, ?, ?, ?, ?)
+        VALUES(null, ?, ?, ?, ?, 0)
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
