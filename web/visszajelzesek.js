@@ -24,3 +24,22 @@ const visszajelzesek_megjelenit = (adatok) =>{
     }
     document.getElementById("visszajelzesek_doboz").innerHTML = sz
 }
+
+
+//-----------------------------------------------------------------------------------------Szűrés-----------------------------------------------------------------------------------------
+const visszajelzesek_szures_ellenorzes = () =>
+{
+    let keresett = document.getElementById("visszajelzes_tipusok").value;
+    if(document.getElementById("visszajelzes_tipusok").value == "összes")
+    {
+        visszajelzesek_fetch();
+    }
+    else 
+    visszajelzesek_szures(keresett);
+}
+
+async function visszajelzesek_szures(keresett) {
+    let x = await fetch("http://localhost:3000/visszajelzesek_szures/" + keresett);
+    let y = await x.json();
+    visszajelzesek_megjelenit(y);
+}
