@@ -288,13 +288,16 @@ app.post('/bejelentkezes', (req, res) => {
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
-            console.log("Hibás felhasználó név/email vagy jelszó.")
+            console.log("Hiba")
             console.log(err)
-            res.status(500).send("Hibás felhasználó név/email vagy jelszó.")
+            res.status(500).send("Hiba")
         }
         else{
             console.log(rows)
             res.status(200).send(rows)
+            if (rows.length == 0) {
+                console.log("Hibás felhasználó név/email vagy jelszó!")
+            }
         }
     })
 
