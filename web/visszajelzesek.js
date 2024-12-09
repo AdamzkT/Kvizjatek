@@ -13,11 +13,12 @@ const visszajelzesek_megjelenit = (adatok) =>{
     for (const item of adatok) {
         sz += `
         <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="visszajelzesek_kartya">
+            <div class="visszajelzesek_kartya" type="button" data-bs-toggle="modal" data-bs-target="#reszletek_modal">
                 <p class="felhasznalo_email">${item.felhasznalo_email}</p>
                 <p class="visszajelzes_tema">${item.visszajelzes_tema}</p>
                 <p class="visszajelzes_tipus">${item.visszajelzes_tipus}</p>
                 <p class="visszajelzes_uzenet">${item.visszajelzes_uzenet}</p>
+                <p class="visszajelzes_uzenet">${item.visszajelzes_megoldva?"Megoldva":"Függő"}</p>
             </div>
         </div>
         `

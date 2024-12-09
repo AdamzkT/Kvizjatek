@@ -15,6 +15,7 @@
         <h1 id="cim">Visszajelzések</h1>
 
         <div class="szures">
+            <span id="tipus_szoveg">Típus:</span>
             <select id="visszajelzes_tipusok" onchange="visszajelzesek_szures_ellenorzes()">
                 <option value="összes">összes</option>
                 <option value="javaslat">javaslat</option>
@@ -41,8 +42,31 @@
         </div>
     </div>
 
+  
+<!-- The Modal -->
+<div class="modal" id="reszletek_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
+        <!-- Modal Header -->
+        <div class="modal-header"  id="modal_fej">
+            <h4 class="modal-title" id="modal_fej_cim">Modal Heading</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
 
+        <!-- Modal body -->
+        <div class="modal-body" id="modal_test">
+            Modal body..
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer" id="modal_lab">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vissza</button>
+        </div>
+
+        </div>
+    </div>
+</div>
 
 
 
