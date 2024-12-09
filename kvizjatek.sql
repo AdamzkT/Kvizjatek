@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Nov 26. 13:40
+-- Létrehozás ideje: 2024. Dec 09. 08:22
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -40,6 +40,8 @@ CREATE TABLE `felhasznalok` (
 --
 
 INSERT INTO `felhasznalok` (`felhasznalo_email`, `felhasznalo_nev`, `felhasznalo_jelszo`) VALUES
+('dan@gmail.com', 'Dan', 'dan123'),
+('joe@gmail.com', 'Joe', 'joe123'),
 ('valaki@gmail.com', 'Valaki', 'valaki');
 
 -- --------------------------------------------------------
@@ -110,7 +112,7 @@ CREATE TABLE `kvizek` (
 --
 
 INSERT INTO `kvizek` (`kviz_id`, `felhasznalo_email`, `kviz_nev`, `kategoria_id`, `kviz_leiras`) VALUES
-(1, 'valaki@gmail.com', 'Teszt kvíz', 1, 'Teszt Teszt Teszt Teszt '),
+(1, 'valaki@gmail.com', 'Teszt kvíz', 1, 'Első kvíz tesztelésre'),
 (2, 'valaki@gmail.com', 'Világtörténelem', 2, 'Teszteld a tudásod a világ történelméről.');
 
 -- --------------------------------------------------------
@@ -132,7 +134,11 @@ CREATE TABLE `visszajelzesek` (
 --
 
 INSERT INTO `visszajelzesek` (`visszajelzes_id`, `felhasznalo_email`, `visszajelzes_tema`, `visszajelzes_tipus`, `visszajelzes_uzenet`) VALUES
-(1, 'valaki@gmail.com', 'tema', 'javaslat', 'uzenet');
+(1, 'valaki@gmail.com', 'tema', 'javaslat', 'uzenet'),
+(20, 'dan@gmail.com', 'Kevés kategória', 'javaslat', 'Lehetne több kategória, nincs elég'),
+(21, 'joe@gmail.com', 'Weird bug', 'probléma', 'When I make one answer, all four answers become the same and can\'t make them different. Pls fix asap, can\'t do anything like this'),
+(22, 'valaki@gmail.com', 'huh', 'egyéb', 'ez most csinál valamit?'),
+(23, 'joe@gmail.com', 'Nvm', 'egyéb', 'Nevermind I\'m stupid there\'s no bug');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -186,19 +192,19 @@ ALTER TABLE `kategoriak`
 -- AUTO_INCREMENT a táblához `kerdesek`
 --
 ALTER TABLE `kerdesek`
-  MODIFY `kerdes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `kerdes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT a táblához `kvizek`
 --
 ALTER TABLE `kvizek`
-  MODIFY `kviz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `kviz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `visszajelzesek`
 --
 ALTER TABLE `visszajelzesek`
-  MODIFY `visszajelzes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `visszajelzes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Megkötések a kiírt táblákhoz
