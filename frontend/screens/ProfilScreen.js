@@ -1,14 +1,20 @@
 import { Button, StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ProfilScreen(navigation) {
+
+export default function ProfilScreen({navigation}) {
     const storeData = async (value) => {
         await AsyncStorage.setItem('@felhasznalo_email', value);
     };
 
+    function kijelentkezes(){
+        storeData("")
+        navigation.popTo('Főoldal')
+    }
+
     return (
         <View style={styles.container}>
-        <Button title='Kijelentkezés' onPress={() => storeData("").then(navigation.navigate('Kvíz'))}/>
+        <Button title='Kijelentkezés' onPress={() => kijelentkezes()}/>
         </View>
     );
 }
