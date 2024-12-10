@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import DrawerScreen from './DrawerScreen';
+import StackScreen from './StackScreen'
 
 export default function App() {
 
   return (
     <NavigationContainer>
-      < DrawerScreen />
+      < StackScreen />
     </NavigationContainer>
   );
 }
