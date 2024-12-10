@@ -514,6 +514,38 @@ app.put('/kviz_modositas', (req, res) => {
 })
 
 
+app.put('/visszajelzesek_megoldva_valtas', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.visszajelzes_id,
+    ]
+
+    connection.query(`
+        UPDATE visszajelzesek
+        SET visszajelzes_megoldva = CASE 
+            WHEN visszajelzes_megoldva = 1 THEN 0
+            WHEN visszajelzes_megoldva = 0 THEN 1
+            ELSE visszajelzes_megoldva
+        END
+        WHERE visszajelzes_id = ?;    
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres módosítás.")
+            res.status(200).send("Sikeres módosítás.")
+        }
+    })
+
+    connection.end() 
+})
+
+
 //----------------------------------------------------------------------------------DELETE----------------------------------------------------------------------------------
 
 app.delete('/kerdesek_torles', (req, res) => {
