@@ -43,6 +43,8 @@ const visszajelzesek_megjelenit = (y) =>{
 const visszajelzesek_szures_ellenorzes = () =>
 {
     let keresett = document.getElementById("visszajelzes_tipusok").value;
+    let megoldva = document.getElementById("megoldva_szures").checked;
+    
     if(document.getElementById("visszajelzes_tipusok").value == "összes")
     {
         visszajelzesek_fetch();
@@ -57,6 +59,24 @@ async function visszajelzesek_szures(keresett) {
     visszajelzesek_megjelenit(y);
 }
 
+const visszajelzesek_megoldva_szures_ellenorzes = () =>
+{
+    let megoldva = document.getElementById("megoldva_szures").checked;
+
+    if(megoldva)
+    {
+        visszajelzesek_fetch();
+    }
+    else 
+    visszajelzesek_megoldva_szures();
+}
+
+async function visszajelzesek_megoldva_szures() {
+    let x = await fetch("http://localhost:3000/visszajelzesek_nincs_megoldva/");
+    let y = await x.json();
+    visszajelzesek_megjelenit(y);
+}
+
 
 //-----------------------------------------------------------------------------------------Modal csere-----------------------------------------------------------------------------------------
 const modal_csere = (id) => {
@@ -66,7 +86,6 @@ const modal_csere = (id) => {
     let sz = `
         <p class="visszajelzes_szoveg"><b>Típus:</b> ${item.visszajelzes_tipus}</p>
         <p class="visszajelzes_uzenet">„${item.visszajelzes_uzenet}”</p>
-        <span class="visszajelzes_szoveg"><b>Megoldva:</b> </span>
         ${item.visszajelzes_megoldva ?
             `
             <label class="switch">

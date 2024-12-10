@@ -251,6 +251,15 @@ table tr{
     font-size: 25px;
 }
 
+#megoldva_szures_szoveg{
+    font-size: 25px;
+}
+
+#megoldva_szures{
+    width: 20px;
+    height: 20px;
+}
+
 
 /* Toggle Switch - TabNine */
 .switch {
