@@ -13,26 +13,41 @@ const visszajelzesek_megjelenit = (y) =>{
     //console.log(adatok)
 
     let sz = ""
+ 
     for (const item of adatok) {
-        if (item.visszajelzes_megoldva) {
-            sz += `
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="visszajelzesek_kartya megoldva" type="button" data-bs-toggle="modal" data-bs-target="#reszletek_modal" onclick="modal_csere(${item.visszajelzes_id})">
-                    <p class="visszajelzes_tema">${item.visszajelzes_tema}</p>
-                    <p class="felhasznalo_email">${item.felhasznalo_email}</p>
+        if (document.getElementById("megoldva_szures").checked) {
+            if (item.visszajelzes_megoldva) {
+                sz += `
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="visszajelzesek_kartya megoldva" type="button" data-bs-toggle="modal" data-bs-target="#reszletek_modal" onclick="modal_csere(${item.visszajelzes_id})">
+                        <p class="visszajelzes_tema">${item.visszajelzes_tema}</p>
+                        <p class="felhasznalo_email">${item.felhasznalo_email}</p>
+                    </div>
                 </div>
-            </div>
-            `
+                `
+            }
+            else{
+                sz += `
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="visszajelzesek_kartya fuggo" type="button" data-bs-toggle="modal" data-bs-target="#reszletek_modal" onclick="modal_csere(${item.visszajelzes_id})">
+                        <p class="visszajelzes_tema">${item.visszajelzes_tema}</p>
+                        <p class="felhasznalo_email">${item.felhasznalo_email}</p>
+                    </div>
+                </div>
+                `
+            }
         }
         else{
-            sz += `
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="visszajelzesek_kartya fuggo" type="button" data-bs-toggle="modal" data-bs-target="#reszletek_modal" onclick="modal_csere(${item.visszajelzes_id})">
-                    <p class="visszajelzes_tema">${item.visszajelzes_tema}</p>
-                    <p class="felhasznalo_email">${item.felhasznalo_email}</p>
+            if (!item.visszajelzes_megoldva) {
+                sz += `
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="visszajelzesek_kartya fuggo" type="button" data-bs-toggle="modal" data-bs-target="#reszletek_modal" onclick="modal_csere(${item.visszajelzes_id})">
+                        <p class="visszajelzes_tema">${item.visszajelzes_tema}</p>
+                        <p class="felhasznalo_email">${item.felhasznalo_email}</p>
+                    </div>
                 </div>
-            </div>
-            `
+                `
+            }
         }
     }
     document.getElementById("visszajelzesek_doboz").innerHTML = sz
@@ -43,7 +58,6 @@ const visszajelzesek_megjelenit = (y) =>{
 const visszajelzesek_szures_ellenorzes = () =>
 {
     let keresett = document.getElementById("visszajelzes_tipusok").value;
-    let megoldva = document.getElementById("megoldva_szures").checked;
     
     if(document.getElementById("visszajelzes_tipusok").value == "összes")
     {
@@ -55,24 +69,6 @@ const visszajelzesek_szures_ellenorzes = () =>
 
 async function visszajelzesek_szures(keresett) {
     let x = await fetch("http://localhost:3000/visszajelzesek_szures/" + keresett);
-    let y = await x.json();
-    visszajelzesek_megjelenit(y);
-}
-
-const visszajelzesek_megoldva_szures_ellenorzes = () =>
-{
-    let megoldva = document.getElementById("megoldva_szures").checked;
-
-    if(megoldva)
-    {
-        visszajelzesek_fetch();
-    }
-    else 
-    visszajelzesek_megoldva_szures();
-}
-
-async function visszajelzesek_megoldva_szures() {
-    let x = await fetch("http://localhost:3000/visszajelzesek_nincs_megoldva/");
     let y = await x.json();
     visszajelzesek_megjelenit(y);
 }
@@ -121,5 +117,5 @@ async function visszajelzesek_megoldva_valtas(id) {
     let y = await x.text();
 
     console.log(y)
-    visszajelzesek_fetch()
+    visszajelzesek_szures_ellenorzes()
 }

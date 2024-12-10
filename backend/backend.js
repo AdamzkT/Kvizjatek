@@ -213,27 +213,6 @@ app.get('/visszajelzesek_szures/:keresett', (req, res) => {
 })
 
 
-app.get('/visszajelzesek_nincs_megoldva', (req, res) => {
-    kapcsolat()
-
-    connection.query(`
-        SELECT * FROM visszajelzesek
-        WHERE visszajelzes_megoldva = 0
-        `, (err, rows, fields) => {
-        if (err)
-        {
-            console.log("Hiba")
-            console.log(err)
-            res.status(500).send("Hiba")
-        }
-        else{
-            console.log(rows)
-            res.status(200).send(rows)
-        }
-    })
-
-    connection.end() 
-})
 //----------------------------------------------------------------------------------POST----------------------------------------------------------------------------------
 
 //Egy adott id-val rendelkező kvíz kérdései
