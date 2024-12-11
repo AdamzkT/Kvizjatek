@@ -8,11 +8,11 @@ export default function RegisztracioScreen(navigation) {
     const [jelszo2, setJelszo2] = useState('')
     const [megjegyzes, setMegjegyzes] = useState('')
 
-    const signIn = () =>{
+    const signUp = () =>{
         setMegjegyzes('')
-        let jo = false
-        if (felhasznalo == "" || email == "" || jelszo == "" || jelszo2 == "") { setMegjegyzes("Minden adatot meg kell adni"); }
-        else if (jelszo != jelszo2) {setMegjegyzes("Jelszavaknak meg kell egyeznie")}
+        let jo = true
+        if (felhasznalo == "" || email == "" || jelszo == "" || jelszo2 == "") { setMegjegyzes("Minden adatot meg kell adni"); jo = false }
+        else if (jelszo != jelszo2) { setMegjegyzes("Jelszavaknak meg kell egyeznie"); jo = false }
         
     }
 

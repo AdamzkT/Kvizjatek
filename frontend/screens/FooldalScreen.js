@@ -1,4 +1,4 @@
-import { StyleSheet, View, Button, Text} from 'react-native';
+import { StyleSheet, View, Pressable, Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect, useCallback} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
@@ -10,6 +10,9 @@ const getData = async () => {
 
 export default function FooldalScreen({navigation}) {
     const [felhasznalo,setFelhasznalo] = useState("")
+    const [nyomKviz, setNyomKviz] = useState(false)
+    const [nyomProfil, setNyomProfil] = useState(false)
+    const [nyomKapcsolat, setNyomKapcsolat] = useState(false)
 
     useEffect(() => {
         getData().then(adat => setFelhasznalo(adat))
@@ -23,10 +26,20 @@ export default function FooldalScreen({navigation}) {
 
     return (
         <View style={styles.container}>
-            <Text>{felhasznalo}</Text>
-            <Button title='Kvíz' onPress={() => navigation.navigate('Kvíz')}/>
-            <Button title='Profil' onPress={felhasznalo == "" ? () => navigation.navigate('Bejelentkezés') : () => navigation.navigate('Profil')}/>
-            <Button title='Kapcsolat' onPress={felhasznalo == "" ? () => navigation.navigate('Bejelentkezés') : () => navigation.navigate('Kapcsolat')}/>
+            <Pressable  style={[styles.gomb, nyomKviz ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
+                        onPressIn={() => setNyomKviz(true)} onPressOut={() => {setNyomKviz(false), navigation.navigate('Kvíz')}}>
+                <Text>Kvíz</Text>
+            </Pressable>
+            <Pressable  style={[styles.gomb, nyomProfil ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
+                        onPressIn={() => setNyomProfil(true)}
+                        onPressOut={() => {setNyomProfil(false), felhasznalo == "" ? navigation.navigate('Bejelentkezés') : navigation.navigate('Profil')}}>
+                <Text>Profil</Text>
+            </Pressable>
+            <Pressable  style={[styles.gomb, nyomKapcsolat ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
+                        onPressIn={() => setNyomKapcsolat(true)}
+                        onPressOut={() => {setNyomKapcsolat(false), felhasznalo == "" ? navigation.navigate('Bejelentkezés') : navigation.navigate('Kapcsolat')}}>
+                <Text>Kapcsolat</Text>
+            </Pressable>
         </View>
     );
 }
@@ -35,8 +48,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 50
+    paddingTop: 200
   },
+  gomb: {
+    width: '45%',
+    borderWidth: 0.5,
+    borderRadius: 20,
+    alignItems: 'center',
+    paddingVertical: 100,
+    margin: '2.5%',
+  }
 });
