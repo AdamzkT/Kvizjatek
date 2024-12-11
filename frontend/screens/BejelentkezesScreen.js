@@ -41,9 +41,9 @@ export default function BejelentkezesScreen({navigation}) {
     return (
         <View style={styles.container}>
         <Text>Felhasználónév vagy Email</Text>
-        <TextInput style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setFelhasznalo} value={felhasznalo} onChange={() => setMegjegyzes("")}/>
+        <TextInput autoCapitalize='none' style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setFelhasznalo} value={felhasznalo} onChange={() => setMegjegyzes("")}/>
         <Text>Jelszó</Text>
-        <TextInput style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setJelszo} value={jelszo} onChange={() => setMegjegyzes("")}/>
+        <TextInput autoCapitalize='none' style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setJelszo} value={jelszo} onChange={() => setMegjegyzes("")}/>
         <Button title='Bejelentkezés' onPress={() => signIn()}/>
         <Button title='Regisztráció' onPress={() => navigation.navigate('Regisztráció')}/>
         <Text>{megjegyzes}</Text>

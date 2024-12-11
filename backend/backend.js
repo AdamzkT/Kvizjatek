@@ -334,17 +334,16 @@ app.post('/regisztracio', (req, res) => {
 })
 
 
-app.post('/regisztracio_ellenorzes', (req, res) => {
+app.post('/regisztracio_email', (req, res) => {
     kapcsolat()
 
     let parameterek = [
-        req.body.felhasznalo_email,
-        req.body.felhasznalo_nev
+        req.body.felhasznalo_email
     ]
 
     connection.query(`
         SELECT * from felhasznalok
-        WHERE felhasznalo_email = ? OR felhasznalo_nev = ?;
+        WHERE felhasznalo_email = ?;
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
@@ -361,6 +360,31 @@ app.post('/regisztracio_ellenorzes', (req, res) => {
     connection.end() 
 })
 
+app.post('/regisztracio_felhasznalo', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.felhasznalo_nev
+    ]
+
+    connection.query(`
+        SELECT * from felhasznalok
+        WHERE felhasznalo_nev = ?;
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
 
 app.post('/kerdes_id_alapjan', (req, res) => {
     kapcsolat()
