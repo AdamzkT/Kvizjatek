@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import Ipcim from '../Ipcim';
 
-export default function KapcsolatScreen() {
+export default function KapcsolatScreen(route) {
   const [tema, setTema] = useState("")
   const [tipus, setTipus] = useState("javaslat")
   const [uzenet, setUzenet] = useState("")
-  const [email, setEmail] = useState("valaki@gmail.com")
-
+  const [email, setEmail] = useState("")
+  setEmail(route.params.email)
+  console.log(email)
   //Üzenet felvitele adatbázisba
   const kuldes = (email, tema, tipus, uzenet) => {
     let adatok = 
@@ -18,7 +19,7 @@ export default function KapcsolatScreen() {
         "visszajelzes_tipus":tipus,
         "visszajelzes_uzenet":uzenet
     }
-    
+    console.log(email)
     const felvitel = async () =>{
       let x = await fetch(`${Ipcim.Ipcim2}/uzenet_kuldes`, {
         method: "POST",
