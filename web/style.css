@@ -268,7 +268,12 @@ table tr{
     height: 20px;
 }
 
-
+.visszajelzes_datum{
+    text-align: left;
+    font-style: italic;
+    font-size: 14px;
+    opacity: 0.75;
+}
 /* Toggle Switch - TabNine */
 .switch {
     position: relative;
