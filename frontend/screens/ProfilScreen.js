@@ -9,7 +9,7 @@ export default function ProfilScreen({navigation}) {
 
     function kijelentkezes(){
         storeData("")
-        navigation.popTo('Főoldal')
+        navigation.popToTop()
     }
 
     return (
