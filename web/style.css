@@ -132,6 +132,13 @@ table tr{
     background-color: rgb(1, 104, 1);
 }
 
+#datum_sorrend_gomb{
+    margin-left: 20px;
+    font-size: 20px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
 /*Felugró üzenetek*/
 #uzenet_kulso_id{
     display: none;
@@ -256,6 +263,7 @@ table tr{
 }
 
 #megoldva_szures{
+    margin-left: 20px;
     width: 20px;
     height: 20px;
 }
