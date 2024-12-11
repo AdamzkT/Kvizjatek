@@ -37,7 +37,7 @@ export default function FooldalScreen({navigation}) {
             </Pressable>
             <Pressable  style={[styles.gomb, nyomKapcsolat ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
                         onPressIn={() => setNyomKapcsolat(true)}
-                        onPressOut={() => {setNyomKapcsolat(false), felhasznalo == "" ? navigation.navigate('Bejelentkezés') : navigation.navigate('Kapcsolat')}}>
+                        onPressOut={() => {setNyomKapcsolat(false), felhasznalo == "" ? navigation.navigate('Bejelentkezés') : navigation.navigate('Kapcsolat', {email:felhasznalo})}}>
                 <Text>Kapcsolat</Text>
             </Pressable>
         </View>
