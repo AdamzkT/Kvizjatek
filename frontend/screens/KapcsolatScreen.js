@@ -1,25 +1,30 @@
 import { StyleSheet, Text, View, TextInput, Button, } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import Ipcim from '../Ipcim';
 
-export default function KapcsolatScreen(route) {
+export default function KapcsolatScreen({route}) {
   const [tema, setTema] = useState("")
   const [tipus, setTipus] = useState("javaslat")
   const [uzenet, setUzenet] = useState("")
-  const [email, setEmail] = useState("")
-  setEmail(route.params.email)
-  console.log(email)
+  const [datum, setDatum] = useState("")
+  const { email } = route.params 
+
+  useEffect(() => {
+    setDatum(new Date().toISOString().slice(0, 19).replace('T', ' '))
+  }, [])
+
   //Üzenet felvitele adatbázisba
   const kuldes = (email, tema, tipus, uzenet) => {
+    setDatum(new Date().toISOString().slice(0, 19).replace('T', ' '))
     let adatok = 
     {
         "felhasznalo_email":email,
+        "visszajelzes_datum":datum,
         "visszajelzes_tema":tema,
         "visszajelzes_tipus":tipus,
         "visszajelzes_uzenet":uzenet
     }
-    console.log(email)
     const felvitel = async () =>{
       let x = await fetch(`${Ipcim.Ipcim2}/uzenet_kuldes`, {
         method: "POST",
@@ -53,7 +58,8 @@ export default function KapcsolatScreen(route) {
             setTipus(itemValue)
           }>
           <Picker.Item label="Javaslat" value="javaslat"/>
-          <Picker.Item label="Probléma bejelentés" value="probléma"/>
+          <Picker.Item label="Hibajelentés" value="hiba"/>
+          <Picker.Item label="Felhasználó jelentése" value="report"/>
           <Picker.Item label="Egyéb" value="egyéb"/>
         </Picker>
       </View>
