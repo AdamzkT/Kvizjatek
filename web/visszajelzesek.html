@@ -17,16 +17,19 @@
         <div class="szures">
             <span id="tipus_szoveg">Típus:</span>
             <select id="visszajelzes_tipusok" onchange="visszajelzesek_szures_ellenorzes()">
-                <option value="összes">összes</option>
-                <option value="javaslat">javaslat</option>
-                <option value="probléma">probléma</option>
-                <option value="egyéb">egyéb</option>
+                <option value="összes">Összes</option>
+                <option value="javaslat">Javaslatok</option>
+                <option value="hiba">Hiba jelentések</option>
+                <option value="report">Felhasználó feljelentések</option>
+                <option value="egyéb">Egyéb</option>
             </select>
 
             <input type="checkbox" id="megoldva_szures" onchange="visszajelzesek_szures_ellenorzes()">
             <span id="megoldva_szures_szoveg">Megoldva</span>
-        </div>
 
+            <button type="button" class="gombok" id="datum_sorrend_gomb">Dátum alapján csökkenő</button>
+        </div>
+    
         <div class="row" id="visszajelzesek_doboz">
           
         </div>

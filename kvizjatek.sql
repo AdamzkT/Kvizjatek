@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Dec 09. 08:22
+-- Létrehozás ideje: 2024. Dec 11. 09:21
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -124,21 +124,24 @@ INSERT INTO `kvizek` (`kviz_id`, `felhasznalo_email`, `kviz_nev`, `kategoria_id`
 CREATE TABLE `visszajelzesek` (
   `visszajelzes_id` int(11) NOT NULL,
   `felhasznalo_email` varchar(255) NOT NULL,
+  `visszajelzes_datum` datetime NOT NULL,
   `visszajelzes_tema` varchar(50) NOT NULL,
   `visszajelzes_tipus` varchar(255) NOT NULL,
-  `visszajelzes_uzenet` varchar(255) NOT NULL
+  `visszajelzes_uzenet` varchar(255) NOT NULL,
+  `visszajelzes_megoldva` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `visszajelzesek`
 --
 
-INSERT INTO `visszajelzesek` (`visszajelzes_id`, `felhasznalo_email`, `visszajelzes_tema`, `visszajelzes_tipus`, `visszajelzes_uzenet`) VALUES
-(1, 'valaki@gmail.com', 'tema', 'javaslat', 'uzenet'),
-(20, 'dan@gmail.com', 'Kevés kategória', 'javaslat', 'Lehetne több kategória, nincs elég'),
-(21, 'joe@gmail.com', 'Weird bug', 'probléma', 'When I make one answer, all four answers become the same and can\'t make them different. Pls fix asap, can\'t do anything like this'),
-(22, 'valaki@gmail.com', 'huh', 'egyéb', 'ez most csinál valamit?'),
-(23, 'joe@gmail.com', 'Nvm', 'egyéb', 'Nevermind I\'m stupid there\'s no bug');
+INSERT INTO `visszajelzesek` (`visszajelzes_id`, `felhasznalo_email`, `visszajelzes_datum`, `visszajelzes_tema`, `visszajelzes_tipus`, `visszajelzes_uzenet`, `visszajelzes_megoldva`) VALUES
+(1, 'valaki@gmail.com', '2024-11-23 06:20:23', 'tema', 'javaslat', 'uzenet', 0),
+(20, 'dan@gmail.com', '2024-12-05 07:23:32', 'Kevés kategória', 'javaslat', 'Lehetne több kategória, nincs elég', 1),
+(21, 'joe@gmail.com', '2024-12-05 14:14:30', 'Weird bug', 'hiba', 'When I make one answer, all four answers become the same and can\'t make them different. Pls fix asap, can\'t do anything like this', 1),
+(22, 'valaki@gmail.com', '2024-12-10 21:10:45', 'huh', 'egyéb', 'ez most csinál valamit?', 1),
+(23, 'joe@gmail.com', '2024-12-06 03:52:24', 'Nvm', 'egyéb', 'Nevermind I\'m stupid there\'s no bug', 0),
+(25, 'valaki@gmail.com', '2024-12-11 08:17:35', 'Joe\'s a troll', 'report', 'I dun like him', 0);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -204,7 +207,7 @@ ALTER TABLE `kvizek`
 -- AUTO_INCREMENT a táblához `visszajelzesek`
 --
 ALTER TABLE `visszajelzesek`
-  MODIFY `visszajelzes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `visszajelzes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Megkötések a kiírt táblákhoz

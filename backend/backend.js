@@ -248,6 +248,7 @@ app.post('/uzenet_kuldes', (req, res) => {
 
     let parameterek = [
         req.body.felhasznalo_email,
+        req.body.visszajelzes_datum,
         req.body.visszajelzes_tema,
         req.body.visszajelzes_tipus,
         req.body.visszajelzes_uzenet
@@ -255,7 +256,7 @@ app.post('/uzenet_kuldes', (req, res) => {
 
     connection.query(`
         INSERT INTO visszajelzesek 
-        VALUES(null, ?, ?, ?, ?, 0)
+        VALUES(null, ?, ?, ?, ?, ?, 0)
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
