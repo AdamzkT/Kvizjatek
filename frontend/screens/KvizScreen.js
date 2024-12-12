@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 export default function KvizScreen() {
   const [adatok,setAdatok] = useState([]);
   const [kerdes,setKerdes] = useState("");
+  const [kerdesIndex, setKerdesIndex] = useState(0);
   const [valaszok,setValaszok] = useState([]);
   const [joValasz,setJoValasz] = useState("");
 
@@ -27,9 +28,9 @@ export default function KvizScreen() {
     let x = await fetch(`${Ipcim.Ipcim1}/kerdesek`)
     let y = await x.json()
     setAdatok(y)
-    setKerdes(y[0].kerdes)
-    keveres([y[0].valasz_jo, y[0].valasz_rossz1, y[0].valasz_rossz2, y[0].valasz_rossz3])
-    setJoValasz(y[0].valasz_jo)
+    setKerdes(y[kerdesIndex].kerdes)
+    keveres([y[kerdesIndex].valasz_jo, y[kerdesIndex].valasz_rossz1, y[kerdesIndex].valasz_rossz2, y[kerdesIndex].valasz_rossz3])
+    setJoValasz(y[kerdesIndex].valasz_jo)
   }
 
   useEffect(() => {
@@ -37,15 +38,19 @@ export default function KvizScreen() {
   },[])
 
   const ujKerdes = async () => {
-    let ujIndex = Math.floor(Math.random() * adatok.length)
+    let ujIndex = kerdesIndex;
+    while(ujIndex == kerdesIndex){
+      ujIndex = Math.floor(Math.random() * adatok.length)
+    }
     setKerdes(adatok[ujIndex].kerdes)
     keveres([adatok[ujIndex].valasz_jo, adatok[ujIndex].valasz_rossz1, adatok[ujIndex].valasz_rossz2, adatok[ujIndex].valasz_rossz3])
     setJoValasz(adatok[ujIndex].valasz_jo)
+    setKerdesIndex(ujIndex)
   }
 
   const valaszEllenorzes = (valasz) => {
     if(valasz == joValasz) { Alert.alert('','Jó válasz') }
-    else { Alert.alert('','Rossz válasz')}
+    else { Alert.alert('','Rossz válasz')} 
     ujKerdes()
   }
 
