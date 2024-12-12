@@ -1,5 +1,5 @@
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import Ipcim from '../Ipcim';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -27,7 +27,10 @@ export default function BejelentkezesScreen({navigation}) {
       });
       let y = await x.json()
       if(y.length == 0) { setMegjegyzes("Rossz felhasználónév vagy jelszó.") }
-      else if(y.length == 1) { Alert.alert("Sikeres bejelentkezés"); storeData(y[0].felhasznalo_email); navigation.popToTop() }
+      else if(y.length == 1) {
+        Alert.alert("Sikeres bejelentkezés");
+        storeData(y[0].felhasznalo_email);
+        navigation.popToTop() }
       else { Alert.alert("Valami nagyon nem jó") }
     }
 
@@ -43,7 +46,7 @@ export default function BejelentkezesScreen({navigation}) {
         <Text>Felhasználónév vagy Email</Text>
         <TextInput autoCapitalize='none' style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setFelhasznalo} value={felhasznalo} onChange={() => setMegjegyzes("")}/>
         <Text>Jelszó</Text>
-        <TextInput autoCapitalize='none' style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setJelszo} value={jelszo} onChange={() => setMegjegyzes("")}/>
+        <TextInput autoCapitalize='none' secureTextEntry={true} style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setJelszo} value={jelszo} onChange={() => setMegjegyzes("")}/>
         <Button title='Bejelentkezés' onPress={() => signIn()}/>
         <Button title='Regisztráció' onPress={() => navigation.navigate('Regisztráció')}/>
         <Text>{megjegyzes}</Text>
