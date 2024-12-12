@@ -8,8 +8,6 @@ export default function RegisztracioScreen({navigation}) {
     const [jelszo, setJelszo] = useState('')
     const [jelszo2, setJelszo2] = useState('')
     const [megjegyzes, setMegjegyzes] = useState('')
-    const [felhasznaloFoglalt, setFelhasznaloFoglalt] = useState(true)
-    const [emailFoglalt, setEmailFoglalt] = useState(true)
 
     const regisztracio = async (felhasznalo,email,jelszo) => {
       let x = await fetch(`${Ipcim.Ipcim1}/regisztracio`, {
@@ -25,13 +23,12 @@ export default function RegisztracioScreen({navigation}) {
         })
       });
       let y = await x.text()
-      Alert.alert(y)
+      Alert.alert('',y,[{text: 'OK', onPress: () => navigation.goBack()}])
       if( x.status == 200 ){
         setFelhasznalo("")
         setEmail("")
         setJelszo("")
         setJelszo2("")
-        navigation.navigate.popTo("Bejelentkezés")
       }
     }
 
@@ -41,7 +38,7 @@ export default function RegisztracioScreen({navigation}) {
       const emailFoglaltE = await email_foglalt(email);
       let jo = true
 
-      const emailRegex = /^[^\s@]+@[^\s@]+(\.[^\s@]+)+$/;
+      const emailRegex = /^(?!.*\.\.)[a-zA-Z0-9._%+-]{1,63}[a-zA-Z0-9]@[a-zA-Z0-9](?!.*\.\.)[a-zA-Z0-9-]{0,63}(\.[a-zA-Z]{2,})+$/;
 
       if (felhasznalo == "" || email == "" || jelszo == "" || jelszo2 == "") { setMegjegyzes("Minden adatot meg kell adni"); jo = false }
       // Felhasználó

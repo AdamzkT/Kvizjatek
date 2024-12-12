@@ -1,5 +1,5 @@
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import Ipcim from '../Ipcim';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -8,8 +8,9 @@ export default function BejelentkezesScreen({navigation}) {
     const [jelszo, setJelszo] = useState("")
     const [megjegyzes, setMegjegyzes] = useState("")
 
-    const storeData = async (value) => {
-      await AsyncStorage.setItem('@felhasznalo_email', value);
+    const storeData = async (email, nev) => {
+      await AsyncStorage.setItem('@felhasznalo_email', email);
+      await AsyncStorage.setItem('@felhasznalo_nev', nev);
   };
 
     const bejelentkezes = async (felhasznalo,jelszo) => {
@@ -29,7 +30,7 @@ export default function BejelentkezesScreen({navigation}) {
       if(y.length == 0) { setMegjegyzes("Rossz felhasználónév vagy jelszó.") }
       else if(y.length == 1) {
         Alert.alert("Sikeres bejelentkezés");
-        storeData(y[0].felhasznalo_email);
+        storeData(y[0].felhasznalo_email, y[0].felhasznalo_nev);
         navigation.popToTop() }
       else { Alert.alert("Valami nagyon nem jó") }
     }
