@@ -1,4 +1,4 @@
-/*Egyéb*/
+/*--------------------------------------------------------------Egyéb--------------------------------------------------------------*/
 #cim{
     text-align: center;
 }
@@ -14,12 +14,14 @@
     text-align: center;
 }
 
-/*Táblázatok*/
+
+/*--------------------------------------------------------------Táblázatok--------------------------------------------------------------*/
 table tr{
     vertical-align: middle;
 }
 
-/*Keresés*/
+
+/*--------------------------------------------------------------Keresés--------------------------------------------------------------*/
 .kereses {
     display: flex;
     align-items: center;
@@ -43,7 +45,7 @@ table tr{
 }
 
 
-/*Gombok*/
+/*--------------------------------------------------------------Gombok--------------------------------------------------------------*/
 .gombok{
     background-color: rgb(223, 223, 223);
     vertical-align: middle; 
@@ -139,7 +141,8 @@ table tr{
     margin-bottom: 10px;
 }
 
-/*Felugró üzenetek*/
+
+/*--------------------------------------------------------------Felugró üzenetek--------------------------------------------------------------*/
 #uzenet_kulso_id{
     display: none;
 }
@@ -180,7 +183,8 @@ table tr{
     font-size: 20px;
 }
 
-/*Módosítás html*/
+
+/*--------------------------------------------------------------Módosítás html--------------------------------------------------------------*/
 .modositas_cimkek{
     font-weight: bold;
     font-size: 20px;
@@ -199,7 +203,8 @@ table tr{
     border: 3px solid black;
 }
 
-/*Visszajelzések html*/
+
+/*--------------------------------------------------------------Visszajelzések html--------------------------------------------------------------*/
 #visszajelzesek_doboz{
     color: white;
 }
@@ -274,7 +279,9 @@ table tr{
     font-size: 14px;
     opacity: 0.75;
 }
-/* Toggle Switch - TabNine */
+
+
+/*--------------------------------------------------------------Toggle Switch - TabNine--------------------------------------------------------------*/
 .switch {
     position: relative;
     display: inline-block;
@@ -321,4 +328,24 @@ input:checked + .slider {
 
 input:checked + .slider:before {
     transform: translateX(26px);
+}
+
+
+/*--------------------------------------------------------------Arrow - TabNine--------------------------------------------------------------*/
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 5px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    margin-bottom: 3px;
+}
+
+.up {
+    border-bottom: 7px solid black;
+}
+
+.down {
+    border-top: 7px solid black;
 }

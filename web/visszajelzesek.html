@@ -27,7 +27,10 @@
             <input type="checkbox" id="megoldva_szures" onchange="visszajelzesek_szures_ellenorzes()">
             <span id="megoldva_szures_szoveg">Megoldva</span>
 
-            <button type="button" class="gombok" id="datum_sorrend_gomb">Dátum alapján csökkenő</button>
+            <button type="button" class="gombok" id="datum_sorrend_gomb" onclick="sorrend_valtas()">
+                Dátum alapján növekvő
+                <span id="sortArrow" class="arrow up"></span>
+            </button>
         </div>
     
         <div class="row" id="visszajelzesek_doboz">
