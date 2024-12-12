@@ -104,16 +104,26 @@ async function visszajelzesek_megoldva_valtas(id) {
 }
 
 
-////-----------------------------------------------------------------------------------------Sorrend-----------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------Sorrend-----------------------------------------------------------------------------------------
+let sortAscending = true;
 const sorrend_valtas = () => {
+    // Toggle the sort order
+    sortAscending = !sortAscending;
+
+    // Update the arrow icon based on the sort order
+    const arrow = document.getElementById('sortArrow');
+    arrow.classList.remove('up', 'down');
+    arrow.classList.add(sortAscending ? 'down' : 'up');
+
     let gomb = document.getElementById("datum_sorrend_gomb")
     if (sorrend == "ASC") {
-        sorrend = "DESC"
-        gomb.innerHTML = "Dátum alapján csökkenő"
-    }
-    else{
-        sorrend = "ASC"
-        gomb.innerHTML = "Dátum alapján növekvő"
+        sorrend = "DESC";
+        gomb.innerHTML = 'Dátum alapján csökkenő <span id="sortArrow" class="arrow down"></span>';
+    } else {
+        sorrend = "ASC";
+        gomb.innerHTML = 'Dátum alapján növekvő <span id="sortArrow" class="arrow up"></span>';
     }
     visszajelzesek_szures_ellenorzes()
 }
+
+

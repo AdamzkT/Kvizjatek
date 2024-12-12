@@ -329,3 +329,23 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+
+/*--------------------------------------------------------------Arrow - TabNine--------------------------------------------------------------*/
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 5px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    margin-bottom: 3px;
+}
+
+.up {
+    border-bottom: 7px solid black;
+}
+
+.down {
+    border-top: 7px solid black;
+}
