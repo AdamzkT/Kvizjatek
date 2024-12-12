@@ -1,8 +1,9 @@
 //-----------------------------------------------------------------------------------------Megjelenítés-----------------------------------------------------------------------------------------
 var adatok = []
+var sorrend = "ASC"
 
 async function visszajelzesek_fetch() {
-    let x = await fetch("http://localhost:3000/visszajelzesek");
+    let x = await fetch("http://localhost:3000/visszajelzesek/" + sorrend);
     let y = await x.json();
     visszajelzesek_megjelenit(y);
 }
@@ -49,7 +50,7 @@ const visszajelzesek_szures_ellenorzes = () =>
 }
 
 async function visszajelzesek_szures(keresett) {
-    let x = await fetch("http://localhost:3000/visszajelzesek_szures/" + keresett);
+    let x = await fetch(`http://localhost:3000/visszajelzesek_szures/${keresett}/${sorrend}`);
     let y = await x.json();
     visszajelzesek_megjelenit(y);
 }
@@ -99,5 +100,20 @@ async function visszajelzesek_megoldva_valtas(id) {
     let y = await x.text();
 
     console.log(y)
+    visszajelzesek_szures_ellenorzes()
+}
+
+
+////-----------------------------------------------------------------------------------------Sorrend-----------------------------------------------------------------------------------------
+const sorrend_valtas = () => {
+    let gomb = document.getElementById("datum_sorrend_gomb")
+    if (sorrend == "ASC") {
+        sorrend = "DESC"
+        gomb.innerHTML = "Dátum alapján csökkenő"
+    }
+    else{
+        sorrend = "ASC"
+        gomb.innerHTML = "Dátum alapján növekvő"
+    }
     visszajelzesek_szures_ellenorzes()
 }

@@ -88,11 +88,20 @@ app.get('/kategoriak', (req, res) => {
 })
 
 
-app.get('/visszajelzesek', (req, res) => {
+app.get('/visszajelzesek/:sorrend', (req, res) => {
     kapcsolat()
+
+    let sorrend = ""
+    if (req.params.sorrend == "DESC") {
+        sorrend = "DESC"
+    }
+    else{
+        sorrend = "ASC"
+    }
 
     connection.query(`
         SELECT * FROM visszajelzesek
+        ORDER BY visszajelzes_datum ${sorrend}
         `, (err, rows, fields) => {
         if (err)
         {
@@ -186,16 +195,25 @@ app.get('/kvizek_kereses/:keresett', (req, res) => {
 })
 
 
-app.get('/visszajelzesek_szures/:keresett', (req, res) => {
+app.get('/visszajelzesek_szures/:keresett/:sorrend', (req, res) => {
     kapcsolat()
 
     let parameterek = [
         req.params.keresett,
     ]
 
+    let sorrend = ""
+    if (req.params.sorrend == "ASC") {
+        sorrend = "ASC"
+    }
+    else{
+        sorrend = "DESC"
+    }
+
     connection.query(`
         SELECT * FROM visszajelzesek
         WHERE visszajelzes_tipus = ?
+        ORDER BY visszajelzes_datum ${sorrend}
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
