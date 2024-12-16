@@ -6,6 +6,7 @@ import BejelentkezesScreen from './screens/BejelentkezesScreen';
 import RegisztracioScreen from './screens/RegisztracioScreen';
 import FooldalScreen from './screens/FooldalScreen';
 import KapcsolatScreen from './screens/KapcsolatScreen';
+import UjKvizScreen from './screens/UjKvizScreen';
 
 const Stack = createStackNavigator()
 
@@ -14,6 +15,7 @@ export default function StackScreen() {
         <Stack.Navigator initialRouteName="Főoldal">
             <Stack.Screen name="Főoldal" component={FooldalScreen} options={{ headerShown: false }}/>
             <Stack.Screen name="Kvíz" component={KvizScreen}/>
+            <Stack.Screen name="ÚjKvíz" component={UjKvizScreen}/>
             <Stack.Screen name="Profil" component={ProfilScreen}/>
             <Stack.Screen name="Bejelentkezés" component={BejelentkezesScreen}/>
             <Stack.Screen name="Regisztráció" component={RegisztracioScreen} />
