@@ -29,9 +29,8 @@ export default function BejelentkezesScreen({navigation}) {
       let y = await x.json()
       if(y.length == 0) { setMegjegyzes("Rossz felhasználónév vagy jelszó.") }
       else if(y.length == 1) {
-        Alert.alert("Sikeres bejelentkezés");
         storeData(y[0].felhasznalo_email, y[0].felhasznalo_nev);
-        navigation.popToTop() }
+        Alert.alert('',"Sikeres bejelentkezés",[{text: 'OK', onPress: () => navigation.popToTop()}]) }
       else { Alert.alert("Valami nagyon nem jó") }
     }
 

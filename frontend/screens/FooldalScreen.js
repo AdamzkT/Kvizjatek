@@ -13,6 +13,7 @@ export default function FooldalScreen({navigation}) {
     const [felhasznalo,setFelhasznalo] = useState("")
     const [email,setEmail] = useState("")
     const [nyomKviz, setNyomKviz] = useState(false)
+    const [nyomUjKviz, setNyomUjKviz] = useState(false)
     const [nyomProfil, setNyomProfil] = useState(false)
     const [nyomKapcsolat, setNyomKapcsolat] = useState(false)
 
@@ -33,6 +34,11 @@ export default function FooldalScreen({navigation}) {
             <Pressable  style={[styles.gomb, nyomKviz ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
                         onPressIn={() => setNyomKviz(true)} onPressOut={() => {setNyomKviz(false), navigation.navigate('Kvíz')}}>
                 <Text>Kvíz</Text>
+            </Pressable>
+            <Pressable  style={[styles.gomb, nyomUjKviz ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
+                        onPressIn={() => setNyomUjKviz(true)}
+                        onPressOut={() => {setNyomUjKviz(false), felhasznalo == "" ? navigation.navigate('Bejelentkezés') : navigation.navigate('ÚjKvíz')}}>
+                <Text>Új Kvíz</Text>
             </Pressable>
             <Pressable  style={[styles.gomb, nyomProfil ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
                         onPressIn={() => setNyomProfil(true)}
