@@ -315,6 +315,12 @@ table tr{
     min-width: min-content;
 }
 
+#hiba_uzenet{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 /*--------------------------------------------------------------Módosítás html--------------------------------------------------------------*/
 .modositas_cimkek{
     font-weight: bold;
