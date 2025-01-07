@@ -1,4 +1,20 @@
+#colors{
+    color: #3e83dd;
+    color: #1e62bb;
+    color: #114385;
+    color: #052a5a;
+}
+
+
 /*--------------------------------------------------------------Egyéb--------------------------------------------------------------*/
+body{
+    background-image: url("kepek/hatter.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
 #cim{
     text-align: center;
 }
@@ -14,10 +30,76 @@
     text-align: center;
 }
 
+input:focus{
+    background-color: #4d9aff;
+    color: white;
+}
+
+textarea:focus{
+    background-color: #4d9aff;
+    color: white;
+}
+
+select:focus{
+    background-color: #4d9aff;
+    color: white;
+}
+
+input:focus::placeholder{
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+/*--------------------------------------------------------------Navbar--------------------------------------------------------------*/
+.nav_design{
+    background-color: #052a5a;
+    color: white;
+    padding: 10px;
+}
+
+.nav_design a{
+    margin-right: 15px;
+}
+
+.nav_design a:hover{
+    opacity: 0.75;
+}
+
+.navbar-nav {
+    width: 100%;
+}
+
+.nav-item:last-child {
+    margin-left: auto;
+}
+
+.nav_kijelentkezes{
+    opacity: 0.5;
+}
+
 
 /*--------------------------------------------------------------Táblázatok--------------------------------------------------------------*/
+table{
+    width: 100%;
+    color: white;
+    background-color: #114385;
+}
+
+table thead{
+    background-color: #052a5a;
+}
+
+table th, table td{
+    padding: 10px;
+}
+
+tbody tr:hover{
+    background-color: #1e62bb;
+}
+
 table tr{
     vertical-align: middle;
+    border: 3px solid #052a5a;
 }
 
 
@@ -47,14 +129,16 @@ table tr{
 
 /*--------------------------------------------------------------Gombok--------------------------------------------------------------*/
 .gombok{
-    background-color: rgb(223, 223, 223);
+    border-color: #114385;
+    background-color: #4294ff;
     vertical-align: middle; 
+    color: white;
 }
 .gombok:hover{
-    background-color: rgb(248, 248, 248);
+    background-color: #5ba2ff;
 }
 .gombok:active{
-    background-color: rgb(190, 190, 190);
+    background-color: #2d77d6;
 }
 
 .torles_gomb{
@@ -74,23 +158,21 @@ table tr{
 .modositas_gomb{
     width: 40px;
     height: 40px;
-    border-color: grey;
 }
 
 .kerdesek_gomb{
     height: 40px;
     font-weight: bold;
-    border-color: grey;
 }
 
 #vissza_gomb{
     margin: 10px 0;
     height: 40px;
     font-weight: bold;
-    border-color: grey;
 }
 
 #modositas_ok_gomb{
+    color: white;
     display: block;
     margin: 0 auto;
     margin-top: 20px;
@@ -98,14 +180,14 @@ table tr{
     font-weight: 600;
     font-size: 25px;
     border-radius: 20px;
-    background-color: rgb(126, 233, 126);
-    border: 3px solid green;
+    background-color: #4294ff;
+    border: 3px solid #114385;
 }
 #modositas_ok_gomb:hover{
-    background-color: rgb(155, 245, 155);
+    background-color: #5ba2ff;
 }
 #modositas_ok_gomb:active{
-    background-color: rgb(107, 212, 107);
+    background-color: #2d77d6;
 }
 
 .fuggo_gomb{
@@ -139,6 +221,25 @@ table tr{
     font-size: 20px;
     padding: 5px;
     margin-bottom: 10px;
+}
+
+#bejelentkezes_gomb{
+    color: white;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 25px;
+    border-radius: 20px;
+    background-color: #4294ff;
+    border: 3px solid #114385;
+}
+#bejelentkezes_gomb:hover{
+    background-color: #5ba2ff;
+}
+#bejelentkezes_gomb:active{
+    background-color: #357edd;
 }
 
 
@@ -184,6 +285,54 @@ table tr{
 }
 
 
+/*--------------------------------------------------------------Bejelentkezés html--------------------------------------------------------------*/
+#bejelentkezes_cim{
+    text-align: center;
+    margin-top: 100px;
+}
+
+.bejelentkezes_cimkek{
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 15px;
+    color: white;
+}
+
+.bejelentkezes_bemenetek{
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    font-size: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 3px solid black;
+}
+
+#bejelentkezes_doboz{
+    background-color: #1e62bb;
+    height: 340px;
+    padding: 30px;
+    border: 5px solid #052a5a;
+    border-radius: 20px;
+}
+
+#bejelentkezes{
+    position: absolute;
+    top: 40%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    width: 30%;
+    min-width: min-content;
+}
+
+#hiba_uzenet{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 /*--------------------------------------------------------------Módosítás html--------------------------------------------------------------*/
 .modositas_cimkek{
     font-weight: bold;
@@ -213,7 +362,6 @@ table tr{
     border: 5px solid rgb(48, 48, 48);
     border-radius: 20px;
     box-shadow: 5px 5px 5px gray;
-
     text-align: center;
     padding: 20px;
     margin-bottom: 20px;

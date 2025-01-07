@@ -303,7 +303,7 @@ app.post('/bejelentkezes', (req, res) => {
 
     connection.query(`
         SELECT * from felhasznalok
-        WHERE (felhasznalo_email LIKE BINARY ? OR felhasznalo_nev LIKE BINARY ?) AND felhasznalo_jelszo LIKE BINARY ?;
+        WHERE (felhasznalo_email LIKE BINARY ? OR felhasznalo_nev LIKE BINARY ?) AND felhasznalo_jelszo LIKE BINARY ? AND felhasznalo_admin = 0;
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
@@ -312,10 +312,49 @@ app.post('/bejelentkezes', (req, res) => {
             res.status(500).send("Hiba")
         }
         else{
-            console.log(rows)
-            res.status(200).send(rows)
             if (rows.length == 0) {
                 console.log("Hibás felhasználó név/email vagy jelszó!")
+                res.status(200).send("Hibás felhasználó név/email vagy jelszó!")
+            }
+            else{
+                console.log(rows)
+                console.log("Sikeres bejelentkezés!")
+                res.status(200).send("Sikeres bejelentkezés!")
+            }
+        }
+    })
+
+    connection.end() 
+})
+
+
+app.post('/admin_bejelentkezes', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.felhasznalo_nev,
+        req.body.felhasznalo_jelszo,
+    ]
+
+    connection.query(`
+        SELECT * from felhasznalok
+        WHERE felhasznalo_nev LIKE BINARY ? AND felhasznalo_jelszo LIKE BINARY ? AND felhasznalo_admin = 1;
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            if (rows.length == 0) {
+                console.log("Hibás felhasználó név vagy jelszó!")
+                res.status(200).send("Hibás felhasználó név vagy jelszó!")
+            }
+            else{
+                console.log(rows)
+                console.log("Sikeres bejelentkezés!")
+                res.status(200).send("Sikeres bejelentkezés!")
             }
         }
     })
@@ -335,7 +374,7 @@ app.post('/regisztracio', (req, res) => {
 
     connection.query(`
         INSERT INTO felhasznalok
-        VALUES(?, ?, ?)
+        VALUES(?, ?, ?, 0)
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
