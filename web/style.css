@@ -65,6 +65,18 @@ input:focus::placeholder{
     opacity: 0.75;
 }
 
+.navbar-nav {
+    width: 100%;
+}
+
+.nav-item:last-child {
+    margin-left: auto;
+}
+
+.nav_kijelentkezes{
+    opacity: 0.5;
+}
+
 
 /*--------------------------------------------------------------Táblázatok--------------------------------------------------------------*/
 table{

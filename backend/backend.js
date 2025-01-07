@@ -332,14 +332,13 @@ app.post('/admin_bejelentkezes', (req, res) => {
     kapcsolat()
 
     let parameterek = [
-        req.body.felhasznalo_email,
         req.body.felhasznalo_nev,
         req.body.felhasznalo_jelszo,
     ]
 
     connection.query(`
         SELECT * from felhasznalok
-        WHERE (felhasznalo_email LIKE BINARY ? OR felhasznalo_nev LIKE BINARY ?) AND felhasznalo_jelszo LIKE BINARY ? AND felhasznalo_admin = 1;
+        WHERE felhasznalo_nev LIKE BINARY ? AND felhasznalo_jelszo LIKE BINARY ? AND felhasznalo_admin = 1;
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
@@ -349,8 +348,8 @@ app.post('/admin_bejelentkezes', (req, res) => {
         }
         else{
             if (rows.length == 0) {
-                console.log("Hibás felhasználó név/email vagy jelszó!")
-                res.status(200).send("Hibás felhasználó név/email vagy jelszó!")
+                console.log("Hibás felhasználó név vagy jelszó!")
+                res.status(200).send("Hibás felhasználó név vagy jelszó!")
             }
             else{
                 console.log(rows)

@@ -11,7 +11,6 @@ async function bejelentkezes_fetch() {
     let x = await fetch("http://localhost:3000/admin_bejelentkezes",{
         method: "POST",
         body: JSON.stringify({
-            "felhasznalo_email":admin_nev,
             "felhasznalo_nev":admin_nev,
             "felhasznalo_jelszo":admin_jelszo
         }),
