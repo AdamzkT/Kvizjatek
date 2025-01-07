@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Dec 11. 09:21
+-- Létrehozás ideje: 2025. Jan 07. 12:20
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -32,17 +32,19 @@ USE `kvizjatek`;
 CREATE TABLE `felhasznalok` (
   `felhasznalo_email` varchar(255) NOT NULL,
   `felhasznalo_nev` varchar(20) NOT NULL,
-  `felhasznalo_jelszo` varchar(64) NOT NULL
+  `felhasznalo_jelszo` varchar(64) NOT NULL,
+  `felhasznalo_admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `felhasznalok`
 --
 
-INSERT INTO `felhasznalok` (`felhasznalo_email`, `felhasznalo_nev`, `felhasznalo_jelszo`) VALUES
-('dan@gmail.com', 'Dan', 'dan123'),
-('joe@gmail.com', 'Joe', 'joe123'),
-('valaki@gmail.com', 'Valaki', 'valaki');
+INSERT INTO `felhasznalok` (`felhasznalo_email`, `felhasznalo_nev`, `felhasznalo_jelszo`, `felhasznalo_admin`) VALUES
+('Admin', 'Admin', 'admin', 1),
+('dan@gmail.com', 'Dan', 'dan123', 0),
+('joe@gmail.com', 'Joe', 'joe123', 0),
+('valaki@gmail.com', 'Valaki', 'valaki', 0);
 
 -- --------------------------------------------------------
 
