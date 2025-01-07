@@ -35,6 +35,16 @@ input:focus{
     color: white;
 }
 
+textarea:focus{
+    background-color: #4d9aff;
+    color: white;
+}
+
+select:focus{
+    background-color: #4d9aff;
+    color: white;
+}
+
 input:focus::placeholder{
     color: rgba(255, 255, 255, 0.7);
 }
@@ -150,6 +160,7 @@ table tr{
 }
 
 #modositas_ok_gomb{
+    color: white;
     display: block;
     margin: 0 auto;
     margin-top: 20px;
@@ -157,14 +168,14 @@ table tr{
     font-weight: 600;
     font-size: 25px;
     border-radius: 20px;
-    background-color: rgb(126, 233, 126);
-    border: 3px solid green;
+    background-color: #4294ff;
+    border: 3px solid #114385;
 }
 #modositas_ok_gomb:hover{
-    background-color: rgb(155, 245, 155);
+    background-color: #5ba2ff;
 }
 #modositas_ok_gomb:active{
-    background-color: rgb(107, 212, 107);
+    background-color: #2d77d6;
 }
 
 .fuggo_gomb{
@@ -198,6 +209,25 @@ table tr{
     font-size: 20px;
     padding: 5px;
     margin-bottom: 10px;
+}
+
+#bejelentkezes_gomb{
+    color: white;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 25px;
+    border-radius: 20px;
+    background-color: #4294ff;
+    border: 3px solid #114385;
+}
+#bejelentkezes_gomb:hover{
+    background-color: #5ba2ff;
+}
+#bejelentkezes_gomb:active{
+    background-color: #357edd;
 }
 
 
@@ -243,6 +273,48 @@ table tr{
 }
 
 
+/*--------------------------------------------------------------Bejelentkezés html--------------------------------------------------------------*/
+#bejelentkezes_cim{
+    text-align: center;
+    margin-top: 100px;
+}
+
+.bejelentkezes_cimkek{
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 15px;
+    color: white;
+}
+
+.bejelentkezes_bemenetek{
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    font-size: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 3px solid black;
+}
+
+#bejelentkezes_doboz{
+    background-color: #1e62bb;
+    height: 340px;
+    padding: 30px;
+    border: 5px solid #052a5a;
+    border-radius: 20px;
+}
+
+#bejelentkezes{
+    position: absolute;
+    top: 40%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    width: 30%;
+    min-width: min-content;
+}
+
 /*--------------------------------------------------------------Módosítás html--------------------------------------------------------------*/
 .modositas_cimkek{
     font-weight: bold;
@@ -272,7 +344,6 @@ table tr{
     border: 5px solid rgb(48, 48, 48);
     border-radius: 20px;
     box-shadow: 5px 5px 5px gray;
-
     text-align: center;
     padding: 20px;
     margin-bottom: 20px;
