@@ -37,7 +37,7 @@ export default function FooldalScreen({navigation}) {
             </Pressable>
             <Pressable  style={[styles.gomb, nyomUjKviz ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
                         onPressIn={() => setNyomUjKviz(true)}
-                        onPressOut={() => {setNyomUjKviz(false), felhasznalo == "" ? navigation.navigate('Bejelentkezés') : navigation.navigate('ÚjKvíz')}}>
+                        onPressOut={() => {setNyomUjKviz(false), felhasznalo == "" ? navigation.navigate('Bejelentkezés') : navigation.navigate('ÚjKvíz', {email:email})}}>
                 <Text>Új Kvíz</Text>
             </Pressable>
             <Pressable  style={[styles.gomb, nyomProfil ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
