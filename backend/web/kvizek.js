@@ -1,6 +1,8 @@
 //-----------------------------------------------------------------------------------------Megjelenítés-----------------------------------------------------------------------------------------
 async function kvizek_fetch() {
-    let x = await fetch("http://localhost:3000/kvizek");
+    let x = await fetch("http://localhost:3000/kvizek", {
+        credentials: "include", 
+    });
     let y = await x.json();
     kvizek_megjelenit(y);
 }
@@ -45,7 +47,8 @@ async function kviz_fetch(kviz_id) {
         body: JSON.stringify({
             "kviz_id":kviz_id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.json();
     kviz_megjelenit(y);
@@ -64,7 +67,9 @@ const kviz_megjelenit = (adat) => {
 }
 
 async function kategoriak_fetch() {
-    let x = await fetch("http://localhost:3000/kategoriak");
+    let x = await fetch("http://localhost:3000/kategoriak", {
+        credentials: "include", 
+    });
     let y = await x.json();
     kategoriak_megjelenit(y);
 }
@@ -93,7 +98,8 @@ async function kviz_modositas(kviz_id) {
             "kviz_leiras":document.getElementById("leiras_modositas").value,
             "kviz_id":kviz_id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.text();
 
@@ -126,7 +132,8 @@ async function kvizek_torles_ellenorzes(id) {
         body: JSON.stringify({
             "kviz_id":id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.json();
 
@@ -148,7 +155,8 @@ async function kvizek_torles(id){
         body: JSON.stringify({
             "kviz_id":id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.text();
 
@@ -175,7 +183,9 @@ const kvizek_kereses_ellenorzes = () =>
 }
 
 async function kvizek_kereses(keresett) {
-    let x = await fetch("http://localhost:3000/kvizek_kereses/" + keresett);
+    let x = await fetch("http://localhost:3000/kvizek_kereses/" + keresett, {
+        credentials: "include", 
+    });
     let y = await x.json();
     kvizek_megjelenit(y);
 }

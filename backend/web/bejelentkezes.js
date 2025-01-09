@@ -14,17 +14,13 @@ async function bejelentkezes_fetch() {
             "felhasznalo_nev":admin_nev,
             "felhasznalo_jelszo":admin_jelszo
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: 'include'  // Ensure the session cookie is sent with the request
     });
-    let y = await x.text();
-    console.log(y)
-    bejelentkezes(y)
-}
+    let y = await x.text();  // Expecting the full HTML file in the response
+    console.log(y);  // Optional: See the response
 
-const bejelentkezes = (y) => {
-    if(y == "Sikeres bejelentkezés!") {
-        window.location.href = "kvizek.html"
-    } else {
-        document.getElementById("hiba_uzenet").innerHTML = y
+    if (y) {
+        window.location.href = "kvizek.html";  // Redirect to the kvizek.html page
     }
 }

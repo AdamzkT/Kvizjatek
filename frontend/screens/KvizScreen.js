@@ -25,7 +25,13 @@ export default function KvizScreen() {
   }
 
   const lekerdez = async () => {
-    let x = await fetch(`${Ipcim.Ipcim1}/kerdesek`)
+    let x = await fetch(`${Ipcim.Ipcim1}/kerdesek`, {
+      method: "GET",
+      headers: {
+        'X-Source': 'mobile',  // Custom header to identify mobile requests
+      },
+      credentials: 'include',  // Include cookies if needed for the web
+    })
     let y = await x.json()
     setAdatok(y)
     setKerdes(y[kerdesIndex].kerdes)

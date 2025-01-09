@@ -3,7 +3,9 @@ var adatok = []
 var sorrend = "ASC"
 
 async function visszajelzesek_fetch() {
-    let x = await fetch("http://localhost:3000/visszajelzesek/" + sorrend);
+    let x = await fetch("http://localhost:3000/visszajelzesek/" + sorrend, {
+        credentials: "include", 
+    });
     let y = await x.json();
     visszajelzesek_megjelenit(y);
 }
@@ -50,7 +52,9 @@ const visszajelzesek_szures_ellenorzes = () =>
 }
 
 async function visszajelzesek_szures(keresett) {
-    let x = await fetch(`http://localhost:3000/visszajelzesek_szures/${keresett}/${sorrend}`);
+    let x = await fetch(`http://localhost:3000/visszajelzesek_szures/${keresett}/${sorrend}`, {
+        credentials: "include", 
+    });
     let y = await x.json();
     visszajelzesek_megjelenit(y);
 }
@@ -95,7 +99,8 @@ async function visszajelzesek_megoldva_valtas(id) {
         body: JSON.stringify({
             "visszajelzes_id":id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.text();
 

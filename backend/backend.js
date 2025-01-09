@@ -4,10 +4,16 @@ const cors = require('cors')
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express()
+const path = require('path');
 const port = 3000
-app.use(cors())
+app.use(cors({
+    origin: 'http://127.0.0.1:5500',  // Allow requests from your frontend
+    credentials: true,                 // Allow credentials (cookies/session data)
+  }));
 app.use(express.json())
 app.use(express.static('kepek'))
+app.use(express.static(path.join(__dirname, 'web')));  // Serve 'web' folder now inside the backend folder
+require('dotenv').config();  // Load environment variables
 
 function kapcsolat()
 {
@@ -21,31 +27,52 @@ function kapcsolat()
     connection.connect()
 }
 
+
 //----------------------------------------------------------------------------------Authentication----------------------------------------------------------------------------------
 
 // Middleware to parse incoming form data
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configure session middleware
-app.use(
-  session({
-    secret: 'your-secret-key', // Replace with a strong, unique secret
-    resave: false,             // Prevents resaving sessions that haven't changed
-    saveUninitialized: false,  // Don't create sessions for unauthenticated users
+app.use(session({
+    secret: process.env.SESSION_SECRET, // Make sure it's set in your environment variables
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
     cookie: {
-      httpOnly: true,          // Helps prevent XSS attacks
-      secure: false,           // Set to true if using HTTPS
-      maxAge: 1000 * 60 * 30,  // Session expires after 30 minutes
-    },
-  })
-);
+        httpOnly: true,  // Helps prevent XSS attacks
+        secure: false,   // Set to true if using HTTPS
+        sameSite: 'Lax', // Or 'Strict' for stricter cross-origin control
+        maxAge: 1000 * 60 * 30, // Session expires after 30 minutes
+    }
+}));
 
-app.use(express.static('public')); // Serve static files, if needed
+const authenticate = (req, res, next) => {
+    if (req.headers['x-source'] === 'mobile') {
+        return next();  // Skip authentication for mobile app
+      }
+
+    if (req.session && req.session.user) {
+        return next();  // If user is logged in, proceed to the next middleware or route handler
+    } else {
+        res.status(401).send('Unauthorized');  // If user is not logged in, respond with 401
+    }
+};
+
+app.get('/kijelentkezes', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).send('Error logging out');
+        }
+        res.clearCookie('connect.sid');  // Clear the session cookie
+        res.redirect('/bejelentkezes.html');  // Redirect to the login page
+    });
+});
 
 
 //----------------------------------------------------------------------------------GET----------------------------------------------------------------------------------
 
-app.get('/kerdesek', (req, res) => {
+app.get('/kerdesek', authenticate, (req, res) => {
     kapcsolat()
 
     connection.query(`
@@ -67,7 +94,7 @@ app.get('/kerdesek', (req, res) => {
 })
 
 
-app.get('/kvizek', (req, res) => {
+app.get('/kvizek', authenticate, (req, res) => {
     kapcsolat()
 
     connection.query(`
@@ -90,7 +117,7 @@ app.get('/kvizek', (req, res) => {
 })
 
 
-app.get('/kategoriak', (req, res) => {
+app.get('/kategoriak', authenticate, (req, res) => {
     kapcsolat()
 
     connection.query(`
@@ -112,7 +139,7 @@ app.get('/kategoriak', (req, res) => {
 })
 
 
-app.get('/visszajelzesek/:sorrend', (req, res) => {
+app.get('/visszajelzesek/:sorrend', authenticate, (req, res) => {
     kapcsolat()
 
     let sorrend = ""
@@ -143,7 +170,7 @@ app.get('/visszajelzesek/:sorrend', (req, res) => {
 })
 
 
-app.get('/kvizek_kerdesekkel', (req, res) => {
+app.get('/kvizek_kerdesekkel', authenticate, (req, res) => {
     kapcsolat()
 
     connection.query(`
@@ -167,7 +194,7 @@ app.get('/kvizek_kerdesekkel', (req, res) => {
 })
 
 
-app.get('/felhasznalok', (req, res) => {
+app.get('/felhasznalok', authenticate, (req, res) => {
     kapcsolat()
 
     connection.query(`
@@ -189,7 +216,7 @@ app.get('/felhasznalok', (req, res) => {
 })
 
 
-app.get('/kvizek_kereses/:keresett', (req, res) => {
+app.get('/kvizek_kereses/:keresett', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -219,7 +246,7 @@ app.get('/kvizek_kereses/:keresett', (req, res) => {
 })
 
 
-app.get('/visszajelzesek_szures/:keresett/:sorrend', (req, res) => {
+app.get('/visszajelzesek_szures/:keresett/:sorrend', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -257,7 +284,7 @@ app.get('/visszajelzesek_szures/:keresett/:sorrend', (req, res) => {
 
 //----------------------------------------------------------------------------------POST----------------------------------------------------------------------------------
 
-app.post('/kviz_felvitel',  (req, res) => {
+app.post('/kviz_felvitel', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -287,7 +314,7 @@ app.post('/kviz_felvitel',  (req, res) => {
 })
 
 
-app.post('/kerdes_felvitel',  (req, res) => {
+app.post('/kerdes_felvitel', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -320,7 +347,7 @@ app.post('/kerdes_felvitel',  (req, res) => {
 
 
 //Egy adott id-val rendelkező kvíz kérdései
-app.post('/kviz_kerdesek', (req, res) => {
+app.post('/kviz_kerdesek', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -347,7 +374,7 @@ app.post('/kviz_kerdesek', (req, res) => {
 })
 
 
-app.post('/uzenet_kuldes', (req, res) => {
+app.post('/uzenet_kuldes', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -378,7 +405,7 @@ app.post('/uzenet_kuldes', (req, res) => {
 })
 
 
-app.post('/bejelentkezes', (req, res) => {
+app.post('/bejelentkezes', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -433,9 +460,13 @@ app.post('/admin_bejelentkezes', (req, res) => {
             else{
                 console.log(rows)
                 console.log("Sikeres bejelentkezés!")
-                res.status(200).send("Sikeres bejelentkezés!")
-                req.session.user = { id: rows[0].felhasznalo_email, nev: rows[0].felhasznalo_nev };
-                res.redirect('/dashboard'); // Redirect to a protected page
+                req.session.user = {
+                    id: rows[0].felhasznalo_email,
+                    nev: rows[0].felhasznalo_nev,
+                }
+                console.log(req.session.user)
+                //res.status(200).send(rows)
+                res.sendFile(path.join(__dirname, '../web/kvizek.html'));  // Send kvizek.html directly
             }
         }
     })
@@ -444,7 +475,7 @@ app.post('/admin_bejelentkezes', (req, res) => {
 })
 
 
-app.post('/regisztracio', (req, res) => {
+app.post('/regisztracio', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -473,7 +504,7 @@ app.post('/regisztracio', (req, res) => {
 })
 
 
-app.post('/regisztracio_email', (req, res) => {
+app.post('/regisztracio_email', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -499,7 +530,7 @@ app.post('/regisztracio_email', (req, res) => {
     connection.end() 
 })
 
-app.post('/regisztracio_felhasznalo', (req, res) => {
+app.post('/regisztracio_felhasznalo', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -525,7 +556,7 @@ app.post('/regisztracio_felhasznalo', (req, res) => {
     connection.end() 
 })
 
-app.post('/kerdes_id_alapjan', (req, res) => {
+app.post('/kerdes_id_alapjan', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -552,7 +583,7 @@ app.post('/kerdes_id_alapjan', (req, res) => {
 })
 
 
-app.post('/kviz_id_alapjan', (req, res) => {
+app.post('/kviz_id_alapjan', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -579,7 +610,7 @@ app.post('/kviz_id_alapjan', (req, res) => {
 })
 
 
-app.post('/kerdesek_kereses/:keresett', (req, res) => {
+app.post('/kerdesek_kereses/:keresett', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -613,7 +644,7 @@ app.post('/kerdesek_kereses/:keresett', (req, res) => {
 
 //----------------------------------------------------------------------------------PUT----------------------------------------------------------------------------------
 
-app.put('/kerdes_modositas', (req, res) => {
+app.put('/kerdes_modositas', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -646,7 +677,7 @@ app.put('/kerdes_modositas', (req, res) => {
 })
 
 
-app.put('/kviz_modositas', (req, res) => {
+app.put('/kviz_modositas', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -677,7 +708,7 @@ app.put('/kviz_modositas', (req, res) => {
 })
 
 
-app.put('/visszajelzesek_megoldva_valtas', (req, res) => {
+app.put('/visszajelzesek_megoldva_valtas', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -711,7 +742,7 @@ app.put('/visszajelzesek_megoldva_valtas', (req, res) => {
 
 //----------------------------------------------------------------------------------DELETE----------------------------------------------------------------------------------
 
-app.delete('/kerdesek_torles', (req, res) => {
+app.delete('/kerdesek_torles', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [
@@ -738,7 +769,7 @@ app.delete('/kerdesek_torles', (req, res) => {
 })
 
 
-app.delete('/kvizek_torles', (req, res) => {
+app.delete('/kvizek_torles', authenticate, (req, res) => {
     kapcsolat()
 
     let parameterek = [

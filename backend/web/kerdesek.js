@@ -7,7 +7,8 @@ async function kerdesek_fetch(kviz_id) {
         body: JSON.stringify({
             "kviz_id":kviz_id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.json();
     kerdesek_megjelenit(y);
@@ -50,7 +51,8 @@ async function kerdesek_torles_ellenorzes(id) {
         body: JSON.stringify({
             "kerdes_id":id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.json();
 
@@ -70,7 +72,8 @@ async function kerdesek_torles(id){
         body: JSON.stringify({
             "kerdes_id":id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.text();
 
@@ -91,7 +94,8 @@ async function kerdes_fetch(kerdes_id) {
         body: JSON.stringify({
             "kerdes_id":kerdes_id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.json();
     kerdes_megjelenit(y);
@@ -122,7 +126,8 @@ async function kerdes_modositas(kerdes_id) {
             "valasz_rossz3":document.getElementById("valasz_rossz3_modositas").value,
             "kerdes_id":kerdes_id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.text();
 
@@ -165,7 +170,8 @@ async function kerdesek_kereses(keresett) {
         body: JSON.stringify({
             "kviz_id":kviz_id
         }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        credentials: "include", 
     });
     let y = await x.json();
     kerdesek_megjelenit(y);
