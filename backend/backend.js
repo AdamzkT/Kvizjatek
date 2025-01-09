@@ -395,7 +395,7 @@ app.post('/bejelentkezes', (req, res) => {
         {
             console.log("Hiba")
             console.log(err)
-            res.status(500).send("Hiba")
+            res.status(500).send(rows)
         }
         else{
             console.log(rows)
