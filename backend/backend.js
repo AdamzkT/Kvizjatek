@@ -1,6 +1,8 @@
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
+const session = require('express-session');
+const bodyParser = require('body-parser');
 const app = express()
 const port = 3000
 app.use(cors())
@@ -18,6 +20,28 @@ function kapcsolat()
     
     connection.connect()
 }
+
+//----------------------------------------------------------------------------------Authentication----------------------------------------------------------------------------------
+
+// Middleware to parse incoming form data
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Configure session middleware
+app.use(
+  session({
+    secret: 'your-secret-key', // Replace with a strong, unique secret
+    resave: false,             // Prevents resaving sessions that haven't changed
+    saveUninitialized: false,  // Don't create sessions for unauthenticated users
+    cookie: {
+      httpOnly: true,          // Helps prevent XSS attacks
+      secure: false,           // Set to true if using HTTPS
+      maxAge: 1000 * 60 * 30,  // Session expires after 30 minutes
+    },
+  })
+);
+
+app.use(express.static('public')); // Serve static files, if needed
+
 
 //----------------------------------------------------------------------------------GET----------------------------------------------------------------------------------
 
@@ -233,6 +257,68 @@ app.get('/visszajelzesek_szures/:keresett/:sorrend', (req, res) => {
 
 //----------------------------------------------------------------------------------POST----------------------------------------------------------------------------------
 
+app.post('/kviz_felvitel',  (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.felhasznalo_email,
+        req.body.kviz_nev,
+        req.body.kategoria_id,
+        req.body.kviz_leiras
+    ]
+
+    connection.query(`
+        INSERT INTO kvizek 
+        VALUES(null, ?, ?, ?, ?)
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres kvíz felvitel!")
+            res.status(200).send("Sikeres kvíz felvitel!")
+        }
+    })
+
+    connection.end() 
+})
+
+
+app.post('/kerdes_felvitel',  (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kviz_id,
+        req.body.kerdes,
+        req.body.valasz_jo,
+        req.body.valasz_rossz1,
+        req.body.valasz_rossz2,
+        req.body.valasz_rossz3
+    ]
+
+    connection.query(`
+        INSERT INTO kvizek 
+        VALUES(null, ?, ?, ?, ?, ?, ?)
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres kérdés felvitel!")
+            res.status(200).send("Sikeres kérdés felvitel!")
+        }
+    })
+
+    connection.end() 
+})
+
+
 //Egy adott id-val rendelkező kvíz kérdései
 app.post('/kviz_kerdesek', (req, res) => {
     kapcsolat()
@@ -348,6 +434,8 @@ app.post('/admin_bejelentkezes', (req, res) => {
                 console.log(rows)
                 console.log("Sikeres bejelentkezés!")
                 res.status(200).send("Sikeres bejelentkezés!")
+                req.session.user = { id: rows[0].felhasznalo_email, nev: rows[0].felhasznalo_nev };
+                res.redirect('/dashboard'); // Redirect to a protected page
             }
         }
     })
