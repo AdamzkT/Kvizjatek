@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Jan 07. 12:20
+-- Létrehozás ideje: 2025. Jan 09. 08:58
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -79,21 +79,20 @@ CREATE TABLE `kerdesek` (
   `valasz_jo` varchar(50) NOT NULL,
   `valasz_rossz1` varchar(50) NOT NULL,
   `valasz_rossz2` varchar(50) NOT NULL,
-  `valasz_rossz3` varchar(50) NOT NULL,
-  `kep` varchar(255) NOT NULL
+  `valasz_rossz3` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `kerdesek`
 --
 
-INSERT INTO `kerdesek` (`kerdes_id`, `kviz_id`, `kerdes`, `valasz_jo`, `valasz_rossz1`, `valasz_rossz2`, `valasz_rossz3`, `kep`) VALUES
-(1, 1, 'Mi a fővárosa Magyarországnak?', 'Budapest', 'Debrecen', 'Szeged', 'Pécs', 'magyarorszag.jpg'),
-(2, 1, 'Melyik bolygó a legnagyobb a Naprendszerben?', 'Jupiter', 'Mars', 'Föld', 'Vénusz', 'bolygok.jpg'),
-(3, 1, 'Milyen színű a fű?', 'Zöld', 'Kék', 'Sárga', 'Vörös', 'fu.png'),
-(4, 1, 'Ki festette a Mona Lisát?', 'Leonardo da Vinci', 'Pablo Picasso', 'Vincent van Gogh', 'Claude Monet', 'mona_lisa.jpg'),
-(5, 1, 'Milyen állat a delfin?', 'Emlős', 'Hüllő', 'Madár', 'Hal', 'delfin.png'),
-(6, 2, 'Mikor tört ki a második világháború?', '1939', '1940', '1938', '1941', 'kep.png');
+INSERT INTO `kerdesek` (`kerdes_id`, `kviz_id`, `kerdes`, `valasz_jo`, `valasz_rossz1`, `valasz_rossz2`, `valasz_rossz3`) VALUES
+(1, 1, 'Mi a fővárosa Magyarországnak?', 'Budapest', 'Debrecen', 'Szeged', 'Pécs'),
+(2, 1, 'Melyik bolygó a legnagyobb a Naprendszerben?', 'Jupiter', 'Mars', 'Föld', 'Vénusz'),
+(3, 1, 'Milyen színű a fű?', 'Zöld', 'Kék', 'Sárga', 'Vörös'),
+(4, 1, 'Ki festette a Mona Lisát?', 'Leonardo da Vinci', 'Pablo Picasso', 'Vincent van Gogh', 'Claude Monet'),
+(5, 1, 'Milyen állat a delfin?', 'Emlős', 'Hüllő', 'Madár', 'Hal'),
+(6, 2, 'Mikor tört ki a második világháború?', '1939', '1940', '1938', '1941');
 
 -- --------------------------------------------------------
 
