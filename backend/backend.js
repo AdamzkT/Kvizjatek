@@ -281,6 +281,38 @@ app.get('/visszajelzesek_szures/:keresett/:sorrend', (req, res) => {
 
 //----------------------------------------------------------------------------------POST----------------------------------------------------------------------------------
 
+app.post('/kvizek_szures', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.felhasznalo_email,
+        req.body.kviz_nev,
+        req.body.kategoria_nev,
+        req.body.kviz_leiras
+    ]
+
+    console.log(parameterek)
+
+    connection.query(`
+        SELECT * FROM kvizek
+        INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.kategoria_id
+        WHERE felhasznalo_email LIKE ? AND kviz_nev LIKE ? AND kategoria_nev LIKE ? AND kviz_leiras LIKE ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
 app.post('/kviz_felvitel',  (req, res) => {
     kapcsolat()
 
@@ -324,7 +356,7 @@ app.post('/kerdes_felvitel',  (req, res) => {
     ]
 
     connection.query(`
-        INSERT INTO kvizek 
+        INSERT INTO kerdesek 
         VALUES(null, ?, ?, ?, ?, ?, ?)
         `, parameterek, (err, rows, fields) => {
         if (err)
