@@ -112,6 +112,30 @@ app.get('/kategoriak', (req, res) => {
 })
 
 
+app.get('/kategoriak_db', (req, res) => {
+    kapcsolat()
+
+    connection.query(`
+        SELECT kategoria_nev, COUNT(kviz_id) as db FROM kvizek
+        RIGHT JOIN kategoriak ON kategoriak.kategoria_id = kvizek.kategoria_id
+        GROUP BY kategoriak.kategoria_id
+        `, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
 app.get('/visszajelzesek/:sorrend', (req, res) => {
     kapcsolat()
 

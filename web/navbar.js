@@ -12,6 +12,9 @@ let navbar = `
             <li class="nav-item">
                 <a class="nav-link" href="visszajelzesek.html">Visszajelzések</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="informacio.html">Információ</a>
+            </li>
 
 
             <li class="nav-item">
