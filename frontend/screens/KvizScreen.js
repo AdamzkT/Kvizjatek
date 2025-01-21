@@ -2,34 +2,40 @@ import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import Ipcim from '../Ipcim';
 import { useEffect, useState } from 'react';
 
-export default function KvizScreen() {
+export default function KvizScreen({route}) {
+  const {kvizId} = route.params;
   const [adatok,setAdatok] = useState([]);
   const [kerdes,setKerdes] = useState("");
   const [kerdesIndex, setKerdesIndex] = useState(0);
   const [valaszok,setValaszok] = useState([]);
   const [joValasz,setJoValasz] = useState("");
 
-  const keveres = (tomb) => {
+  const valasz_keveres = (valaszok) => {
     let sorrend = []
 
-    while(sorrend.length < tomb.length){
-      let r = Math.floor(Math.random() * tomb.length)
+    while(sorrend.length < valaszok.length){
+      let r = Math.floor(Math.random() * valaszok.length)
       if(!sorrend.includes(r)) { sorrend.push(r) }
     }
 
-    let valasz_1 = tomb[sorrend[0]]
-    let valasz_2 = tomb[sorrend[1]]
-    let valasz_3 = tomb[sorrend[2]]
-    let valasz_4 = tomb[sorrend[3]]
-    setValaszok([valasz_1, valasz_2, valasz_3, valasz_4])
+    let uj_valaszok = []
+    for (const sorszam of sorrend) {
+      uj_valaszok.push(valaszok[sorszam])
+    }
+
+    setValaszok(uj_valaszok)
   }
 
   const lekerdez = async () => {
-    let x = await fetch(`${Ipcim.Ipcim1}/kerdesek`)
+    let x = await fetch(`${Ipcim.Ipcim1}/kviz_kerdesek`, {
+      method: "POST",
+      body: JSON.stringify({"kviz_id": kvizId}),
+      headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
     let y = await x.json()
     setAdatok(y)
     setKerdes(y[kerdesIndex].kerdes)
-    keveres([y[kerdesIndex].valasz_jo, y[kerdesIndex].valasz_rossz1, y[kerdesIndex].valasz_rossz2, y[kerdesIndex].valasz_rossz3])
+    valasz_keveres([y[kerdesIndex].valasz_jo, y[kerdesIndex].valasz_rossz1, y[kerdesIndex].valasz_rossz2, y[kerdesIndex].valasz_rossz3])
     setJoValasz(y[kerdesIndex].valasz_jo)
   }
 
@@ -41,9 +47,10 @@ export default function KvizScreen() {
     let ujIndex = kerdesIndex;
     while(ujIndex == kerdesIndex){
       ujIndex = Math.floor(Math.random() * adatok.length)
+      if (adatok.length < 2) { break; }
     }
     setKerdes(adatok[ujIndex].kerdes)
-    keveres([adatok[ujIndex].valasz_jo, adatok[ujIndex].valasz_rossz1, adatok[ujIndex].valasz_rossz2, adatok[ujIndex].valasz_rossz3])
+    valasz_keveres([adatok[ujIndex].valasz_jo, adatok[ujIndex].valasz_rossz1, adatok[ujIndex].valasz_rossz2, adatok[ujIndex].valasz_rossz3])
     setJoValasz(adatok[ujIndex].valasz_jo)
     setKerdesIndex(ujIndex)
   }
@@ -58,7 +65,9 @@ export default function KvizScreen() {
     <View style={styles.container}>
       <Button title='Új kérdés' onPress={async () => ujKerdes()}/>
       <Text>{kerdes}</Text>
-      {valaszok.map((valasz, k) => <Button key={k} title={valasz} onPress={() => valaszEllenorzes(valasz)}/>)}
+      <View style={styles.valaszok}>
+        {valaszok.map((valasz, k) => <Button key={k} title={valasz} onPress={() => valaszEllenorzes(valasz)}/>)}
+      </View>
     </View>
   );
 }
@@ -70,4 +79,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  valaszok: {
+    width: "100%",
+    borderWidth: 1,
+  }
 });
