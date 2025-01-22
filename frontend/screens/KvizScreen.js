@@ -2,28 +2,30 @@ import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import Ipcim from '../Ipcim';
 import { useEffect, useState } from 'react';
 
-export default function KvizScreen({route}) {
+export default function KvizScreen({navigation, route}) {
   const {kvizId} = route.params;
-  const [adatok,setAdatok] = useState([]);
+  const [kerdesek,setKerdesek] = useState([]);
+  const [kerdesekDb, setKerdesekDb] = useState(0);
+  const [kerdesSzam, setKerdesSzam] = useState(1);
   const [kerdes,setKerdes] = useState("");
-  const [kerdesIndex, setKerdesIndex] = useState(0);
   const [valaszok,setValaszok] = useState([]);
   const [joValasz,setJoValasz] = useState("");
+  const [pontok, setPontok] = useState(0);
 
-  const valasz_keveres = (valaszok) => {
+  const keveres = (adatok) => {
     let sorrend = []
 
-    while(sorrend.length < valaszok.length){
-      let r = Math.floor(Math.random() * valaszok.length)
+    while(sorrend.length < adatok.length){
+      let r = Math.floor(Math.random() * adatok.length)
       if(!sorrend.includes(r)) { sorrend.push(r) }
     }
 
-    let uj_valaszok = []
+    let uj_adatok = []
     for (const sorszam of sorrend) {
-      uj_valaszok.push(valaszok[sorszam])
+      uj_adatok.push(adatok[sorszam])
     }
 
-    setValaszok(uj_valaszok)
+    return uj_adatok
   }
 
   const lekerdez = async () => {
@@ -33,37 +35,48 @@ export default function KvizScreen({route}) {
       headers: {"Content-type": "application/json; charset=UTF-8"}
     })
     let y = await x.json()
-    setAdatok(y)
-    setKerdes(y[kerdesIndex].kerdes)
-    valasz_keveres([y[kerdesIndex].valasz_jo, y[kerdesIndex].valasz_rossz1, y[kerdesIndex].valasz_rossz2, y[kerdesIndex].valasz_rossz3])
-    setJoValasz(y[kerdesIndex].valasz_jo)
+    let kevert_kerdesek = keveres(y)
+    setKerdesek(kevert_kerdesek)
+    setKerdesekDb(y.length)
+    kerdesBetolt(kevert_kerdesek[0])
   }
 
   useEffect(() => {
     lekerdez()
   },[])
 
-  const ujKerdes = async () => {
-    let ujIndex = kerdesIndex;
-    while(ujIndex == kerdesIndex){
-      ujIndex = Math.floor(Math.random() * adatok.length)
-      if (adatok.length < 2) { break; }
-    }
-    setKerdes(adatok[ujIndex].kerdes)
-    valasz_keveres([adatok[ujIndex].valasz_jo, adatok[ujIndex].valasz_rossz1, adatok[ujIndex].valasz_rossz2, adatok[ujIndex].valasz_rossz3])
-    setJoValasz(adatok[ujIndex].valasz_jo)
-    setKerdesIndex(ujIndex)
+  const kerdesBetolt = async (kerdes) => {
+    setKerdes(kerdes.kerdes)
+    let valaszok = await keveres([kerdes.valasz_jo, kerdes.valasz_rossz1, kerdes.valasz_rossz2, kerdes.valasz_rossz3])
+    setValaszok(valaszok)
+    setJoValasz(kerdes.valasz_jo)
   }
 
-  const valaszEllenorzes = (valasz) => {
-    if(valasz == joValasz) { Alert.alert('','Jó válasz') }
-    else { Alert.alert('','Rossz válasz')} 
-    ujKerdes()
+  const valaszEllenorzes = async (valasz) => {
+    if(valasz == joValasz) {
+      setPontok(pontok+1)
+      Alert.alert('','Jó válasz', [{text: 'OK', onPress: () => koviKerdes(pontok+1)}])
+    }
+    else { Alert.alert('','Rossz válasz', [{text: 'OK', onPress: () => koviKerdes(pontok)}])}
+  }
+
+  const koviKerdes = (eredmeny) =>{
+    if(kerdesSzam < kerdesekDb) {
+      let kovi_index = kerdesSzam
+      setKerdesSzam(kerdesSzam+1)
+      kerdesBetolt(kerdesek[kovi_index])
+    }
+    else { Alert.alert('Kvíz vége', `Eredmény: ${eredmeny}/${kerdesekDb}`, [
+      {
+        text: 'OK',
+        onPress: () => navigation.goBack()
+      }
+    ])}
   }
 
   return (
     <View style={styles.container}>
-      <Button title='Új kérdés' onPress={async () => ujKerdes()}/>
+      <Text>{kerdesSzam}/{kerdesekDb} Kérdés</Text>
       <Text>{kerdes}</Text>
       <View style={styles.valaszok}>
         {valaszok.map((valasz, k) => <Button key={k} title={valasz} onPress={() => valaszEllenorzes(valasz)}/>)}
