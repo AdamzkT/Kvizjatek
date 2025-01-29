@@ -32,7 +32,7 @@ export default function FooldalScreen({navigation}) {
     return (
         <View style={styles.container}>
             <Pressable  style={[styles.gomb, nyomKviz ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
-                        onPressIn={() => setNyomKviz(true)} onPressOut={() => {setNyomKviz(false), navigation.navigate('Kvíz')}}>
+                        onPressIn={() => setNyomKviz(true)} onPressOut={() => {setNyomKviz(false), navigation.navigate('Kvízek')}}>
                 <Text>Kvíz</Text>
             </Pressable>
             <Pressable  style={[styles.gomb, nyomUjKviz ? {backgroundColor: '#fff00f'} : {backgroundColor: '#00f0f0'}]}
