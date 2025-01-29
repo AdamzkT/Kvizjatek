@@ -1,7 +1,6 @@
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
-const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express()
 const port = 3000
@@ -23,24 +22,7 @@ function kapcsolat()
 
 //----------------------------------------------------------------------------------Authentication----------------------------------------------------------------------------------
 
-// Middleware to parse incoming form data
-app.use(bodyParser.urlencoded({ extended: true }));
 
-// Configure session middleware
-app.use(
-  session({
-    secret: 'your-secret-key', // Replace with a strong, unique secret
-    resave: false,             // Prevents resaving sessions that haven't changed
-    saveUninitialized: false,  // Don't create sessions for unauthenticated users
-    cookie: {
-      httpOnly: true,          // Helps prevent XSS attacks
-      secure: false,           // Set to true if using HTTPS
-      maxAge: 1000 * 60 * 30,  // Session expires after 30 minutes
-    },
-  })
-);
-
-app.use(express.static('public')); // Serve static files, if needed
 
 
 //----------------------------------------------------------------------------------GET----------------------------------------------------------------------------------
@@ -491,8 +473,6 @@ app.post('/admin_bejelentkezes', (req, res) => {
                 console.log(rows)
                 console.log("Sikeres bejelentkezés!")
                 res.status(200).send("Sikeres bejelentkezés!")
-                req.session.user = { id: rows[0].felhasznalo_email, nev: rows[0].felhasznalo_nev };
-                res.redirect('/dashboard'); // Redirect to a protected page
             }
         }
     })
