@@ -32,25 +32,3 @@ async function bejelentkezes_fetch() {
         document.getElementById("hiba_uzenet").innerHTML = "Hibás felhasználó név vagy jelszó!";
     }
 }
-/*async function bejelentkezes_fetch() {
-    let x = await fetch("http://localhost:3000/admin_bejelentkezes",{
-        method: "POST",
-        body: JSON.stringify({
-            "felhasznalo_nev":admin_nev,
-            "felhasznalo_jelszo":admin_jelszo
-        }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-    });
-    let y = await x.json();
-
-    console.log(y)
-    bejelentkezes(y)
-}
-
-const bejelentkezes = (y) => {
-    if(y == "Sikeres bejelentkezés!") {
-        window.location.href = "kvizek.html"
-    } else {
-        document.getElementById("hiba_uzenet").innerHTML = y
-    }
-}*/
