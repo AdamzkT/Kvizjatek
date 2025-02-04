@@ -1,4 +1,4 @@
-import { Alert, Button, StyleSheet, Text, View } from 'react-native';
+import { Alert, Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import Ipcim from '../Ipcim';
 import { useEffect, useState } from 'react';
 
@@ -11,6 +11,7 @@ export default function KvizScreen({navigation, route}) {
   const [valaszok,setValaszok] = useState([]);
   const [joValasz,setJoValasz] = useState("");
   const [pontok, setPontok] = useState(0);
+  const [gombSzinek, setGombSzinek] = useState(["lightblue","lightblue","lightblue","lightblue"])
 
   const keveres = (adatok) => {
     let sorrend = []
@@ -52,12 +53,26 @@ export default function KvizScreen({navigation, route}) {
     setJoValasz(kerdes.valasz_jo)
   }
 
-  const valaszEllenorzes = async (valasz) => {
-    if(valasz == joValasz) {
-      setPontok(pontok+1)
-      Alert.alert('','Jó válasz', [{text: 'OK', onPress: () => koviKerdes(pontok+1)}])
+  const valaszEllenorzes = async (valasz, gombId) => {
+    if (valasz == joValasz) {
+      let ujGombSzinek = [...gombSzinek];
+      ujGombSzinek[gombId] = "lightgreen";
+      setGombSzinek(ujGombSzinek);
+      setPontok(pontok + 1);
+      setTimeout(() => {
+        Alert.alert('','Jó válasz', [{text: 'OK', onPress: () => koviKerdes(pontok + 1)}]);
+      }, 1000);
     }
-    else { Alert.alert('','Rossz válasz', [{text: 'OK', onPress: () => koviKerdes(pontok)}])}
+    else {
+      let joIndex = valaszok.indexOf(joValasz);
+      let ujGombSzinek = [...gombSzinek];
+      ujGombSzinek[gombId] = "pink";
+      ujGombSzinek[joIndex] = "lightgreen";
+      setGombSzinek(ujGombSzinek);
+      setTimeout(() => {
+        Alert.alert('','Rossz válasz', [{text: 'OK', onPress: () => koviKerdes(pontok)}]);
+      }, 1000);
+    }
   }
 
   const koviKerdes = (eredmeny) =>{
@@ -65,6 +80,7 @@ export default function KvizScreen({navigation, route}) {
       let kovi_index = kerdesSzam
       setKerdesSzam(kerdesSzam+1)
       kerdesBetolt(kerdesek[kovi_index])
+      setGombSzinek(["lightblue","lightblue","lightblue","lightblue"])
     }
     else { Alert.alert('Kvíz vége', `Eredmény: ${eredmeny}/${kerdesekDb}`, [
       {
@@ -79,7 +95,11 @@ export default function KvizScreen({navigation, route}) {
       <Text>{kerdesSzam}/{kerdesekDb} Kérdés</Text>
       <Text>{kerdes}</Text>
       <View style={styles.valaszok}>
-        {valaszok.map((valasz, k) => <Button key={k} title={valasz} onPress={() => valaszEllenorzes(valasz)}/>)}
+        {valaszok.map((valasz, k) =>
+        <Pressable style={[styles.gomb, {backgroundColor: `${gombSzinek[k]}`}]} key={k} onPress={() => valaszEllenorzes(valasz, k)}>
+          <Text>{valasz}</Text>
+        </Pressable>
+        )}
       </View>
     </View>
   );
@@ -95,5 +115,15 @@ const styles = StyleSheet.create({
   valaszok: {
     width: "100%",
     borderWidth: 1,
+    borderColor: "lightgray",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  gomb: {
+    borderRadius: 10,
+    width: "46%",
+    margin: "2%",
+    alignItems: "center",
+    paddingVertical: 25,
   }
 });
