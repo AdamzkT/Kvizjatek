@@ -1,12 +1,17 @@
 const express = require('express')
 const mysql = require('mysql')
 const cors = require('cors')
-const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken')
+const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
 app.use(cors())
 app.use(express.json())
 app.use(express.static('kepek'))
+app.use(bodyParser.json());
+require('dotenv').config(); 
+
+const SECRET_KEY = process.env.SECRET_KEY;
 
 function kapcsolat()
 {
@@ -19,10 +24,6 @@ function kapcsolat()
     
     connection.connect()
 }
-
-//----------------------------------------------------------------------------------Authentication----------------------------------------------------------------------------------
-
-
 
 
 //----------------------------------------------------------------------------------GET----------------------------------------------------------------------------------
@@ -465,15 +466,25 @@ app.post('/admin_bejelentkezes', (req, res) => {
             res.status(500).send("Hiba")
         }
         else{
-            if (rows.length == 0) {
+            if (rows.length === 0) {
                 console.log("Hibás felhasználó név vagy jelszó!")
-                res.status(200).send("Hibás felhasználó név vagy jelszó!")
+                res.status(401).send("Hibás felhasználó név vagy jelszó!")
             }
             else{
-                console.log(rows)
-                console.log("Sikeres bejelentkezés!")
-                res.status(200).send("Sikeres bejelentkezés!")
+                const felhasznalo = rows[0]; // Get user details
+                console.log("Sikeres bejelentkezés!");
+        
+                // Create JWT token (valid for 1 hour)
+                const token = jwt.sign(
+                    { felhasznalo_nev: felhasznalo.felhasznalo_nev },
+                    SECRET_KEY,
+                    { expiresIn: '1h' }
+                );
+        
+                // Return token in the response
+                res.status(200).json({ message: "Sikeres bejelentkezés!", token });
             }
+
         }
     })
 

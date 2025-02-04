@@ -18,7 +18,7 @@ let navbar = `
 
 
             <li class="nav-item">
-                <a class="nav-link nav_kijelentkezes" href="bejelentkezes.html">Kijelentkezés</a>
+                <a class="nav-link nav_kijelentkezes" href="#" id="kijelentkezes">Kijelentkezés</a>
             </li>
         </ul>
     </div>
