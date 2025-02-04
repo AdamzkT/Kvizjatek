@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 04. 13:10
+-- Létrehozás ideje: 2025. Feb 04. 13:24
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -62,10 +62,24 @@ CREATE TABLE `kategoriak` (
 --
 
 INSERT INTO `kategoriak` (`kategoria_id`, `kategoria_nev`) VALUES
-(1, '-'),
 (2, 'Történelem'),
 (3, 'Természet'),
-(4, 'Irodalom');
+(4, 'Irodalom'),
+(5, 'Sport'),
+(6, 'Tudomány'),
+(7, 'Filmek'),
+(8, 'Földrajz'),
+(9, 'Gasztronómia'),
+(10, 'Zene'),
+(11, 'Művészet'),
+(12, 'Technológia'),
+(13, 'Kultúra'),
+(14, 'Állatok'),
+(15, 'Játékok'),
+(16, 'Anime'),
+(17, 'Rajzfilmek'),
+(18, 'Egyéb'),
+(19, 'Képregények');
 
 -- --------------------------------------------------------
 
@@ -150,9 +164,9 @@ CREATE TABLE `kvizek` (
 --
 
 INSERT INTO `kvizek` (`kviz_id`, `felhasznalo_email`, `kviz_nev`, `kategoria_id`, `kviz_leiras`) VALUES
-(1, 'valaki@gmail.com', 'Teszt kvíz', 1, 'Első kvíz tesztelésre'),
+(1, 'valaki@gmail.com', 'Teszt kvíz', 18, 'Első kvíz tesztelésre'),
 (2, 'valaki@gmail.com', 'Világtörténelem', 2, 'Teszteld a tudásod a világ történelméről.'),
-(26, 'valaki@gmail.com', 'Garfield kvíz', 1, 'Egy kvíz Garfieldról. A ChatGPT segítségével készítettem.'),
+(26, 'valaki@gmail.com', 'Garfield kvíz', 19, 'Egy kvíz Garfieldról. A ChatGPT segítségével készítettem.'),
 (27, 'valaki@gmail.com', 'Magyar Irodalom Kvíz', 4, 'Kérdések Magyar Irodalommal kapcsolatban');
 
 -- --------------------------------------------------------
@@ -229,7 +243,7 @@ ALTER TABLE `visszajelzesek`
 -- AUTO_INCREMENT a táblához `kategoriak`
 --
 ALTER TABLE `kategoriak`
-  MODIFY `kategoria_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `kategoria_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT a táblához `kerdesek`

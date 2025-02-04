@@ -79,6 +79,12 @@ app.get('/kategoriak', (req, res) => {
 
     connection.query(`
         SELECT * FROM kategoriak
+        ORDER BY 
+        CASE 
+            WHEN kategoria_nev = 'Egyéb' THEN 1
+            ELSE 0
+        END,
+        kategoria_nev;
         `, (err, rows, fields) => {
         if (err)
         {
