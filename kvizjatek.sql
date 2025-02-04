@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 04. 13:10
+-- Létrehozás ideje: 2025. Feb 04. 13:30
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -62,10 +62,24 @@ CREATE TABLE `kategoriak` (
 --
 
 INSERT INTO `kategoriak` (`kategoria_id`, `kategoria_nev`) VALUES
-(1, '-'),
 (2, 'Történelem'),
 (3, 'Természet'),
-(4, 'Irodalom');
+(4, 'Irodalom'),
+(5, 'Sport'),
+(6, 'Tudomány'),
+(7, 'Filmek'),
+(8, 'Földrajz'),
+(9, 'Gasztronómia'),
+(10, 'Zene'),
+(11, 'Művészet'),
+(12, 'Technológia'),
+(13, 'Kultúra'),
+(14, 'Állatok'),
+(15, 'Játékok'),
+(16, 'Anime'),
+(17, 'Rajzfilmek'),
+(18, 'Egyéb'),
+(19, 'Képregények');
 
 -- --------------------------------------------------------
 
@@ -129,7 +143,32 @@ INSERT INTO `kerdesek` (`kerdes_id`, `kviz_id`, `kerdes`, `valasz_jo`, `valasz_r
 (66, 27, 'Ki a Ludas Matyi írója?', 'Fazekas Mihály', 'Petőfi Sándor', 'Arany János', 'Mikszáth Kálmán'),
 (67, 27, 'Melyik mű írta meg az 1848-49-es szabadságharc történetét?', 'A kőszívű ember fiai', 'Légy jó mindhalálig', 'Egri csillagok', 'Kincskereső kisködmön'),
 (68, 27, 'Ki írta a „Szindbád” novellákat?', 'Krúdy Gyula', 'Móricz Zsigmond', 'Kosztolányi Dezső', 'Babits Mihály'),
-(69, 27, 'Ki volt a „Toldi” című elbeszélő költemény szerzője?', 'Arany János', 'Jókai Mór', 'Petőfi Sándor', 'Vörösmarty Mihály');
+(69, 27, 'Ki volt a „Toldi” című elbeszélő költemény szerzője?', 'Arany János', 'Jókai Mór', 'Petőfi Sándor', 'Vörösmarty Mihály'),
+(70, 28, 'Ki a híres „Thriller” című dal előadója?', 'Michael Jackson', 'Prince', 'Madonna', 'Elvis Presley'),
+(71, 28, 'Melyik zenekar adta ki a „Bohemian Rhapsody”-t?', 'Queen', 'The Beatles', 'Led Zeppelin', 'Pink Floyd'),
+(72, 28, 'Hány húrja van egy átlagos gitárnak?', '6', '4', '8', '12'),
+(73, 28, 'Melyik hangszert szokták ütővel megszólaltatni?', 'Dob', 'Zongora', 'Gitár', 'Fuvola'),
+(74, 28, 'Melyik zenei műfaj származik Jamaikából?', 'Reggae', 'Rock', 'Jazz', 'Blues'),
+(75, 29, 'Melyik cég készítette az első kereskedelmi elektromos autót?', 'Tesla', 'Nissan', 'BMW', 'Mercedes'),
+(76, 29, 'Melyik évben jelent meg az első iPhone?', '2007', '2005', '2009', '2011'),
+(77, 29, 'Melyik technológia felelős a kriptovaluták működéséért?', 'Blockchain', 'AI', 'Big Data', 'IoT'),
+(78, 29, 'Melyik böngészőt fejlesztette a Google?', 'Chrome', 'Firefox', 'Safari', 'Opera'),
+(79, 29, 'Melyik a világ legnagyobb közösségi média platformja?', 'Facebook', 'Instagram', 'Twitter', 'Snapchat'),
+(80, 30, 'Ki festette a „Csillagos éj” című festményt?', 'Vincent van Gogh', 'Pablo Picasso', 'Leonardo da Vinci', 'Claude Monet'),
+(81, 30, 'Melyik stílus kapcsolódik Salvador Dalíhoz?', 'Szürrealizmus', 'Kubizmus', 'Barokk', 'Impresszionizmus'),
+(82, 30, 'Melyik ország híres a szamuráj művészetéről?', 'Japán', 'Kína', 'Korea', 'Thaiföld'),
+(83, 30, 'Ki alkotta meg a Mona Lisát?', 'Leonardo da Vinci', 'Michelangelo', 'Raphael', 'Donatello'),
+(84, 30, 'Melyik múzeumban található a Louvre?', 'Párizs', 'Róma', 'Madrid', 'Berlin'),
+(85, 31, 'Melyik ország híres az olívaolajáról?', 'Olaszország', 'Franciaország', 'Németország', 'Ausztria'),
+(86, 31, 'Mi a sushi alapvető összetevője?', 'Rizs', 'Tészta', 'Kenyér', 'Kukorica'),
+(87, 31, 'Melyik gyümölcsből készül a guacamole?', 'Avokádó', 'Banán', 'Alma', 'Szőlő'),
+(88, 31, 'Melyik fűszer színe piros?', 'Paprika', 'Bors', 'Kardamom', 'Sáfrány'),
+(89, 31, 'Melyik étel mexikói eredetű?', 'Taco', 'Sushi', 'Pizza', 'Baguette'),
+(90, 32, 'Melyik állat a leggyorsabb a szárazföldön?', 'Gepárd', 'Oroszlán', 'Zebra', 'Gorilla'),
+(91, 32, 'Melyik madár nem tud repülni?', 'Pingvin', 'Sas', 'Galamb', 'Hattyú'),
+(92, 32, 'Melyik állat ismert a hosszú nyakáról?', 'Zsiráf', 'Elefánt', 'Tigris', 'Puma'),
+(93, 32, 'Melyik állat él a sarkvidéken?', 'Jegesmedve', 'Oroszlán', 'Gepárd', 'Elefánt'),
+(94, 32, 'Melyik állatnak van csíkos bundája?', 'Tigris', 'Puma', 'Jaguar', 'Gorilla');
 
 -- --------------------------------------------------------
 
@@ -150,10 +189,15 @@ CREATE TABLE `kvizek` (
 --
 
 INSERT INTO `kvizek` (`kviz_id`, `felhasznalo_email`, `kviz_nev`, `kategoria_id`, `kviz_leiras`) VALUES
-(1, 'valaki@gmail.com', 'Teszt kvíz', 1, 'Első kvíz tesztelésre'),
+(1, 'valaki@gmail.com', 'Teszt kvíz', 18, 'Első kvíz tesztelésre'),
 (2, 'valaki@gmail.com', 'Világtörténelem', 2, 'Teszteld a tudásod a világ történelméről.'),
-(26, 'valaki@gmail.com', 'Garfield kvíz', 1, 'Egy kvíz Garfieldról. A ChatGPT segítségével készítettem.'),
-(27, 'valaki@gmail.com', 'Magyar Irodalom Kvíz', 4, 'Kérdések Magyar Irodalommal kapcsolatban');
+(26, 'valaki@gmail.com', 'Garfield kvíz', 19, 'Egy kvíz Garfieldról. A ChatGPT segítségével készítettem.'),
+(27, 'valaki@gmail.com', 'Magyar Irodalom Kvíz', 4, 'Kérdések Magyar Irodalommal kapcsolatban'),
+(28, 'dan@gmail.com', 'Zenei Kvíz', 10, 'Mennyire ismered a zenét? Teszteld a tudásod!'),
+(29, 'joe@gmail.com', 'Technológiai Újdonságok', 12, 'Kérdések a technológia világából.'),
+(30, 'valaki@gmail.com', 'Művészet Kvíz', 11, 'Mennyit tudsz híres festményekről és művészekről?'),
+(31, 'dan@gmail.com', 'Gasztronómia Teszt', 9, 'Mennyire ismered az ételeket és ízeket?'),
+(32, 'joe@gmail.com', 'Állatok Világa', 14, 'Érdekes kérdések az állatvilágról.');
 
 -- --------------------------------------------------------
 
@@ -229,19 +273,19 @@ ALTER TABLE `visszajelzesek`
 -- AUTO_INCREMENT a táblához `kategoriak`
 --
 ALTER TABLE `kategoriak`
-  MODIFY `kategoria_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `kategoria_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT a táblához `kerdesek`
 --
 ALTER TABLE `kerdesek`
-  MODIFY `kerdes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `kerdes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT a táblához `kvizek`
 --
 ALTER TABLE `kvizek`
-  MODIFY `kviz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `kviz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT a táblához `visszajelzesek`

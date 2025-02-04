@@ -12,8 +12,10 @@ const kategoriak_db_megjelenites = (adatok) => {
     let kategoria_db = []
 
     for (const item of adatok) {
-        kategoria_nevek.push(item.kategoria_nev)
-        kategoria_db.push(item.db)
+        if (item.db > 0) {
+            kategoria_nevek.push(item.kategoria_nev)
+            kategoria_db.push(item.db)
+        }
     }
 
     let kategoriak_adatok = [{
