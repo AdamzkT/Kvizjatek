@@ -28,6 +28,7 @@ function kapcsolat()
 
 //-------------------------------------------------------------GET-------------------------------------------------------------
 
+//-------------------------------------------------------------Megjelenítés-------------------------------------------------------------
 app.get('/kerdesek', (req, res) => {
     kapcsolat()
 
@@ -203,6 +204,7 @@ app.get('/felhasznalok', (req, res) => {
 })
 
 
+//-------------------------------------------------------------Keresés-------------------------------------------------------------
 app.get('/kvizek_kereses/:keresett', (req, res) => {
     kapcsolat()
 
@@ -271,6 +273,7 @@ app.get('/visszajelzesek_szures/:keresett/:sorrend', (req, res) => {
 
 //-------------------------------------------------------------POST-------------------------------------------------------------
 
+//-------------------------------------------------------------Szűrés-------------------------------------------------------------
 app.post('/kvizek_szures', (req, res) => {
     kapcsolat()
 
@@ -303,6 +306,8 @@ app.post('/kvizek_szures', (req, res) => {
     connection.end() 
 })
 
+
+//-------------------------------------------------------------Felvitel-------------------------------------------------------------
 app.post('/kviz_felvitel',  (req, res) => {
     kapcsolat()
 
@@ -365,34 +370,6 @@ app.post('/kerdes_felvitel',  (req, res) => {
 })
 
 
-//Egy adott id-val rendelkező kvíz kérdései
-app.post('/kviz_kerdesek', (req, res) => {
-    kapcsolat()
-
-    let parameterek = [
-        req.body.kviz_id
-    ]
-
-    connection.query(`
-        SELECT * FROM kerdesek
-        WHERE kviz_id = ?
-        `, parameterek, (err, rows, fields) => {
-        if (err)
-        {
-            console.log("Hiba")
-            console.log(err)
-            res.status(500).send("Hiba")
-        }
-        else{
-            console.log(rows)
-            res.status(200).send(rows)
-        }
-    })
-
-    connection.end() 
-})
-
-
 app.post('/uzenet_kuldes', (req, res) => {
     kapcsolat()
 
@@ -424,6 +401,89 @@ app.post('/uzenet_kuldes', (req, res) => {
 })
 
 
+//-------------------------------------------------------------Megjelenítés id alapján-------------------------------------------------------------
+app.post('/kviz_kerdesek', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kviz_id
+    ]
+
+    connection.query(`
+        SELECT * FROM kerdesek
+        WHERE kviz_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
+app.post('/kerdes_id_alapjan', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kerdes_id
+    ]
+
+    connection.query(`
+        SELECT * FROM kerdesek
+        WHERE kerdes_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
+app.post('/kviz_id_alapjan', (req, res) => {
+    kapcsolat()
+
+    let parameterek = [
+        req.body.kviz_id
+    ]
+
+    connection.query(`
+        SELECT * FROM kvizek
+        WHERE kviz_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
+//-------------------------------------------------------------Bejelentkezés-------------------------------------------------------------
 app.post('/bejelentkezes', (req, res) => {
     kapcsolat()
 
@@ -498,6 +558,7 @@ app.post('/admin_bejelentkezes', (req, res) => {
 })
 
 
+//-------------------------------------------------------------Regisztráció-------------------------------------------------------------
 app.post('/regisztracio', (req, res) => {
     kapcsolat()
 
@@ -527,6 +588,7 @@ app.post('/regisztracio', (req, res) => {
 })
 
 
+//email ellenőrzése
 app.post('/regisztracio_email', (req, res) => {
     kapcsolat()
 
@@ -553,6 +615,8 @@ app.post('/regisztracio_email', (req, res) => {
     connection.end() 
 })
 
+
+//felhasználó név ellenőrzése
 app.post('/regisztracio_felhasznalo', (req, res) => {
     kapcsolat()
 
@@ -579,60 +643,8 @@ app.post('/regisztracio_felhasznalo', (req, res) => {
     connection.end() 
 })
 
-app.post('/kerdes_id_alapjan', (req, res) => {
-    kapcsolat()
 
-    let parameterek = [
-        req.body.kerdes_id
-    ]
-
-    connection.query(`
-        SELECT * FROM kerdesek
-        WHERE kerdes_id = ?
-        `, parameterek, (err, rows, fields) => {
-        if (err)
-        {
-            console.log("Hiba")
-            console.log(err)
-            res.status(500).send("Hiba")
-        }
-        else{
-            console.log(rows)
-            res.status(200).send(rows)
-        }
-    })
-
-    connection.end() 
-})
-
-
-app.post('/kviz_id_alapjan', (req, res) => {
-    kapcsolat()
-
-    let parameterek = [
-        req.body.kviz_id
-    ]
-
-    connection.query(`
-        SELECT * FROM kvizek
-        WHERE kviz_id = ?
-        `, parameterek, (err, rows, fields) => {
-        if (err)
-        {
-            console.log("Hiba")
-            console.log(err)
-            res.status(500).send("Hiba")
-        }
-        else{
-            console.log(rows)
-            res.status(200).send(rows)
-        }
-    })
-
-    connection.end() 
-})
-
-
+//-------------------------------------------------------------Keresés-------------------------------------------------------------
 app.post('/kerdesek_kereses/:keresett', (req, res) => {
     kapcsolat()
 
@@ -667,6 +679,7 @@ app.post('/kerdesek_kereses/:keresett', (req, res) => {
 
 //-------------------------------------------------------------PUT-------------------------------------------------------------
 
+//-------------------------------------------------------------Módosítás-------------------------------------------------------------
 app.put('/kerdes_modositas', (req, res) => {
     kapcsolat()
 
@@ -765,6 +778,7 @@ app.put('/visszajelzesek_megoldva_valtas', (req, res) => {
 
 //-------------------------------------------------------------DELETE-------------------------------------------------------------
 
+//-------------------------------------------------------------Törlés-------------------------------------------------------------
 app.delete('/kerdesek_torles', (req, res) => {
     kapcsolat()
 
