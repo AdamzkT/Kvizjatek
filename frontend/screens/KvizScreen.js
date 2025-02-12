@@ -14,6 +14,9 @@ export default function KvizScreen({navigation, route}) {
   const [gombSzinek, setGombSzinek] = useState(["lightblue","lightblue","lightblue","lightblue"]);
   const [gombKapcsolo, setGombKapcsolo] = useState(false);
   const [koviKerdesKapcsolo, setKoviKerdesKapcsolo] = useState(true);
+  const [maxMasodperc, setMaxMasodperc] = useState(15)
+  const [masodperc, setMasodperc] = useState(0);
+  const [idozito, setIdozito] = useState(false);
 
   const keveres = (adatok) => {
     let sorrend = []
@@ -53,10 +56,26 @@ export default function KvizScreen({navigation, route}) {
     let valaszok = await keveres([kerdes.valasz_jo, kerdes.valasz_rossz1, kerdes.valasz_rossz2, kerdes.valasz_rossz3])
     setValaszok(valaszok)
     setJoValasz(kerdes.valasz_jo)
+    setMasodperc(maxMasodperc)
+    setIdozito(true);
   }
+
+  useEffect(() => {
+    if(idozito == true){
+      if(masodperc > 0){
+        const timer = setInterval(() => {
+          setMasodperc(masodperc-(maxMasodperc/50));
+        }, maxMasodperc/50*1000);
+    
+        return () => clearInterval(timer)
+      }
+      else { valaszEllenorzes("0"+joValasz,-1) }
+    }
+  },[masodperc, idozito])
 
   const valaszEllenorzes = async (valasz, gombId) => {
     setGombKapcsolo(true);
+    setIdozito(false);
     if (valasz == joValasz) {
       let ujGombSzinek = [...gombSzinek];
       ujGombSzinek[gombId] = "lightgreen";
@@ -69,7 +88,12 @@ export default function KvizScreen({navigation, route}) {
     else {
       let joIndex = valaszok.indexOf(joValasz);
       let ujGombSzinek = [...gombSzinek];
-      ujGombSzinek[gombId] = "pink";
+      if(gombId != -1) { ujGombSzinek[gombId] = "pink"; }
+      else{
+        for (let i = 0; i < 4; i++) {
+          ujGombSzinek[i] = "pink";
+        }
+      }
       ujGombSzinek[joIndex] = "lightgreen";
       setGombSzinek(ujGombSzinek);
       setTimeout(() => {
@@ -99,6 +123,9 @@ export default function KvizScreen({navigation, route}) {
     <View style={styles.container}>
       <Text>{kerdesSzam}/{kerdesekDb} Kérdés</Text>
       <Text>{kerdes}</Text>
+      <View style={{borderColor: "black", borderWidth: 1, borderStyle: "solid", width: "90%"}}>
+        <View style={{backgroundColor: "gray", width: 100*masodperc/maxMasodperc + "%", height: 30}}/>
+      </View>
       <View style={styles.valaszok}>
         {valaszok.map((valasz, k) =>
         <Pressable disabled={gombKapcsolo} style={[styles.gomb, {backgroundColor: `${gombSzinek[k]}`}]} key={k} onPress={() => valaszEllenorzes(valasz, k)}>
