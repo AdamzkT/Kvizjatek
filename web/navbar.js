@@ -10,6 +10,9 @@ let navbar = `
                 <a class="nav-link" href="kvizek.html">Kvízek</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="kategoriak.html">Kategóriák</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="visszajelzesek.html">Visszajelzések</a>
             </li>
             <li class="nav-item">

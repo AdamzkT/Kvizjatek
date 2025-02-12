@@ -1,8 +1,8 @@
-//-----------------------------------------------------------------------------------------Megjelenítés-----------------------------------------------------------------------------------------
+//--------------------------------------------------------Megjelenítés--------------------------------------------------------
 var adatok = []
 var sorrend = "ASC"
 
-async function visszajelzesek_fetch() {
+const visszajelzesek_fetch = async () => {
     let x = await fetch("http://localhost:3000/visszajelzesek/" + sorrend);
     let y = await x.json();
     visszajelzesek_megjelenit(y);
@@ -36,7 +36,7 @@ const visszajelzesek_megjelenit = (y) =>{
 }
 
 
-//-----------------------------------------------------------------------------------------Szűrés-----------------------------------------------------------------------------------------
+//--------------------------------------------------------Szűrés--------------------------------------------------------
 const visszajelzesek_szures_ellenorzes = () =>
 {
     let keresett = document.getElementById("visszajelzes_tipusok").value;
@@ -49,14 +49,14 @@ const visszajelzesek_szures_ellenorzes = () =>
     visszajelzesek_szures(keresett);
 }
 
-async function visszajelzesek_szures(keresett) {
+const visszajelzesek_szures = async (keresett) => {
     let x = await fetch(`http://localhost:3000/visszajelzesek_szures/${keresett}/${sorrend}`);
     let y = await x.json();
     visszajelzesek_megjelenit(y);
 }
 
 
-//-----------------------------------------------------------------------------------------Modal csere-----------------------------------------------------------------------------------------
+//--------------------------------------------------------Modal csere--------------------------------------------------------
 const modal_csere = (id) => {
     const item = adatok.find(i => i.visszajelzes_id == id);
     document.getElementById("modal_fej_cim").innerHTML = item.visszajelzes_tema;
@@ -88,8 +88,8 @@ const modal_csere = (id) => {
 }
 
 
-//------------------------------------------------------------------------------------Visszajelzések megoldása------------------------------------------------------------------------------------
-async function visszajelzesek_megoldva_valtas(id) {
+//--------------------------------------------------------Visszajelzések megoldása--------------------------------------------------------
+const visszajelzesek_megoldva_valtas = async (id) => {
     let x = await fetch("http://localhost:3000/visszajelzesek_megoldva_valtas",{
         method: "PUT",
         body: JSON.stringify({
@@ -104,7 +104,7 @@ async function visszajelzesek_megoldva_valtas(id) {
 }
 
 
-//-----------------------------------------------------------------------------------------Sorrend-----------------------------------------------------------------------------------------
+//--------------------------------------------------------Sorrend--------------------------------------------------------
 let sortAscending = true;
 const sorrend_valtas = () => {
     // Toggle the sort order
