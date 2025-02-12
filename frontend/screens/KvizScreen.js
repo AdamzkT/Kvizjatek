@@ -11,7 +11,9 @@ export default function KvizScreen({navigation, route}) {
   const [valaszok,setValaszok] = useState([]);
   const [joValasz,setJoValasz] = useState("");
   const [pontok, setPontok] = useState(0);
-  const [gombSzinek, setGombSzinek] = useState(["lightblue","lightblue","lightblue","lightblue"])
+  const [gombSzinek, setGombSzinek] = useState(["lightblue","lightblue","lightblue","lightblue"]);
+  const [gombKapcsolo, setGombKapcsolo] = useState(false);
+  const [koviKerdesKapcsolo, setKoviKerdesKapcsolo] = useState(true);
 
   const keveres = (adatok) => {
     let sorrend = []
@@ -54,14 +56,15 @@ export default function KvizScreen({navigation, route}) {
   }
 
   const valaszEllenorzes = async (valasz, gombId) => {
+    setGombKapcsolo(true);
     if (valasz == joValasz) {
       let ujGombSzinek = [...gombSzinek];
       ujGombSzinek[gombId] = "lightgreen";
       setGombSzinek(ujGombSzinek);
       setPontok(pontok + 1);
       setTimeout(() => {
-        Alert.alert('','Jó válasz', [{text: 'OK', onPress: () => koviKerdes(pontok + 1)}]);
-      }, 1000);
+        setKoviKerdesKapcsolo(false)
+      }, 800);
     }
     else {
       let joIndex = valaszok.indexOf(joValasz);
@@ -70,8 +73,8 @@ export default function KvizScreen({navigation, route}) {
       ujGombSzinek[joIndex] = "lightgreen";
       setGombSzinek(ujGombSzinek);
       setTimeout(() => {
-        Alert.alert('','Rossz válasz', [{text: 'OK', onPress: () => koviKerdes(pontok)}]);
-      }, 1000);
+        setKoviKerdesKapcsolo(false)
+      }, 800);
     }
   }
 
@@ -81,6 +84,8 @@ export default function KvizScreen({navigation, route}) {
       setKerdesSzam(kerdesSzam+1)
       kerdesBetolt(kerdesek[kovi_index])
       setGombSzinek(["lightblue","lightblue","lightblue","lightblue"])
+      setGombKapcsolo(false)
+      setKoviKerdesKapcsolo(true)
     }
     else { Alert.alert('Kvíz vége', `Eredmény: ${eredmeny}/${kerdesekDb}`, [
       {
@@ -96,11 +101,12 @@ export default function KvizScreen({navigation, route}) {
       <Text>{kerdes}</Text>
       <View style={styles.valaszok}>
         {valaszok.map((valasz, k) =>
-        <Pressable style={[styles.gomb, {backgroundColor: `${gombSzinek[k]}`}]} key={k} onPress={() => valaszEllenorzes(valasz, k)}>
+        <Pressable disabled={gombKapcsolo} style={[styles.gomb, {backgroundColor: `${gombSzinek[k]}`}]} key={k} onPress={() => valaszEllenorzes(valasz, k)}>
           <Text>{valasz}</Text>
         </Pressable>
         )}
       </View>
+      <Button disabled={koviKerdesKapcsolo} title='->' onPress={() => koviKerdes(pontok)}/>
     </View>
   );
 }
