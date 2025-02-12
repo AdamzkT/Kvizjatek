@@ -190,7 +190,7 @@ const kviz_uzenet_eltuntetes = () => {
 }
 
 
-//---------------------------------------------chatGPT---------------------------------------------
+//---------------------------------------------Paraméter továbbadása másik html oldalra (chatGPT-vel)---------------------------------------------
 const getQueryParam_kviz_modositas = (param) => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
