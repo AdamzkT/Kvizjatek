@@ -1,5 +1,5 @@
-//-------------------------------------------------------------------------------------Kvízek kategóriánként-------------------------------------------------------------------------------------
-async function kategoriak_db_fetch() {
+//--------------------------------------------------------Kvízek kategóriánként--------------------------------------------------------
+const kategoriak_db_fetch = async () => {
     let x = await fetch("http://localhost:3000/kategoriak_db");
     let y = await x.json();
     console.log(y)

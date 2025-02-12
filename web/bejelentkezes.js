@@ -7,7 +7,7 @@ const bejelentkezes_ellenorzes = () => {
     bejelentkezes_fetch()
 }
 
-async function bejelentkezes_fetch() {
+const bejelentkezes_fetch = async () => {
     try {
         let response = await fetch("http://localhost:3000/admin_bejelentkezes", {
             method: "POST",

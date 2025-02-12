@@ -1,7 +1,7 @@
-//-----------------------------------------------------------------------------------------Megjelenítés-----------------------------------------------------------------------------------------
+//--------------------------------------------------------Megjelenítés--------------------------------------------------------
 var adatok = []
 
-async function kerdesek_fetch(kviz_id) {
+const kerdesek_fetch = async (kviz_id) => {
     let x = await fetch("http://localhost:3000/kviz_kerdesek",{
         method: "POST",
         body: JSON.stringify({
@@ -43,8 +43,8 @@ const kerdesek_megjelenit = (y) => {
 }
 
 
-//-----------------------------------------------------------------------------------------Törlés-----------------------------------------------------------------------------------------
-async function kerdesek_torles_ellenorzes(id) {
+//--------------------------------------------------------Törlés--------------------------------------------------------
+const kerdesek_torles_ellenorzes = async (id) => {
     let x = await fetch("http://localhost:3000/kerdes_id_alapjan",{
         method: "POST",
         body: JSON.stringify({
@@ -64,7 +64,7 @@ async function kerdesek_torles_ellenorzes(id) {
         <button type="button" class="btn btn-secondary" onclick="kerdes_uzenet_eltuntetes()">Nem</button>
     `
 }
-async function kerdesek_torles(id){
+const kerdesek_torles = async (id) => {
     let x = await fetch("http://localhost:3000/kerdesek_torles",{
         method: "DELETE",
         body: JSON.stringify({
@@ -84,8 +84,8 @@ async function kerdesek_torles(id){
 }
 
 
-//-----------------------------------------------------------------------------------------Módosítás-----------------------------------------------------------------------------------------
-async function kerdes_fetch(kerdes_id) {
+//--------------------------------------------------------Módosítás--------------------------------------------------------
+const kerdes_fetch = async (kerdes_id) => {
     let x = await fetch("http://localhost:3000/kerdes_id_alapjan",{
         method: "POST",
         body: JSON.stringify({
@@ -111,7 +111,7 @@ const kerdes_megjelenit = (adat) => {
     })
 }
 
-async function kerdes_modositas(kerdes_id) {
+const kerdes_modositas = async (kerdes_id) => {
     let x = await fetch("http://localhost:3000/kerdes_modositas",{
         method: "PUT",
         body: JSON.stringify({
@@ -147,7 +147,7 @@ const kerdes_modositas_ellenorzes = (id) => {
 }
 
 
-//-----------------------------------------------------------------------------------------Keresés-----------------------------------------------------------------------------------------
+//--------------------------------------------------------Keresés--------------------------------------------------------
 const kerdesek_kereses_ellenorzes = () =>
 {
     let keresett = document.getElementById("kereses_bemenet").value;
@@ -159,7 +159,7 @@ const kerdesek_kereses_ellenorzes = () =>
     kerdesek_kereses(keresett);
 }
 
-async function kerdesek_kereses(keresett) {
+const kerdesek_kereses = async (keresett) => {
     let x = await fetch("http://localhost:3000/kerdesek_kereses/" + keresett, {
         method: "POST",
         body: JSON.stringify({
@@ -172,7 +172,7 @@ async function kerdesek_kereses(keresett) {
 }
 
 
-//-----------------------------------------------------------------------------------------Egyéb-----------------------------------------------------------------------------------------
+//--------------------------------------------------------Egyéb--------------------------------------------------------
 const kerdes_uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
     uzenet_ablak.style.display = "none"
@@ -182,7 +182,7 @@ const kerdes_uzenet_eltuntetes = () => {
 
 
 
-//-----------------------------------------------------------------------------------------chatGPT-----------------------------------------------------------------------------------------
+//--------------------------------------------------------chatGPT--------------------------------------------------------
 const getQueryParam_kviz = (param) => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
