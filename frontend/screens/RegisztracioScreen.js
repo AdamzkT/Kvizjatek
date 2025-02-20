@@ -36,22 +36,22 @@ export default function RegisztracioScreen({navigation}) {
       setMegjegyzes('')
       const nevFoglaltE = await felhasznalo_foglalt(felhasznalo);
       const emailFoglaltE = await email_foglalt(email);
-      let jo = true
 
       const emailRegex = /^(?!.*\.\.)[a-zA-Z0-9._%+-]{1,63}[a-zA-Z0-9]@[a-zA-Z0-9](?!.*\.\.)[a-zA-Z0-9-]{0,63}(\.[a-zA-Z]{2,})+$/;
 
-      if (felhasznalo == "" || email == "" || jelszo == "" || jelszo2 == "") { setMegjegyzes("Minden adatot meg kell adni"); jo = false }
+      if (felhasznalo == "" || email == "" || jelszo == "" || jelszo2 == "") { setMegjegyzes("Minden adatot meg kell adni"); }
       // Felhasználó
-      else if (felhasznalo.length < 2 || felhasznalo.length > 20) { setMegjegyzes("Felhasználónév 2-20 karakter hosszú legyen"); jo = false }
-      else if (nevFoglaltE) { setMegjegyzes("Felhasználónév foglalt"); jo = false }
+      else if (felhasznalo.length < 2 || felhasznalo.length > 20) { setMegjegyzes("Felhasználónév 2-20 karakter hosszú legyen"); }
+      else if (nevFoglaltE) { setMegjegyzes("Felhasználónév foglalt"); }
       // Email
-      else if (!emailRegex.test(email)) { setMegjegyzes("Nem megfelelő email formátum"); jo = false }
-      else if (emailFoglaltE) { setMegjegyzes("Foglalt felhasználónév"); jo = false }
+      else if (!emailRegex.test(email)) { setMegjegyzes("Nem megfelelő email formátum"); }
+      else if (emailFoglaltE) { setMegjegyzes("Foglalt felhasználónév"); }
       // Jelszó
-      else if (jelszo.length < 8 || jelszo.length > 64) { setMegjegyzes("Jelszó 8-64 karakter hosszú legyen"); jo = false }
-      else if (jelszo != jelszo2) { setMegjegyzes("Jelszavak nem egyeznek meg"); jo = false }
-      
-      if(jo) { regisztracio(felhasznalo,email,jelszo) }
+      else if (jelszo.length < 8 || jelszo.length > 64) { setMegjegyzes("Jelszó 8-64 karakter hosszú legyen"); }
+      else if (jelszo != jelszo2) { setMegjegyzes("Jelszavak nem egyeznek meg"); }
+      else {
+        regisztracio(felhasznalo,email,jelszo);
+      }
     }
 
     const felhasznalo_foglalt = async (teszt_nev) => {

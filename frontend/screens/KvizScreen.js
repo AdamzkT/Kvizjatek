@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 
 export default function KvizScreen({navigation, route}) {
   const {kvizId} = route.params;
-  const [kerdesek,setKerdesek] = useState([]);
-  const [kerdesekDb, setKerdesekDb] = useState(0);
+  const [kerdesek,setKerdesek] = useState([""]);
   const [kerdesSzam, setKerdesSzam] = useState(1);
   const [kerdes,setKerdes] = useState("");
   const [valaszok,setValaszok] = useState([]);
@@ -14,7 +13,7 @@ export default function KvizScreen({navigation, route}) {
   const [gombSzinek, setGombSzinek] = useState(["lightblue","lightblue","lightblue","lightblue"]);
   const [gombKapcsolo, setGombKapcsolo] = useState(false);
   const [koviKerdesKapcsolo, setKoviKerdesKapcsolo] = useState(true);
-  const [maxMasodperc, setMaxMasodperc] = useState(15)
+  const [maxMasodperc] = useState(15)
   const [masodperc, setMasodperc] = useState(0);
   const [idozito, setIdozito] = useState(false);
 
@@ -43,7 +42,6 @@ export default function KvizScreen({navigation, route}) {
     let y = await x.json()
     let kevert_kerdesek = keveres(y)
     setKerdesek(kevert_kerdesek)
-    setKerdesekDb(y.length)
     kerdesBetolt(kevert_kerdesek[0])
   }
 
@@ -64,12 +62,17 @@ export default function KvizScreen({navigation, route}) {
     if(idozito == true){
       if(masodperc > 0){
         const timer = setInterval(() => {
-          setMasodperc(masodperc-(maxMasodperc/50));
+          let koviMasodperc = masodperc-(maxMasodperc/50)
+          if(koviMasodperc > 0) { setMasodperc(koviMasodperc) }
+          else { setMasodperc(0) }
         }, maxMasodperc/50*1000);
     
         return () => clearInterval(timer)
       }
-      else { valaszEllenorzes("0"+joValasz,-1) }
+      else {
+        setMasodperc(0)
+        valaszEllenorzes("0"+joValasz,-1)
+      }
     }
   },[masodperc, idozito])
 
@@ -103,7 +106,7 @@ export default function KvizScreen({navigation, route}) {
   }
 
   const koviKerdes = (eredmeny) =>{
-    if(kerdesSzam < kerdesekDb) {
+    if(kerdesSzam < kerdesek.length) {
       let kovi_index = kerdesSzam
       setKerdesSzam(kerdesSzam+1)
       kerdesBetolt(kerdesek[kovi_index])
@@ -111,7 +114,7 @@ export default function KvizScreen({navigation, route}) {
       setGombKapcsolo(false)
       setKoviKerdesKapcsolo(true)
     }
-    else { Alert.alert('Kvíz vége', `Eredmény: ${eredmeny}/${kerdesekDb}`, [
+    else { Alert.alert('Kvíz vége', `Eredmény: ${eredmeny}/${kerdesek.length}`, [
       {
         text: 'OK',
         onPress: () => navigation.goBack()
@@ -121,7 +124,7 @@ export default function KvizScreen({navigation, route}) {
 
   return (
     <View style={styles.container}>
-      <Text>{kerdesSzam}/{kerdesekDb} Kérdés</Text>
+      <Text>{kerdesSzam}/{kerdesek.length} Kérdés</Text>
       <Text>{kerdes}</Text>
       <View style={{borderColor: "black", borderWidth: 1, borderStyle: "solid", width: "90%"}}>
         <View style={{backgroundColor: "gray", width: 100*masodperc/maxMasodperc + "%", height: 30}}/>
