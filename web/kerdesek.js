@@ -182,7 +182,7 @@ const kerdes_uzenet_eltuntetes = () => {
 
 
 
-//--------------------------------------------------------Paraméter továbbadása másik html oldalra (chatGPT-vel)--------------------------------------------------------
+//------------------------------------Paraméter továbbadása másik html oldalra (chatGPT-vel)------------------------------------
 const getQueryParam_kviz = (param) => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
