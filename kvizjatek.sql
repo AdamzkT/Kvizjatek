@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 04. 13:30
+-- Létrehozás ideje: 2025. Feb 20. 11:31
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -22,6 +22,19 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `kvizjatek` DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
 USE `kvizjatek`;
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `ertekelesek`
+--
+
+CREATE TABLE `ertekelesek` (
+  `ertekeles_id` int(11) NOT NULL,
+  `ertekeles_felhasznalo` varchar(255) NOT NULL,
+  `ertekeles_kviz` int(11) NOT NULL,
+  `ertekeles_pont` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 -- --------------------------------------------------------
 
@@ -173,6 +186,19 @@ INSERT INTO `kerdesek` (`kerdes_id`, `kviz_id`, `kerdes`, `valasz_jo`, `valasz_r
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `kommentek`
+--
+
+CREATE TABLE `kommentek` (
+  `komment_id` int(11) NOT NULL,
+  `komment_felhasznalo` varchar(255) NOT NULL,
+  `komment_kviz` int(11) NOT NULL,
+  `komment_szoveg` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `kvizek`
 --
 
@@ -207,7 +233,7 @@ INSERT INTO `kvizek` (`kviz_id`, `felhasznalo_email`, `kviz_nev`, `kategoria_id`
 
 CREATE TABLE `visszajelzesek` (
   `visszajelzes_id` int(11) NOT NULL,
-  `felhasznalo_email` varchar(255) NOT NULL,
+  `visszajelzes_felhasznalo` varchar(255) NOT NULL,
   `visszajelzes_datum` datetime NOT NULL,
   `visszajelzes_tema` varchar(50) NOT NULL,
   `visszajelzes_tipus` varchar(255) NOT NULL,
@@ -219,7 +245,7 @@ CREATE TABLE `visszajelzesek` (
 -- A tábla adatainak kiíratása `visszajelzesek`
 --
 
-INSERT INTO `visszajelzesek` (`visszajelzes_id`, `felhasznalo_email`, `visszajelzes_datum`, `visszajelzes_tema`, `visszajelzes_tipus`, `visszajelzes_uzenet`, `visszajelzes_megoldva`) VALUES
+INSERT INTO `visszajelzesek` (`visszajelzes_id`, `visszajelzes_felhasznalo`, `visszajelzes_datum`, `visszajelzes_tema`, `visszajelzes_tipus`, `visszajelzes_uzenet`, `visszajelzes_megoldva`) VALUES
 (1, 'valaki@gmail.com', '2024-11-23 06:20:23', 'tema', 'javaslat', 'uzenet', 0),
 (20, 'dan@gmail.com', '2024-12-05 07:23:32', 'Kevés kategória', 'javaslat', 'Lehetne több kategória, nincs elég', 1),
 (21, 'joe@gmail.com', '2024-12-05 14:14:30', 'Weird bug', 'hiba', 'When I make one answer, all four answers become the same and can\'t make them different. Pls fix asap, can\'t do anything like this', 1),
@@ -230,6 +256,14 @@ INSERT INTO `visszajelzesek` (`visszajelzes_id`, `felhasznalo_email`, `visszajel
 --
 -- Indexek a kiírt táblákhoz
 --
+
+--
+-- A tábla indexei `ertekelesek`
+--
+ALTER TABLE `ertekelesek`
+  ADD PRIMARY KEY (`ertekeles_id`),
+  ADD KEY `ertekeles_felhasznalo` (`ertekeles_felhasznalo`),
+  ADD KEY `ertekeles_kviz` (`ertekeles_kviz`);
 
 --
 -- A tábla indexei `felhasznalok`
@@ -251,6 +285,14 @@ ALTER TABLE `kerdesek`
   ADD KEY `kviz_id` (`kviz_id`);
 
 --
+-- A tábla indexei `kommentek`
+--
+ALTER TABLE `kommentek`
+  ADD PRIMARY KEY (`komment_id`),
+  ADD KEY `komment_felhasznalo` (`komment_felhasznalo`),
+  ADD KEY `komment_kviz` (`komment_kviz`);
+
+--
 -- A tábla indexei `kvizek`
 --
 ALTER TABLE `kvizek`
@@ -263,23 +305,35 @@ ALTER TABLE `kvizek`
 --
 ALTER TABLE `visszajelzesek`
   ADD PRIMARY KEY (`visszajelzes_id`),
-  ADD KEY `felhasznalo_email` (`felhasznalo_email`);
+  ADD KEY `felhasznalo_email` (`visszajelzes_felhasznalo`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
 --
+-- AUTO_INCREMENT a táblához `ertekelesek`
+--
+ALTER TABLE `ertekelesek`
+  MODIFY `ertekeles_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT a táblához `kategoriak`
 --
 ALTER TABLE `kategoriak`
-  MODIFY `kategoria_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `kategoria_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT a táblához `kerdesek`
 --
 ALTER TABLE `kerdesek`
   MODIFY `kerdes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+
+--
+-- AUTO_INCREMENT a táblához `kommentek`
+--
+ALTER TABLE `kommentek`
+  MODIFY `komment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `kvizek`
@@ -298,10 +352,24 @@ ALTER TABLE `visszajelzesek`
 --
 
 --
+-- Megkötések a táblához `ertekelesek`
+--
+ALTER TABLE `ertekelesek`
+  ADD CONSTRAINT `ertekelesek_ibfk_1` FOREIGN KEY (`ertekeles_felhasznalo`) REFERENCES `felhasznalok` (`felhasznalo_email`),
+  ADD CONSTRAINT `ertekelesek_ibfk_2` FOREIGN KEY (`ertekeles_kviz`) REFERENCES `kvizek` (`kviz_id`);
+
+--
 -- Megkötések a táblához `kerdesek`
 --
 ALTER TABLE `kerdesek`
   ADD CONSTRAINT `kerdesek_ibfk_1` FOREIGN KEY (`kviz_id`) REFERENCES `kvizek` (`kviz_id`);
+
+--
+-- Megkötések a táblához `kommentek`
+--
+ALTER TABLE `kommentek`
+  ADD CONSTRAINT `kommentek_ibfk_1` FOREIGN KEY (`komment_kviz`) REFERENCES `kvizek` (`kviz_id`),
+  ADD CONSTRAINT `kommentek_ibfk_2` FOREIGN KEY (`komment_felhasznalo`) REFERENCES `felhasznalok` (`felhasznalo_email`);
 
 --
 -- Megkötések a táblához `kvizek`
@@ -314,7 +382,7 @@ ALTER TABLE `kvizek`
 -- Megkötések a táblához `visszajelzesek`
 --
 ALTER TABLE `visszajelzesek`
-  ADD CONSTRAINT `visszajelzesek_ibfk_1` FOREIGN KEY (`felhasznalo_email`) REFERENCES `felhasznalok` (`felhasznalo_email`);
+  ADD CONSTRAINT `visszajelzesek_ibfk_1` FOREIGN KEY (`visszajelzes_felhasznalo`) REFERENCES `felhasznalok` (`felhasznalo_email`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

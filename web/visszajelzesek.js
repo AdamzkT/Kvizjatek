@@ -25,7 +25,7 @@ const visszajelzesek_megjelenit = (y) =>{
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="visszajelzesek_kartya ${kartya_szin_class}" type="button" data-bs-toggle="modal" data-bs-target="#reszletek_modal" onclick="modal_csere(${item.visszajelzes_id})">
                         <p class="visszajelzes_tema">${item.visszajelzes_tema}</p>
-                        <p class="felhasznalo_email">${item.felhasznalo_email}</p>
+                        <p class="visszajelzes_felhasznalo">${item.visszajelzes_felhasznalo}</p>
                         <p class="visszajelzes_datum">${item.visszajelzes_datum.slice(0, 19).replace('T', ' ')}</p>
                     </div>
                 </div>

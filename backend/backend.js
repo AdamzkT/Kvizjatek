@@ -365,7 +365,7 @@ app.post('/uzenet_kuldes', (req, res) => {
     kapcsolat()
 
     let parameterek = [
-        req.body.felhasznalo_email,
+        req.body.visszajelzes_felhasznalo,
         req.body.visszajelzes_datum,
         req.body.visszajelzes_tema,
         req.body.visszajelzes_tipus,

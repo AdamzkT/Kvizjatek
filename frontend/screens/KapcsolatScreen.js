@@ -19,7 +19,7 @@ export default function KapcsolatScreen({route}) {
     setDatum(new Date().toISOString().slice(0, 19).replace('T', ' '))
     let adatok = 
     {
-        "felhasznalo_email":email,
+        "visszajelzes_felhasznalo":email,
         "visszajelzes_datum":datum,
         "visszajelzes_tema":tema,
         "visszajelzes_tipus":tipus,
