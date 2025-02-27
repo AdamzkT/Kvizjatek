@@ -3,6 +3,7 @@ const mysql = require('mysql')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
+const bcrypt = require("bcrypt");
 const app = express()
 const port = 3000
 app.use(cors())
@@ -202,7 +203,7 @@ app.get('/felhasznalok', (req, res) => {
 app.get('/kvizek_kereses/:keresett', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         '%' + req.params.keresett + '%',
         '%' + req.params.keresett + '%',
         '%' + req.params.keresett + '%',
@@ -231,7 +232,7 @@ app.get('/kvizek_kereses/:keresett', (req, res) => {
 app.get('/visszajelzesek_szures/:keresett/:sorrend', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.params.keresett,
     ]
 
@@ -270,7 +271,7 @@ app.get('/visszajelzesek_szures/:keresett/:sorrend', (req, res) => {
 app.post('/kvizek_szures', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.felhasznalo_email,
         req.body.kviz_nev,
         req.body.kategoria_nev,
@@ -304,7 +305,7 @@ app.post('/kvizek_szures', (req, res) => {
 app.post('/kviz_felvitel',  (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.felhasznalo_email,
         req.body.kviz_nev,
         req.body.kategoria_id,
@@ -333,7 +334,7 @@ app.post('/kviz_felvitel',  (req, res) => {
 app.post('/kerdes_felvitel',  (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kviz_id,
         req.body.kerdes,
         req.body.valasz_jo,
@@ -364,7 +365,7 @@ app.post('/kerdes_felvitel',  (req, res) => {
 app.post('/uzenet_kuldes', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.visszajelzes_felhasznalo,
         req.body.visszajelzes_datum,
         req.body.visszajelzes_tema,
@@ -394,7 +395,7 @@ app.post('/uzenet_kuldes', (req, res) => {
 app.post('/kategoria_felvitel',  (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kategoria_nev,
     ]
 
@@ -422,7 +423,7 @@ app.post('/kategoria_felvitel',  (req, res) => {
 app.post('/kviz_kerdesek', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kviz_id
     ]
 
@@ -448,7 +449,7 @@ app.post('/kviz_kerdesek', (req, res) => {
 app.post('/kerdes_id_alapjan', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kerdes_id
     ]
 
@@ -474,7 +475,7 @@ app.post('/kerdes_id_alapjan', (req, res) => {
 app.post('/kviz_id_alapjan', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kviz_id
     ]
 
@@ -500,7 +501,7 @@ app.post('/kviz_id_alapjan', (req, res) => {
 app.post('/kategoria_id_alapjan', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kategoria_id
     ]
 
@@ -526,86 +527,106 @@ app.post('/kategoria_id_alapjan', (req, res) => {
 
 //-------------------------------------------------------------Bejelentkezés-------------------------------------------------------------
 app.post('/bejelentkezes', (req, res) => {
-    kapcsolat()
+    kapcsolat();
 
     let parameterek = [
         req.body.felhasznalo_email,
         req.body.felhasznalo_nev,
-        req.body.felhasznalo_jelszo,
-    ]
+    ];
 
     connection.query(`
         SELECT * from felhasznalok
-        WHERE (felhasznalo_email LIKE BINARY ? OR felhasznalo_nev LIKE BINARY ?) AND felhasznalo_jelszo LIKE BINARY ? AND felhasznalo_admin = 0;
-        `, parameterek, (err, rows, fields) => {
+        WHERE (felhasznalo_email LIKE BINARY ? OR felhasznalo_nev LIKE BINARY ?) AND felhasznalo_admin = 0;
+        `, parameterek, async (err, rows, fields) => {
         if (err)
         {
-            console.log("Hiba")
-            console.log(err)
-            res.status(500).send(rows)
-        }
-        else{
-            console.log(rows)
-            res.status(200).send(rows)
-        }
-    })
-
-    connection.end() 
-})
-
-app.post('/admin_bejelentkezes', (req, res) => {
-    kapcsolat()
-
-    let parameterek = [
-        req.body.felhasznalo_nev,
-        req.body.felhasznalo_jelszo,
-    ]
-
-    connection.query(`
-        SELECT * from felhasznalok
-        WHERE felhasznalo_nev LIKE BINARY ? AND felhasznalo_jelszo LIKE BINARY ? AND felhasznalo_admin = 1;
-        `, parameterek, (err, rows, fields) => {
-        if (err)
-        {
-            console.log("Hiba")
-            console.log(err)
-            res.status(500).send("Hiba")
+            console.log("Hiba");
+            console.log(err);
+            res.status(500).send(rows);
         }
         else{
             if (rows.length === 0) {
-                console.log("Hibás felhasználó név vagy jelszó!")
-                res.status(401).send("Hibás felhasználó név vagy jelszó!")
+                console.log("Hibás bejelentkezési adatok!");
+                res.status(401).send("Hibás bejelentkezési adatok!");
+            } else {
+                const felhasznalo = rows[0];
+
+                // Check password with bcrypt
+                const match = await bcrypt.compare(req.body.felhasznalo_jelszo, felhasznalo.felhasznalo_jelszo);
+                if (match) {
+                    console.log("Sikeres bejelentkezés!");
+                    console.log(rows);
+                    res.status(200).send(rows);
+                } else {
+                    res.status(401).send("Hibás bejelentkezési adatok!");
+                }
+            }
+        }
+    });
+
+    connection.end();
+})
+
+app.post('/admin_bejelentkezes', (req, res) => {
+    kapcsolat();
+
+    let parameterek = [
+        req.body.felhasznalo_nev,
+    ];
+
+    connection.query(`
+        SELECT * from felhasznalok
+        WHERE felhasznalo_nev LIKE BINARY ? AND felhasznalo_admin = 1;
+        `, parameterek, async (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba");
+            console.log(err);
+            res.status(500).send("Hiba");
+        }
+        else{
+            if (rows.length === 0) {
+                console.log("Hibás felhasználó név vagy jelszó!");
+                res.status(401).send("Hibás felhasználó név vagy jelszó!");
             }
             else{
-                const felhasznalo = rows[0]; // Get user details
-                console.log("Sikeres bejelentkezés!");
-        
-                // Create JWT token (valid for 1 hour)
-                const token = jwt.sign(
-                    { felhasznalo_nev: felhasznalo.felhasznalo_nev },
-                    SECRET_KEY,
-                    { expiresIn: '1h' }
-                );
-        
-                // Return token in the response
-                res.status(200).json({ message: "Sikeres bejelentkezés!", token });
+                const felhasznalo = rows[0];
+
+                // Check password with bcrypt
+                const match = await bcrypt.compare(req.body.felhasznalo_jelszo, felhasznalo.felhasznalo_jelszo);
+                if (match) {
+                    console.log("Sikeres bejelentkezés!");
+
+                    // Create JWT token
+                    const token = jwt.sign(
+                        { felhasznalo_nev: felhasznalo.felhasznalo_nev },
+                        SECRET_KEY,
+                        { expiresIn: '1h' }
+                    );
+
+                    res.status(200).json({ message: "Sikeres bejelentkezés!", token });
+                } else {
+                    res.status(401).send("Hibás felhasználó név vagy jelszó!");
+                }
             }
-
         }
-    })
+    });
 
-    connection.end() 
+    connection.end();
 })
 
 
 //-------------------------------------------------------------Regisztráció-------------------------------------------------------------
-app.post('/regisztracio', (req, res) => {
+app.post('/regisztracio', async (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    // Hash the password
+    const titkositott_jelszo = await bcrypt.hash(req.body.felhasznalo_jelszo, 10);
+
+    const parameterek = [
         req.body.felhasznalo_email,
         req.body.felhasznalo_nev,
-        req.body.felhasznalo_jelszo,
+        titkositott_jelszo,
     ]
 
     connection.query(`
@@ -631,7 +652,7 @@ app.post('/regisztracio', (req, res) => {
 app.post('/regisztracio_email', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.felhasznalo_email
     ]
 
@@ -658,7 +679,7 @@ app.post('/regisztracio_email', (req, res) => {
 app.post('/regisztracio_felhasznalo', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.felhasznalo_nev
     ]
 
@@ -686,7 +707,7 @@ app.post('/regisztracio_felhasznalo', (req, res) => {
 app.post('/kerdesek_kereses/:keresett', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kviz_id,
         '%' + req.params.keresett + '%',
         '%' + req.params.keresett + '%',
@@ -721,7 +742,7 @@ app.post('/kerdesek_kereses/:keresett', (req, res) => {
 app.put('/kerdes_modositas', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kerdes,
         req.body.valasz_jo,
         req.body.valasz_rossz1,
@@ -753,7 +774,7 @@ app.put('/kerdes_modositas', (req, res) => {
 app.put('/kviz_modositas', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kviz_nev,
         req.body.kategoria_id,
         req.body.kviz_leiras,
@@ -783,7 +804,7 @@ app.put('/kviz_modositas', (req, res) => {
 app.put('/visszajelzesek_megoldva_valtas', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.visszajelzes_id,
     ]
 
@@ -818,7 +839,7 @@ app.put('/visszajelzesek_megoldva_valtas', (req, res) => {
 app.delete('/kerdesek_torles', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kerdes_id
     ]
 
@@ -844,7 +865,7 @@ app.delete('/kerdesek_torles', (req, res) => {
 app.delete('/kvizek_torles', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kviz_id
     ]
 
@@ -887,7 +908,7 @@ app.delete('/kvizek_torles', (req, res) => {
 app.delete('/kategoriak_torles', (req, res) => {
     kapcsolat()
 
-    let parameterek = [
+    const parameterek = [
         req.body.kategoria_id
     ]
 
