@@ -1,6 +1,7 @@
 import { Alert, Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import Ipcim from '../Ipcim';
 import { useEffect, useState } from 'react';
+import { AntDesign } from 'react-native-vector-icons';
 
 export default function KvizScreen({navigation, route}) {
   const {kvizId} = route.params;
@@ -112,7 +113,7 @@ export default function KvizScreen({navigation, route}) {
       kerdesBetolt(kerdesek[kovi_index])
       setGombSzinek(["lightblue","lightblue","lightblue","lightblue"])
       setGombKapcsolo(false)
-      setKoviKerdesKapcsolo(true)
+      setKoviKerdesKapcsolo(true) 
     }
     else { Alert.alert('Kvíz vége', `Eredmény: ${eredmeny}/${kerdesek.length}`, [
       {
