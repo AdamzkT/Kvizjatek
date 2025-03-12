@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 20. 11:31
+-- Létrehozás ideje: 2025. Már 12. 10:54
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -54,10 +54,13 @@ CREATE TABLE `felhasznalok` (
 --
 
 INSERT INTO `felhasznalok` (`felhasznalo_email`, `felhasznalo_nev`, `felhasznalo_jelszo`, `felhasznalo_admin`) VALUES
-('Admin', 'Admin', 'admin', 1),
-('dan@gmail.com', 'Dan', 'dan123', 0),
-('joe@gmail.com', 'Joe', 'joe123', 0),
-('valaki@gmail.com', 'Valaki', 'valaki', 0);
+('Admin', 'Admin', '$2b$10$VJ6nVEe9AepuGYHD/r/uyeHRG4dP36Ovwslfm7vpvGT3ziT5mpZLW', 1),
+('anna@gmail.com', 'Anna', '$2b$10$UOCSp.eWNrCiAxdv3suP8O0qT/LvOXZ/Y62cxNp/gA7FQyAmlBgKi', 0),
+('benjamin@gmail.com', 'Benjámin', '$2b$10$6Z9hzPjmrn5Yh3MeaR6zDuj.nw753wZFhbMlP7yur0NjOj7JqTIm.', 0),
+('daniel@gmail.com', 'Dániel', '$2b$10$cKjzZbJ.aJBqNYJ.GNhse.LmHrVXSouzgqkLwM/KQWhGA/LNZJcSG', 0),
+('emese@gmail.com', 'Emese', '$2b$10$.fPrb.cSuQ/mSuKhKsJ0u.oxrCqA0EJhEdZo1Ek7wQ7rIZYHhTFwO', 0),
+('gergo@gmail.com', 'Gergő', '$2b$10$/sjtxAfzjh6yJ7Z0Hed7nOYAM386C3b7bEQ0Esk7Kh7bq1NMDjrGK', 0),
+('tamas@gmail.com', 'Tamás', '$2b$10$04Anf/G3Ha4vKsu904Dhee0ID5FBz420v99rboDXFd/XvFfCLF8iK', 0);
 
 -- --------------------------------------------------------
 
@@ -115,11 +118,6 @@ CREATE TABLE `kerdesek` (
 --
 
 INSERT INTO `kerdesek` (`kerdes_id`, `kviz_id`, `kerdes`, `valasz_jo`, `valasz_rossz1`, `valasz_rossz2`, `valasz_rossz3`) VALUES
-(1, 1, 'Mi a fővárosa Magyarországnak?', 'Budapest', 'Debrecen', 'Szeged', 'Pécs'),
-(2, 1, 'Melyik bolygó a legnagyobb a Naprendszerben?', 'Jupiter', 'Mars', 'Föld', 'Vénusz'),
-(3, 1, 'Milyen színű a fű?', 'Zöld', 'Kék', 'Sárga', 'Vörös'),
-(4, 1, 'Ki festette a Mona Lisát?', 'Leonardo da Vinci', 'Pablo Picasso', 'Vincent van Gogh', 'Claude Monet'),
-(5, 1, 'Milyen állat a delfin?', 'Emlős', 'Hüllő', 'Madár', 'Hal'),
 (6, 2, 'Mikor tört ki a második világháború?', '1939', '1940', '1938', '1941'),
 (34, 26, 'Ki Garfield legjobb barátja?', 'Odie', 'Nermal', 'Liz', 'Arlene'),
 (35, 26, 'Mi Garfield kedvenc étele?', 'Lasagne', 'Pizza', 'Hamburger', 'Spagetti'),
@@ -215,15 +213,14 @@ CREATE TABLE `kvizek` (
 --
 
 INSERT INTO `kvizek` (`kviz_id`, `felhasznalo_email`, `kviz_nev`, `kategoria_id`, `kviz_leiras`) VALUES
-(1, 'valaki@gmail.com', 'Teszt kvíz', 18, 'Első kvíz tesztelésre'),
-(2, 'valaki@gmail.com', 'Világtörténelem', 2, 'Teszteld a tudásod a világ történelméről.'),
-(26, 'valaki@gmail.com', 'Garfield kvíz', 19, 'Egy kvíz Garfieldról. A ChatGPT segítségével készítettem.'),
-(27, 'valaki@gmail.com', 'Magyar Irodalom Kvíz', 4, 'Kérdések Magyar Irodalommal kapcsolatban'),
-(28, 'dan@gmail.com', 'Zenei Kvíz', 10, 'Mennyire ismered a zenét? Teszteld a tudásod!'),
-(29, 'joe@gmail.com', 'Technológiai Újdonságok', 12, 'Kérdések a technológia világából.'),
-(30, 'valaki@gmail.com', 'Művészet Kvíz', 11, 'Mennyit tudsz híres festményekről és művészekről?'),
-(31, 'dan@gmail.com', 'Gasztronómia Teszt', 9, 'Mennyire ismered az ételeket és ízeket?'),
-(32, 'joe@gmail.com', 'Állatok Világa', 14, 'Érdekes kérdések az állatvilágról.');
+(2, 'tamas@gmail.com', 'Világtörténelem', 2, 'Teszteld a tudásod a világ történelméről.'),
+(26, 'tamas@gmail.com', 'Garfield kvíz', 19, 'Egy kvíz Garfieldról. A ChatGPT segítségével készítettem.'),
+(27, 'anna@gmail.com', 'Magyar Irodalom Kvíz', 4, 'Kérdések Magyar Irodalommal kapcsolatban'),
+(28, 'gergo@gmail.com', 'Zenei Kvíz', 10, 'Mennyire ismered a zenét? Teszteld a tudásod!'),
+(29, 'daniel@gmail.com', 'Technológiai Újdonságok', 12, 'Kérdések a technológia világából.'),
+(30, 'emese@gmail.com', 'Művészet Kvíz', 11, 'Mennyit tudsz híres festményekről és művészekről?'),
+(31, 'gergo@gmail.com', 'Gasztronómia Teszt', 9, 'Mennyire ismered az ételeket és ízeket?'),
+(32, 'benjamin@gmail.com', 'Állatok Világa', 14, 'Érdekes kérdések az állatvilágról.');
 
 -- --------------------------------------------------------
 
@@ -246,12 +243,7 @@ CREATE TABLE `visszajelzesek` (
 --
 
 INSERT INTO `visszajelzesek` (`visszajelzes_id`, `visszajelzes_felhasznalo`, `visszajelzes_datum`, `visszajelzes_tema`, `visszajelzes_tipus`, `visszajelzes_uzenet`, `visszajelzes_megoldva`) VALUES
-(1, 'valaki@gmail.com', '2024-11-23 06:20:23', 'tema', 'javaslat', 'uzenet', 0),
-(20, 'dan@gmail.com', '2024-12-05 07:23:32', 'Kevés kategória', 'javaslat', 'Lehetne több kategória, nincs elég', 1),
-(21, 'joe@gmail.com', '2024-12-05 14:14:30', 'Weird bug', 'hiba', 'When I make one answer, all four answers become the same and can\'t make them different. Pls fix asap, can\'t do anything like this', 1),
-(22, 'valaki@gmail.com', '2024-12-10 21:10:45', 'huh', 'egyéb', 'ez most csinál valamit?', 1),
-(23, 'joe@gmail.com', '2024-12-06 03:52:24', 'Nvm', 'egyéb', 'Nevermind I\'m stupid there\'s no bug', 0),
-(25, 'valaki@gmail.com', '2024-12-11 08:17:35', 'Joe\'s a troll', 'report', 'I dun like him', 0);
+(20, 'benjamin@gmail.com', '2024-12-05 07:23:32', 'Kevés kategória', 'javaslat', 'Lehetne több kategória, nincs elég', 1);
 
 --
 -- Indexek a kiírt táblákhoz
