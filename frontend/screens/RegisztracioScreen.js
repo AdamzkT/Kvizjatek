@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
+﻿import { Button, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import { useState } from 'react';
 import Ipcim from '../Ipcim';
 
@@ -37,7 +37,8 @@ export default function RegisztracioScreen({navigation}) {
       const nevFoglaltE = await felhasznalo_foglalt(felhasznalo);
       const emailFoglaltE = await email_foglalt(email);
 
-      const emailRegex = /^(?!.*\.\.)[a-zA-Z0-9._%+-]{1,63}[a-zA-Z0-9]@[a-zA-Z0-9](?!.*\.\.)[a-zA-Z0-9-]{0,63}(\.[a-zA-Z]{2,})+$/;
+      const emailRegex = /^[a-zA-Z0-9](?!.*([._%+-=])\1)[a-zA-Z0-9._%+-=]{0,62}[a-zA-Z0-9]@[a-zA-Z0-9](?!.*--)[a-zA-Z0-9-]{0,62}[a-zA-Z0-9](\.[a-zA-Z]{2,})+$/;
+      // Max Length <= 254
 
       if (felhasznalo == "" || email == "" || jelszo == "" || jelszo2 == "") { setMegjegyzes("Minden adatot meg kell adni"); }
       // Felhasználó
