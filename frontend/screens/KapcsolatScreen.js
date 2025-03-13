@@ -26,7 +26,7 @@ export default function KapcsolatScreen({route}) {
         "visszajelzes_uzenet":uzenet
     }
     const felvitel = async () =>{
-      let x = await fetch(`${Ipcim.Ipcim2}/uzenet_kuldes`, {
+      let x = await fetch(`${Ipcim.Server}/uzenet_kuldes`, {
         method: "POST",
         body: JSON.stringify(adatok),
         headers: {"Content-type": "application/json; charset=UTF-8"}

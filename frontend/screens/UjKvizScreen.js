@@ -18,7 +18,7 @@ export default function UjKvizScreen({route}) {
     const [rosszValasz3, setRosszValasz3] = useState("")
   
     const lekerdez_kategoriak = async () => {
-      let x = await fetch(`${Ipcim.Ipcim1}/kategoriak`)
+      let x = await fetch(`${Ipcim.Server}/kategoriak`)
       let y = await x.json()
       setKategoriak(y)
     }
@@ -35,7 +35,7 @@ export default function UjKvizScreen({route}) {
         "kategoria_nev": "%%",
         "kviz_leiras": "%%"
       }
-      let x = await fetch(`${Ipcim.Ipcim1}/kvizek_szures`, {
+      let x = await fetch(`${Ipcim.Server}/kvizek_szures`, {
         method: "POST",
         body: JSON.stringify(adatok),
         headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -57,7 +57,7 @@ export default function UjKvizScreen({route}) {
         "kategoria_id": kategoria.kategoria_id,
         "kviz_leiras": leiras
       }
-      let x = await fetch(`${Ipcim.Ipcim1}/kviz_felvitel`, {
+      let x = await fetch(`${Ipcim.Server}/kviz_felvitel`, {
         method: "POST",
         body: JSON.stringify(adatok),
         headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -78,7 +78,7 @@ export default function UjKvizScreen({route}) {
         "kategoria_nev": kategoria.kategoria_nev,
         "kviz_leiras": leiras
       }
-      let x = await fetch(`${Ipcim.Ipcim1}/kvizek_szures`, {
+      let x = await fetch(`${Ipcim.Server}/kvizek_szures`, {
         method: "POST",
         body: JSON.stringify(adatok),
         headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -101,7 +101,7 @@ export default function UjKvizScreen({route}) {
         "valasz_rossz2": rossz2,
         "valasz_rossz3": rossz3,
       }
-      let x = await fetch(`${Ipcim.Ipcim1}/kerdes_felvitel`, {
+      let x = await fetch(`${Ipcim.Server}/kerdes_felvitel`, {
         method: "POST",
         body: JSON.stringify(adatok),
         headers: {"Content-type": "application/json; charset=UTF-8"}

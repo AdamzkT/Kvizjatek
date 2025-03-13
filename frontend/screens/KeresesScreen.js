@@ -8,7 +8,7 @@ export default function App({navigation}) {
     const [keresesBemenet, setKeresesBemenet] = useState([""])
 
     const lekerdez = async () => {
-        let x = await fetch(`${Ipcim.Ipcim1}/kvizek`)
+        let x = await fetch(`${Ipcim.Server}/kvizek`)
         let y = await x.json()
         setAdatok(y)
         setMegjelenit(y)

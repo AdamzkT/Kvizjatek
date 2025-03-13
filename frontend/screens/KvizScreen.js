@@ -35,7 +35,7 @@ export default function KvizScreen({navigation, route}) {
   }
 
   const lekerdez = async () => {
-    let x = await fetch(`${Ipcim.Ipcim1}/kviz_kerdesek`, {
+    let x = await fetch(`${Ipcim.Server}/kviz_kerdesek`, {
       method: "POST",
       body: JSON.stringify({"kviz_id": kvizId}),
       headers: {"Content-type": "application/json; charset=UTF-8"}

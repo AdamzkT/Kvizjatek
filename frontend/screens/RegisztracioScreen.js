@@ -10,7 +10,7 @@ export default function RegisztracioScreen({navigation}) {
     const [megjegyzes, setMegjegyzes] = useState('')
 
     const regisztracio = async (felhasznalo,email,jelszo) => {
-      let x = await fetch(`${Ipcim.Ipcim1}/regisztracio`, {
+      let x = await fetch(`${Ipcim.Server}/regisztracio`, {
         method: "POST",
         headers: {
         'Accept': 'application/json',
@@ -56,7 +56,7 @@ export default function RegisztracioScreen({navigation}) {
     }
 
     const felhasznalo_foglalt = async (teszt_nev) => {
-      let x = await fetch(`${Ipcim.Ipcim1}/regisztracio_felhasznalo`, {
+      let x = await fetch(`${Ipcim.Server}/regisztracio_felhasznalo`, {
         method: "POST",
         headers: {
         'Accept': 'application/json',
@@ -72,7 +72,7 @@ export default function RegisztracioScreen({navigation}) {
     }
 
     const email_foglalt = async (teszt_email) => {
-      let x = await fetch(`${Ipcim.Ipcim1}/regisztracio_email`, {
+      let x = await fetch(`${Ipcim.Server}/regisztracio_email`, {
         method: "POST",
         headers: {
         'Accept': 'application/json',

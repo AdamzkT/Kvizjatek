@@ -14,7 +14,7 @@ export default function BejelentkezesScreen({navigation}) {
   };
 
     const bejelentkezes = async (felhasznalo,jelszo) => {
-      let x = await fetch(`${Ipcim.Ipcim1}/bejelentkezes`, {
+      let x = await fetch(`${Ipcim.Server}/bejelentkezes`, {
         method: "POST",
         headers: {
         'Accept': 'application/json',
