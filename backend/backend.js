@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const bcrypt = require("bcrypt");
 const app = express()
+//const port = 23016
 const port = 3000
 app.use(cors())
 app.use(express.json())
@@ -13,6 +14,18 @@ app.use(bodyParser.json());
 require('dotenv').config(); 
 
 const SECRET_KEY = process.env.SECRET_KEY;
+
+/*function kapcsolat()
+{
+    connection = mysql.createConnection({
+        host: '192.168.255.3',
+        user: 'u160_DB7JvC3JzZ',
+        password: 'G.Tm@k5uSWAB7l7tj4ZmrcTC',
+        database: 's160_db'
+    })
+    
+    connection.connect()
+}*/
 
 function kapcsolat()
 {
@@ -412,6 +425,34 @@ app.post('/kategoria_felvitel',  (req, res) => {
         else{
             console.log("Sikeres kategória felvitel!")
             res.status(200).send("Sikeres kategória felvitel!")
+        }
+    })
+
+    connection.end() 
+})
+
+app.post('/komment_felvitel',  (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.komment_felhasznalo,
+        req.body.komment_kviz,
+        req.body.komment_szoveg,
+    ]
+
+    connection.query(`
+        INSERT INTO kommentek 
+        VALUES(null, ?, ?, ?)
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres komment felvitel!")
+            res.status(200).send("Sikeres komment felvitel!")
         }
     })
 
@@ -836,7 +877,7 @@ app.put('/visszajelzesek_megoldva_valtas', (req, res) => {
 //-------------------------------------------------------------DELETE-------------------------------------------------------------
 
 //-------------------------------------------------------------Törlés-------------------------------------------------------------
-app.delete('/kerdesek_torles', (req, res) => {
+app.delete('/kerdes_torles', (req, res) => {
     kapcsolat()
 
     const parameterek = [
@@ -862,7 +903,7 @@ app.delete('/kerdesek_torles', (req, res) => {
     connection.end() 
 })
 
-app.delete('/kvizek_torles', (req, res) => {
+app.delete('/kviz_torles', (req, res) => {
     kapcsolat()
 
     const parameterek = [
@@ -905,7 +946,7 @@ app.delete('/kvizek_torles', (req, res) => {
     });
 })
 
-app.delete('/kategoriak_torles', (req, res) => {
+app.delete('/kategoria_torles', (req, res) => {
     kapcsolat()
 
     const parameterek = [
@@ -915,6 +956,33 @@ app.delete('/kategoriak_torles', (req, res) => {
     connection.query(`
         DELETE FROM kategoriak
         WHERE kategoria_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres törlés.")
+            res.status(200).send("Sikeres törlés.")
+        }
+    })
+
+    connection.end() 
+})
+
+
+app.delete('/komment_torles', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.komment_id
+    ]
+
+    connection.query(`
+        DELETE FROM kommentek
+        WHERE komment_id = ?
         `, parameterek, (err, rows, fields) => {
         if (err)
         {

@@ -65,7 +65,7 @@ const kerdesek_torles_ellenorzes = async (id) => {
     `
 }
 const kerdesek_torles = async (id) => {
-    let x = await fetch("http://localhost:3000/kerdesek_torles",{
+    let x = await fetch("http://localhost:3000/kerdes_torles",{
         method: "DELETE",
         body: JSON.stringify({
             "kerdes_id":id

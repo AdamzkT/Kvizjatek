@@ -82,7 +82,7 @@ const kategoria_torles_ellenorzes = async () => {
 }
 
 const kategoria_torles = async (id) => {
-    let x = await fetch("http://localhost:3000/kategoriak_torles",{
+    let x = await fetch("http://localhost:3000/kategoria_torles",{
         method: "DELETE",
         body: JSON.stringify({
             "kategoria_id":id
