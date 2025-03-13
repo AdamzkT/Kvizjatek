@@ -143,7 +143,7 @@ const kvizek_torles_ellenorzes = async (id) => {
 }
 
 const kvizek_torles = async (id) => {
-    let x = await fetch("http://localhost:3000/kvizek_torles",{
+    let x = await fetch("http://localhost:3000/kviz_torles",{
         method: "DELETE",
         body: JSON.stringify({
             "kviz_id":id
