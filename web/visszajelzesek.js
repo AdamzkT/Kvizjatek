@@ -1,9 +1,11 @@
+import { server } from "./backend_linkek.js";
+
 //--------------------------------------------------------Megjelenítés--------------------------------------------------------
 var adatok = []
 var sorrend = "ASC"
 
 const visszajelzesek_fetch = async () => {
-    let x = await fetch("http://localhost:3000/visszajelzesek/" + sorrend);
+    let x = await fetch(`${server}/visszajelzesek/` + sorrend);
     let y = await x.json();
     visszajelzesek_megjelenit(y);
 }
@@ -37,7 +39,7 @@ const visszajelzesek_megjelenit = (y) =>{
 
 
 //--------------------------------------------------------Szűrés--------------------------------------------------------
-const visszajelzesek_szures_ellenorzes = () =>
+export const visszajelzesek_szures_ellenorzes = () =>
 {
     let keresett = document.getElementById("visszajelzes_tipusok").value;
     
@@ -50,14 +52,14 @@ const visszajelzesek_szures_ellenorzes = () =>
 }
 
 const visszajelzesek_szures = async (keresett) => {
-    let x = await fetch(`http://localhost:3000/visszajelzesek_szures/${keresett}/${sorrend}`);
+    let x = await fetch(`${server}/visszajelzesek_szures/${keresett}/${sorrend}`);
     let y = await x.json();
     visszajelzesek_megjelenit(y);
 }
 
 
 //--------------------------------------------------------Modal csere--------------------------------------------------------
-const modal_csere = (id) => {
+export const modal_csere = (id) => {
     const item = adatok.find(i => i.visszajelzes_id == id);
     document.getElementById("modal_fej_cim").innerHTML = item.visszajelzes_tema;
 
@@ -90,7 +92,7 @@ const modal_csere = (id) => {
 
 //--------------------------------------------------------Visszajelzések megoldása--------------------------------------------------------
 const visszajelzesek_megoldva_valtas = async (id) => {
-    let x = await fetch("http://localhost:3000/visszajelzesek_megoldva_valtas",{
+    let x = await fetch(`${server}/visszajelzesek_megoldva_valtas`,{
         method: "PUT",
         body: JSON.stringify({
             "visszajelzes_id":id
@@ -106,7 +108,7 @@ const visszajelzesek_megoldva_valtas = async (id) => {
 
 //--------------------------------------------------------Sorrend--------------------------------------------------------
 let sortAscending = true;
-const sorrend_valtas = () => {
+export const sorrend_valtas = () => {
     // Toggle the sort order
     sortAscending = !sortAscending;
 
@@ -126,4 +128,7 @@ const sorrend_valtas = () => {
     visszajelzesek_szures_ellenorzes()
 }
 
-
+window.modal_csere = modal_csere
+window.visszajelzesek_megoldva_valtas = visszajelzesek_megoldva_valtas
+window.sorrend_valtas = sorrend_valtas
+window.visszajelzesek_szures_ellenorzes = visszajelzesek_szures_ellenorzes

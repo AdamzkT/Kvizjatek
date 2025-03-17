@@ -1,6 +1,8 @@
+import { server } from "./backend_linkek.js";
+
 //---------------------------------------------Megjelenítés---------------------------------------------
 const kategoriak_fetch = async () => {
-    let x = await fetch("http://localhost:3000/kategoriak");
+    let x = await fetch(`${server}/kategoriak`);
     let y = await x.json();
     kategoriak_megjelenit(y);
 }
@@ -18,7 +20,7 @@ const kategoriak_megjelenit = (adatok) => {
 
 
 //---------------------------------------------Hozzáadás---------------------------------------------
-const kategoria_hozzadas_ellenorzes = () => {
+export const kategoria_hozzadas_ellenorzes = () => {
     let uj_kategoria = document.getElementById("kategoria_hozzadas").value
     if (uj_kategoria != "") {
         uj_kategoria = uj_kategoria.charAt(0).toUpperCase() + uj_kategoria.slice(1).toLowerCase();
@@ -37,7 +39,7 @@ const kategoria_hozzadas_ellenorzes = () => {
 }
 
 const kategoria_hozzadas = async (uj_kategoria) => {
-    let x = await fetch("http://localhost:3000/kategoria_felvitel",{
+    let x = await fetch(`${server}/kategoria_felvitel`,{
         method: "POST",
         body: JSON.stringify({
             "kategoria_nev":uj_kategoria
@@ -58,10 +60,10 @@ const kategoria_hozzadas = async (uj_kategoria) => {
 
 
 //---------------------------------------------Törlés---------------------------------------------
-const kategoria_torles_ellenorzes = async () => {
+export const kategoria_torles_ellenorzes = async () => {
     let id = document.getElementById("kategoria_lista").value
 
-    let x = await fetch("http://localhost:3000/kategoria_id_alapjan",{
+    let x = await fetch(`${server}/kategoria_id_alapjan`,{
         method: "POST",
         body: JSON.stringify({
             "kategoria_id":id
@@ -81,8 +83,8 @@ const kategoria_torles_ellenorzes = async () => {
     `
 }
 
-const kategoria_torles = async (id) => {
-    let x = await fetch("http://localhost:3000/kategoria_torles",{
+export const kategoria_torles = async (id) => {
+    let x = await fetch(`${server}/kategoria_torles`,{
         method: "DELETE",
         body: JSON.stringify({
             "kategoria_id":id
@@ -101,9 +103,14 @@ const kategoria_torles = async (id) => {
 }
 
 //---------------------------------------------Egyéb---------------------------------------------
-const uzenet_eltuntetes = () => {
+export const uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
     uzenet_ablak.style.display = "none"
 
     kategoriak_fetch()
 }
+
+window.kategoria_hozzadas_ellenorzes = kategoria_hozzadas_ellenorzes
+window.kategoria_torles_ellenorzes = kategoria_torles_ellenorzes
+window.kategoria_torles = kategoria_torles
+window.uzenet_eltuntetes = uzenet_eltuntetes

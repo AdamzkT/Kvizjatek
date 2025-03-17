@@ -1,6 +1,8 @@
+import { server } from "./backend_linkek.js";
+
 //---------------------------------------------Megjelenítés---------------------------------------------
 const kvizek_fetch = async () => {
-    let x = await fetch("http://localhost:3000/kvizek");
+    let x = await fetch(`${server}/kvizek`);
     let y = await x.json();
     kvizek_megjelenit(y);
 }
@@ -40,7 +42,7 @@ const kvizek_megjelenit = (adatok) =>{
 
 //---------------------------------------------Módosítás---------------------------------------------
 const kviz_fetch = async (kviz_id) => {
-    let x = await fetch("http://localhost:3000/kviz_id_alapjan",{
+    let x = await fetch(`${server}/kviz_id_alapjan`,{
         method: "POST",
         body: JSON.stringify({
             "kviz_id":kviz_id
@@ -64,7 +66,7 @@ const kviz_megjelenit = (adat) => {
 }
 
 const kategoriak_fetch = async () => {
-    let x = await fetch("http://localhost:3000/kategoriak");
+    let x = await fetch(`${server}/kategoriak`);
     let y = await x.json();
     kategoriak_megjelenit(y);
 }
@@ -84,8 +86,8 @@ const kategoriak_megjelenit = (adatok) => {
     }
 }
 
-const kviz_modositas = async (kviz_id) => {
-    let x = await fetch("http://localhost:3000/kviz_modositas",{
+export const kviz_modositas = async (kviz_id) => {
+    let x = await fetch(`${server}/kviz_modositas`,{
         method: "PUT",
         body: JSON.stringify({
             "kviz_nev":document.getElementById("kviz_nev_modositas").value,
@@ -120,8 +122,8 @@ const kviz_modositas_ellenorzes = (id) => {
 
 
 //---------------------------------------------Törlés---------------------------------------------
-const kvizek_torles_ellenorzes = async (id) => {
-    let x = await fetch("http://localhost:3000/kviz_id_alapjan",{
+export const kvizek_torles_ellenorzes = async (id) => {
+    let x = await fetch(`${server}/kviz_id_alapjan`,{
         method: "POST",
         body: JSON.stringify({
             "kviz_id":id
@@ -142,8 +144,8 @@ const kvizek_torles_ellenorzes = async (id) => {
     `
 }
 
-const kvizek_torles = async (id) => {
-    let x = await fetch("http://localhost:3000/kviz_torles",{
+export const kvizek_torles = async (id) => {
+    let x = await fetch(`${server}/kviz_torles`,{
         method: "DELETE",
         body: JSON.stringify({
             "kviz_id":id
@@ -163,7 +165,7 @@ const kvizek_torles = async (id) => {
 
 
 //---------------------------------------------Keresés---------------------------------------------
-const kvizek_kereses_ellenorzes = () =>
+export const kvizek_kereses_ellenorzes = () =>
 {
     let keresett = document.getElementById("kereses_bemenet").value;
     if(document.getElementById("kereses_bemenet").value == "")
@@ -175,14 +177,14 @@ const kvizek_kereses_ellenorzes = () =>
 }
 
 const kvizek_kereses = async (keresett) => {
-    let x = await fetch("http://localhost:3000/kvizek_kereses/" + keresett);
+    let x = await fetch(`${server}/kvizek_kereses/` + keresett);
     let y = await x.json();
     kvizek_megjelenit(y);
 }
 
 
 //---------------------------------------------Egyéb---------------------------------------------
-const kviz_uzenet_eltuntetes = () => {
+export const kviz_uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
     uzenet_ablak.style.display = "none"
 
@@ -203,3 +205,9 @@ if (kviz_id_modositas) {
     .then(() => kviz_fetch(kviz_id_modositas)
     .then(kviz_megjelenit));
 }
+
+window.kviz_modositas = kviz_modositas
+window.kvizek_torles_ellenorzes = kvizek_torles_ellenorzes
+window.kvizek_torles = kvizek_torles
+window.kvizek_kereses_ellenorzes = kvizek_kereses_ellenorzes
+window.kviz_uzenet_eltuntetes = kviz_uzenet_eltuntetes

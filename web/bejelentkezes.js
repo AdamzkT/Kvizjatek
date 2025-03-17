@@ -1,7 +1,9 @@
+import { server } from "./backend_linkek.js";
+
 var admin_nev = ""
 var admin_jelszo = ""
 
-const bejelentkezes_ellenorzes = () => {
+export const bejelentkezes_ellenorzes = () => {
     admin_nev = document.getElementById("admin_felhasznalonev_bemenet").value;
     admin_jelszo = document.getElementById("admin_jelszo_bemenet").value;
     bejelentkezes_fetch()
@@ -9,7 +11,7 @@ const bejelentkezes_ellenorzes = () => {
 
 const bejelentkezes_fetch = async () => {
     try {
-        let response = await fetch("http://localhost:3000/admin_bejelentkezes", {
+        let response = await fetch(`${server}/admin_bejelentkezes`, {
             method: "POST",
             body: JSON.stringify({
                 "felhasznalo_nev": admin_nev,
@@ -32,3 +34,5 @@ const bejelentkezes_fetch = async () => {
         document.getElementById("hiba_uzenet").innerHTML = "Hibás felhasználó név vagy jelszó!";
     }
 }
+
+window.bejelentkezes_ellenorzes = bejelentkezes_ellenorzes;

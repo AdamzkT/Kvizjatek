@@ -1,6 +1,8 @@
+import { server } from "./backend_linkek.js";
+
 //--------------------------------------------------------Kvízek kategóriánként--------------------------------------------------------
 const kategoriak_db_fetch = async () => {
-    let x = await fetch("http://localhost:3000/kategoriak_db");
+    let x = await fetch(`${server}/kategoriak_db`);
     let y = await x.json();
     console.log(y)
     kategoriak_db_megjelenites(y)
