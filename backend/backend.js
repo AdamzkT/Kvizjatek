@@ -215,9 +215,9 @@ app.get('/ertekelesek_kvizenkent', (req, res) => {
     kapcsolat()
 
     connection.query(`
-        SELECT kviz_id, SUM(ertekeles_pont) AS kviz_ertekeles FROM ertekelesek
-        RIGHT JOIN kvizek ON kvizek.kviz_id = ertekelesek.ertekeles_kviz
-        GROUP BY kviz_id
+        SELECT ertekeles_kviz, SUM(ertekeles_pont) AS kviz_ertekeles FROM ertekelesek
+        INNER JOIN kvizek ON kvizek.kviz_id = ertekelesek.ertekeles_kviz
+        GROUP BY ertekeles_kviz
         `, (err, rows, fields) => {
         if (err)
         {
@@ -929,6 +929,33 @@ app.put('/kviz_modositas', (req, res) => {
     connection.query(`
         UPDATE kvizek SET
         kviz_nev = ?, kviz_kategoria = ?, kviz_leiras = ?
+        WHERE kviz_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres módosítás.")
+            res.status(200).send("Sikeres módosítás.")
+        }
+    })
+
+    connection.end() 
+})
+
+app.put('/kviz_kitoltes', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.kviz_id,
+    ]
+
+    connection.query(`
+        UPDATE kvizek SET
+        kviz_kitoltes = kviz_kitoltes + 1
         WHERE kviz_id = ?
         `, parameterek, (err, rows, fields) => {
         if (err)

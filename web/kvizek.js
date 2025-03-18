@@ -1,25 +1,45 @@
 import { server } from "./backend_linkek.js";
 
 //---------------------------------------------Megjelenítés---------------------------------------------
+var ertekelesek = []
+
 const kvizek_fetch = async () => {
     let x = await fetch(`${server}/kvizek`);
     let y = await x.json();
+    
     kvizek_megjelenit(y);
 }
-kvizek_fetch()
+
+const ertekelesek_fetch = async () => {
+    let x = await fetch(`${server}/ertekelesek_kvizenkent`);
+    let y = await x.json();
+    ertekelesek = y
+
+    kvizek_fetch()
+}
+ertekelesek_fetch()
 
 const kvizek_megjelenit = (adatok) =>{
     //console.log(adatok)
+    //console.log(ertekelesek)
 
     let sz = ""
     for (const item of adatok) {
-        sz += `
+        let ertekeles = 0
+        for (const ertek of ertekelesek) {
+            if (ertek.ertekeles_kviz == item.kviz_id) {
+                ertekeles = ertek.kviz_ertekeles
+            }
+        }
 
+        sz += `
             <tr>
                 <td>${item.kviz_nev}</td>
                 <td>${item.felhasznalo_email}</td>
                 <td>${item.kategoria_nev}</td>
                 <td>${item.kviz_leiras}</td>
+                <td>${item.kviz_kitoltesek}</td>
+                <td>${ertekeles}</td>
                 <td>
                     <button type="button" onclick="window.location.href='kerdesek.html?kviz_id=${item.kviz_id}'" class="kerdesek_gomb gombok">Kérdések</button>
                 </td>
