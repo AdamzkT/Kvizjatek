@@ -11,9 +11,11 @@ kategoriak_fetch()
 const kategoriak_megjelenit = (adatok) => {
     let sz = ""
     for (const item of adatok) {
-        sz += `
-        <option value="${item.kategoria_id}">${item.kategoria_nev}</option>
-        `
+        if (item.kategoria_id != 1) {
+            sz += `
+            <option value="${item.kategoria_id}">${item.kategoria_nev}</option>
+            `
+        }
     }
     document.getElementById("kategoria_lista").innerHTML = sz
 }
