@@ -7,7 +7,7 @@ const kerdesek_fetch = async (kviz_id) => {
     let x = await fetch(`${server}/kviz_kerdesek`,{
         method: "POST",
         body: JSON.stringify({
-            "kviz_id":kviz_id
+            "kerdes_kviz":kviz_id
         }),
         headers: {"Content-type": "application/json; charset=UTF-8"}
     });
@@ -166,7 +166,7 @@ const kerdesek_kereses = async (keresett) => {
     let x = await fetch(`${server}/kerdesek_kereses/` + keresett, {
         method: "POST",
         body: JSON.stringify({
-            "kviz_id":kviz_id
+            "kerdes_kviz":kviz_id
         }),
         headers: {"Content-type": "application/json; charset=UTF-8"}
     });

@@ -58,7 +58,7 @@ const kviz_megjelenit = (adat) => {
 
     document.getElementById("kviz_nev_modositas").value = adat[0].kviz_nev
     document.getElementById("leiras_modositas").value = adat[0].kviz_leiras
-    document.getElementById("kategoria_modositas").value = adat[0].kategoria_id
+    document.getElementById("kategoria_modositas").value = adat[0].kviz_kategoria
 
     document.getElementById("modositas_ok_gomb").addEventListener("click", function(){
         kviz_modositas_ellenorzes(adat[0].kviz_id)
@@ -91,7 +91,7 @@ export const kviz_modositas = async (kviz_id) => {
         method: "PUT",
         body: JSON.stringify({
             "kviz_nev":document.getElementById("kviz_nev_modositas").value,
-            "kategoria_id":document.getElementById("kategoria_modositas").value,
+            "kviz_kategoria":document.getElementById("kategoria_modositas").value,
             "kviz_leiras":document.getElementById("leiras_modositas").value,
             "kviz_id":kviz_id
         }),
