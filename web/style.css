@@ -77,12 +77,16 @@ input:focus::placeholder{
     opacity: 0.5;
 }
 
+#navbar_doboz{
+    margin-bottom: 70px;
+}
 
 /*-----------------------------------------------------Táblázatok-----------------------------------------------------*/
 table{
     width: 100%;
     color: white;
     background-color: #114385;
+    margin-bottom: 30px;
 }
 
 table thead{

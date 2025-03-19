@@ -1,5 +1,5 @@
 let navbar = `
-<nav class="navbar-expand-sm nav_design">
+<nav class="navbar-expand-sm nav_design fixed-top">
     <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
