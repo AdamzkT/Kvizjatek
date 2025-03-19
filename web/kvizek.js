@@ -41,7 +41,10 @@ const kvizek_megjelenit = (adatok) =>{
                 <td>${item.kviz_kitoltesek}</td>
                 <td>${ertekeles}</td>
                 <td>
-                    <button type="button" onclick="window.location.href='kerdesek.html?kviz_id=${item.kviz_id}'" class="kerdesek_gomb gombok">Kérdések</button>
+                    <button type="button" onclick="window.location.href='kerdesek.html?kviz_id=${item.kviz_id}'" class="tablazat_gomb gombok">Kérdések</button>
+                </td>
+                <td>
+                    <button type="button" onclick="window.location.href='kommentek.html?kviz_id=${item.kviz_id}'" class="tablazat_gomb gombok">Kommentek</button>
                 </td>
                 <td><button type="button" class="modositas_gomb gombok" onclick="window.location.href='kvizek_modositas.html?kviz_id=${item.kviz_id}'">
                     <img src="kepek/edit.png" alt="" class="img-fluid">

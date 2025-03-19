@@ -670,6 +670,32 @@ app.post('/kommentek_kviz_id_alapjan', (req, res) => {
     connection.end() 
 })
 
+app.post('/komment_id_alapjan', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.komment_id,
+    ]
+
+    connection.query(`
+        SELECT * FROM kommentek
+        WHERE komment_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
 //-------------------------------------------------------------Bejelentkezés-------------------------------------------------------------
 app.post('/bejelentkezes', (req, res) => {
     kapcsolat();
@@ -853,7 +879,7 @@ app.post('/kerdesek_kereses/:keresett', (req, res) => {
     kapcsolat()
 
     const parameterek = [
-        req.body.kviz_id,
+        req.body.kerdes_kviz,
         '%' + req.params.keresett + '%',
         '%' + req.params.keresett + '%',
         '%' + req.params.keresett + '%',
@@ -864,6 +890,34 @@ app.post('/kerdesek_kereses/:keresett', (req, res) => {
     connection.query(`
         SELECT * FROM kerdesek
         WHERE kerdes_kviz = ? AND (kerdes LIKE ? OR valasz_jo LIKE ? OR valasz_rossz1 LIKE ? OR valasz_rossz2 LIKE ? OR valasz_rossz3 LIKE ?)
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+app.post('/kommentek_kereses/:keresett', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.komment_kviz,
+        '%' + req.params.keresett + '%',
+        '%' + req.params.keresett + '%',
+    ]
+
+    connection.query(`
+        SELECT * FROM kommentek
+        WHERE komment_kviz = ? AND (komment_felhasznalo LIKE ? OR komment_szoveg LIKE ?)
         `, parameterek, (err, rows, fields) => {
         if (err)
         {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvízek</title>
+    <title>Kommentek</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -12,33 +12,31 @@
     <div id="navbar_doboz"></div>
 
     <div class="container">
-        <h1 id="kvizek_cim">Kvízek</h1>
+
+        <h1 id="cim_vissza_gomb">Kommentek</h1>
+
+        <button type="button" id="vissza_gomb" class="gombok" onclick="history.back()">Vissza</button>
 
         <div class="kereses">
             <input type="text" placeholder="Keresés..." id="kereses_bemenet">
-            <button type="button" class="gombok" id="kereses_gomb" onclick="kvizek_kereses_ellenorzes()">Keresés</button>
+            <button type="button" class="gombok" id="kereses_gomb" onclick="kommentek_kereses_ellenorzes()">Keresés</button>
         </div>
-       
+
+
+
         <table class="tablazat">
             <thead>
                 <tr>
-                    <th>Név</th>
-                    <th>Felhasználó email</th>
-                    <th>Kategória</th>
-                    <th>Leírás</th>
-                    <th>Kitöltések</th>
-                    <th>Értékelés</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>Felhasználó</th>
+                    <th>Komment</th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody id="kvizek_tablazat">
+            <tbody id="kommentek_tablazat">
 
             </tbody>
         </table>
- 
+
         <div class="uzenet_kulso" id="uzenet_kulso_id">
             <div class="uzenet_kozepso">
                 <div class="uzenet_belso">
@@ -54,11 +52,9 @@
 
 
 
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="navbar.js"></script>
     <script src="token_ellenorzes.js"></script>
-    <script type="module" src="kvizek.js"></script>
-    <script type="module" src="kerdesek.js"></script>
+    <script type="module" src="kommentek.js"></script>
 </body>
 </html>
