@@ -1000,6 +1000,37 @@ app.put('/kviz_modositas', (req, res) => {
     connection.end() 
 })
 
+app.put('/jelszo_modositas', async (req, res) => {
+    kapcsolat()
+
+    // Hash the password
+    const titkositott_jelszo = await bcrypt.hash(req.body.felhasznalo_jelszo, 10);
+
+    const parameterek = [
+        titkositott_jelszo,
+        req.body.felhasznalo_email,
+    ]
+
+    connection.query(`
+        UPDATE felhasznalok
+        SET felhasznalo_jelszo = ?
+        WHERE felhasznalo_email = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Jelszó módosítva!")
+            res.status(200).send("Jelszó módosítva!!")
+        }
+    })
+
+    connection.end() 
+})
+
 app.put('/kviz_kitoltes', (req, res) => {
     kapcsolat()
 
