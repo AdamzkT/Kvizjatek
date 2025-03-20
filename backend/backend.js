@@ -347,7 +347,6 @@ app.post('/kviz_felvitel',  (req, res) => {
         req.body.kviz_nev,
         req.body.kviz_kategoria,
         req.body.kviz_leiras,
-        req.body.kviz_kitoltesek,
     ]
 
     connection.query(`
