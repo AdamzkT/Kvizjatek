@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const bcrypt = require("bcrypt");
 const app = express()
-//const port = 23016
-const port = 3000
+const port = 23016
+//const port = 3000
 app.use(cors())
 app.use(express.json())
 app.use(express.static('kepek'))
@@ -15,7 +15,7 @@ require('dotenv').config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
-/*function kapcsolat()
+function kapcsolat()
 {
     connection = mysql.createConnection({
         host: '192.168.255.3',
@@ -25,9 +25,9 @@ const SECRET_KEY = process.env.SECRET_KEY;
     })
     
     connection.connect()
-}*/
+}
 
-function kapcsolat()
+/*function kapcsolat()
 {
     connection = mysql.createConnection({
         host: 'localhost',
@@ -37,7 +37,7 @@ function kapcsolat()
     })
     
     connection.connect()
-}
+}*/
 
 
 //-------------------------------------------------------------GET-------------------------------------------------------------
@@ -69,7 +69,7 @@ app.get('/kvizek', (req, res) => {
 
     connection.query(`
         SELECT * FROM kvizek
-        INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.kategoria_id
+        INNER JOIN kategoriak ON kvizek.kviz_kategoria = kategoriak.kategoria_id
         ORDER BY kvizek.kviz_id
         `, (err, rows, fields) => {
         if (err)
@@ -119,7 +119,7 @@ app.get('/kategoriak_db', (req, res) => {
 
     connection.query(`
         SELECT kategoria_nev, COUNT(kviz_id) as db FROM kvizek
-        RIGHT JOIN kategoriak ON kategoriak.kategoria_id = kvizek.kategoria_id
+        RIGHT JOIN kategoriak ON kategoriak.kategoria_id = kvizek.kviz_kategoria
         GROUP BY kategoriak.kategoria_id
         `, (err, rows, fields) => {
         if (err)
@@ -172,8 +172,8 @@ app.get('/kvizek_kerdesekkel', (req, res) => {
 
     connection.query(`
         SELECT * FROM kvizek
-        INNER JOIN kerdesek ON kvizek.kviz_id = kerdesek.kviz_id
-        INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.kategoria_id
+        INNER JOIN kerdesek ON kvizek.kviz_id = kerdesek.kerdes_kviz
+        INNER JOIN kategoriak ON kvizek.kviz_kategoria = kategoriak.kategoria_id
         `, (err, rows, fields) => {
         if (err)
         {
@@ -211,6 +211,30 @@ app.get('/felhasznalok', (req, res) => {
     connection.end() 
 })
 
+app.get('/ertekelesek_kvizenkent', (req, res) => {
+    kapcsolat()
+
+    connection.query(`
+        SELECT ertekeles_kviz, SUM(ertekeles_pont) AS kviz_ertekeles FROM ertekelesek
+        INNER JOIN kvizek ON kvizek.kviz_id = ertekelesek.ertekeles_kviz
+        GROUP BY ertekeles_kviz
+        `, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+
 
 //-------------------------------------------------------------Keresés-------------------------------------------------------------
 app.get('/kvizek_kereses/:keresett', (req, res) => {
@@ -224,7 +248,7 @@ app.get('/kvizek_kereses/:keresett', (req, res) => {
 
     connection.query(`
         SELECT * FROM kvizek
-        INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.kategoria_id
+        INNER JOIN kategoriak ON kviz_kategoria = kategoriak.kategoria_id
         WHERE kviz_nev LIKE ? OR kviz_leiras LIKE ? OR kategoria_nev LIKE ?
         `, parameterek, (err, rows, fields) => {
         if (err)
@@ -295,7 +319,7 @@ app.post('/kvizek_szures', (req, res) => {
 
     connection.query(`
         SELECT * FROM kvizek
-        INNER JOIN kategoriak ON kvizek.kategoria_id = kategoriak.kategoria_id
+        INNER JOIN kategoriak ON kviz_kategoria = kategoriak.kategoria_id
         WHERE felhasznalo_email LIKE ? AND kviz_nev LIKE ? AND kategoria_nev LIKE ? AND kviz_leiras LIKE ?
         `, parameterek, (err, rows, fields) => {
         if (err)
@@ -321,13 +345,13 @@ app.post('/kviz_felvitel',  (req, res) => {
     const parameterek = [
         req.body.felhasznalo_email,
         req.body.kviz_nev,
-        req.body.kategoria_id,
-        req.body.kviz_leiras
+        req.body.kviz_kategoria,
+        req.body.kviz_leiras,
     ]
 
     connection.query(`
         INSERT INTO kvizek 
-        VALUES(null, ?, ?, ?, ?)
+        VALUES(null, ?, ?, ?, ?, 0)
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
@@ -348,7 +372,7 @@ app.post('/kerdes_felvitel',  (req, res) => {
     kapcsolat()
 
     const parameterek = [
-        req.body.kviz_id,
+        req.body.kerdes_kviz,
         req.body.kerdes,
         req.body.valasz_jo,
         req.body.valasz_rossz1,
@@ -459,18 +483,46 @@ app.post('/komment_felvitel',  (req, res) => {
     connection.end() 
 })
 
+app.post('/ertekeles_felvitel',  (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.ertekeles_felhasznalo,
+        req.body.ertekeles_kviz,
+        req.body.ertekeles_pont,
+    ]
+
+    connection.query(`
+        INSERT INTO ertekelesek 
+        VALUES(null, ?, ?, ?)
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres értékelés felvitel!")
+            res.status(200).send("Sikeres értékelés felvitel!")
+        }
+    })
+
+    connection.end() 
+})
+
 
 //-------------------------------------------------------------Megjelenítés id alapján-------------------------------------------------------------
 app.post('/kviz_kerdesek', (req, res) => {
     kapcsolat()
 
     const parameterek = [
-        req.body.kviz_id
+        req.body.kerdes_kviz
     ]
 
     connection.query(`
         SELECT * FROM kerdesek
-        WHERE kviz_id = ?
+        WHERE kerdes_kviz = ?
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
@@ -565,6 +617,83 @@ app.post('/kategoria_id_alapjan', (req, res) => {
     connection.end() 
 })
 
+app.post('/ertekeles_felhasznalo_alapjan', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.ertekeles_felhasznalo,
+    ]
+
+    connection.query(`
+        SELECT * FROM ertekelesek
+        WHERE ertekeles_felhasznalo = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+app.post('/kommentek_kviz_id_alapjan', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.komment_kviz,
+    ]
+
+    connection.query(`
+        SELECT * FROM kommentek
+        WHERE komment_kviz = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+app.post('/komment_id_alapjan', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.komment_id,
+    ]
+
+    connection.query(`
+        SELECT * FROM kommentek
+        WHERE komment_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
 
 //-------------------------------------------------------------Bejelentkezés-------------------------------------------------------------
 app.post('/bejelentkezes', (req, res) => {
@@ -749,7 +878,7 @@ app.post('/kerdesek_kereses/:keresett', (req, res) => {
     kapcsolat()
 
     const parameterek = [
-        req.body.kviz_id,
+        req.body.kerdes_kviz,
         '%' + req.params.keresett + '%',
         '%' + req.params.keresett + '%',
         '%' + req.params.keresett + '%',
@@ -759,7 +888,35 @@ app.post('/kerdesek_kereses/:keresett', (req, res) => {
 
     connection.query(`
         SELECT * FROM kerdesek
-        WHERE kviz_id = ? AND (kerdes LIKE ? OR valasz_jo LIKE ? OR valasz_rossz1 LIKE ? OR valasz_rossz2 LIKE ? OR valasz_rossz3 LIKE ?)
+        WHERE kerdes_kviz = ? AND (kerdes LIKE ? OR valasz_jo LIKE ? OR valasz_rossz1 LIKE ? OR valasz_rossz2 LIKE ? OR valasz_rossz3 LIKE ?)
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
+
+app.post('/kommentek_kereses/:keresett', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.komment_kviz,
+        '%' + req.params.keresett + '%',
+        '%' + req.params.keresett + '%',
+    ]
+
+    connection.query(`
+        SELECT * FROM kommentek
+        WHERE komment_kviz = ? AND (komment_felhasznalo LIKE ? OR komment_szoveg LIKE ?)
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
@@ -817,14 +974,72 @@ app.put('/kviz_modositas', (req, res) => {
 
     const parameterek = [
         req.body.kviz_nev,
-        req.body.kategoria_id,
+        req.body.kviz_kategoria,
         req.body.kviz_leiras,
         req.body.kviz_id,
     ]
 
     connection.query(`
         UPDATE kvizek SET
-        kviz_nev = ?, kategoria_id = ?, kviz_leiras = ?
+        kviz_nev = ?, kviz_kategoria = ?, kviz_leiras = ?
+        WHERE kviz_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres módosítás.")
+            res.status(200).send("Sikeres módosítás.")
+        }
+    })
+
+    connection.end() 
+})
+
+app.put('/jelszo_modositas', async (req, res) => {
+    kapcsolat()
+
+    // Hash the password
+    const titkositott_jelszo = await bcrypt.hash(req.body.felhasznalo_jelszo, 10);
+
+    const parameterek = [
+        titkositott_jelszo,
+        req.body.felhasznalo_email,
+    ]
+
+    connection.query(`
+        UPDATE felhasznalok
+        SET felhasznalo_jelszo = ?
+        WHERE felhasznalo_email = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Jelszó módosítva!")
+            res.status(200).send("Jelszó módosítva!!")
+        }
+    })
+
+    connection.end() 
+})
+
+app.put('/kviz_kitoltes', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.kviz_id,
+    ]
+
+    connection.query(`
+        UPDATE kvizek SET
+        kviz_kitoltes = kviz_kitoltes + 1
         WHERE kviz_id = ?
         `, parameterek, (err, rows, fields) => {
         if (err)
@@ -857,6 +1072,61 @@ app.put('/visszajelzesek_megoldva_valtas', (req, res) => {
             ELSE visszajelzes_megoldva
         END
         WHERE visszajelzes_id = ?;    
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres módosítás.")
+            res.status(200).send("Sikeres módosítás.")
+        }
+    })
+
+    connection.end() 
+})
+
+app.put('/ertekeles_modositas', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.ertekeles_pont,
+        req.body.ertekeles_id,
+    ]
+
+    connection.query(`
+        UPDATE ertekelesek SET
+        ertekeles_pont = ?
+        WHERE ertekeles_id = ?
+        `, parameterek, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log("Sikeres módosítás.")
+            res.status(200).send("Sikeres módosítás.")
+        }
+    })
+
+    connection.end() 
+})
+
+app.put('/kategoria_id_modositas', (req, res) => {
+    kapcsolat()
+
+    const parameterek = [
+        req.body.kategoria_id,
+    ]
+
+    connection.query(`
+        UPDATE kvizek SET
+        kviz_kategoria = 1
+        WHERE kviz_kategoria = ?
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
@@ -910,9 +1180,8 @@ app.delete('/kviz_torles', (req, res) => {
         req.body.kviz_id
     ]
 
-    //kérdések törlése
     connection.query(`
-        DELETE FROM kerdesek
+        DELETE FROM kvizek
         WHERE kviz_id = ?
         `, parameterek, (err, rows, fields) => {
         if (err)
@@ -922,28 +1191,12 @@ app.delete('/kviz_torles', (req, res) => {
             res.status(500).send("Hiba")
         }
         else{
-            //ha sikeres, kvíz törlése
-            connection.query(`
-                DELETE FROM kvizek
-                WHERE kviz_id = ?
-                `, parameterek, (err, rows, fields) => {
-                if (err)
-                {
-                    console.log("Hiba")
-                    console.log(err)
-                    res.status(500).send("Hiba")
-                }
-                else{
-                    console.log("Sikeres törlés.")
-                    res.status(200).send("Sikeres törlés.")
-                }
-            })
+            console.log("Sikeres törlés.")
+            res.status(200).send("Sikeres törlés.")
         }
     })
 
-    res.on('finish', () => {
-        connection.end();
-    });
+    connection.end()  
 })
 
 app.delete('/kategoria_torles', (req, res) => {

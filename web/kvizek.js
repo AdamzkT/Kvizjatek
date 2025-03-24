@@ -1,25 +1,50 @@
+import { server } from "./backend_linkek.js";
+
 //---------------------------------------------Megjelenítés---------------------------------------------
+var ertekelesek = []
+
 const kvizek_fetch = async () => {
-    let x = await fetch("http://localhost:3000/kvizek");
+    let x = await fetch(`${server}/kvizek`);
     let y = await x.json();
+    
     kvizek_megjelenit(y);
 }
-kvizek_fetch()
+
+const ertekelesek_fetch = async () => {
+    let x = await fetch(`${server}/ertekelesek_kvizenkent`);
+    let y = await x.json();
+    ertekelesek = y
+
+    kvizek_fetch()
+}
+ertekelesek_fetch()
 
 const kvizek_megjelenit = (adatok) =>{
     //console.log(adatok)
+    //console.log(ertekelesek)
 
     let sz = ""
     for (const item of adatok) {
-        sz += `
+        let ertekeles = 0
+        for (const ertek of ertekelesek) {
+            if (ertek.ertekeles_kviz == item.kviz_id) {
+                ertekeles = ertek.kviz_ertekeles
+            }
+        }
 
+        sz += `
             <tr>
                 <td>${item.kviz_nev}</td>
                 <td>${item.felhasznalo_email}</td>
                 <td>${item.kategoria_nev}</td>
                 <td>${item.kviz_leiras}</td>
+                <td>${item.kviz_kitoltesek}</td>
+                <td>${ertekeles}</td>
                 <td>
-                    <button type="button" onclick="window.location.href='kerdesek.html?kviz_id=${item.kviz_id}'" class="kerdesek_gomb gombok">Kérdések</button>
+                    <button type="button" onclick="window.location.href='kerdesek.html?kviz_id=${item.kviz_id}'" class="tablazat_gomb gombok">Kérdések</button>
+                </td>
+                <td>
+                    <button type="button" onclick="window.location.href='kommentek.html?kviz_id=${item.kviz_id}'" class="tablazat_gomb gombok">Kommentek</button>
                 </td>
                 <td><button type="button" class="modositas_gomb gombok" onclick="window.location.href='kvizek_modositas.html?kviz_id=${item.kviz_id}'">
                     <img src="kepek/edit.png" alt="" class="img-fluid">
@@ -40,7 +65,7 @@ const kvizek_megjelenit = (adatok) =>{
 
 //---------------------------------------------Módosítás---------------------------------------------
 const kviz_fetch = async (kviz_id) => {
-    let x = await fetch("http://localhost:3000/kviz_id_alapjan",{
+    let x = await fetch(`${server}/kviz_id_alapjan`,{
         method: "POST",
         body: JSON.stringify({
             "kviz_id":kviz_id
@@ -56,7 +81,7 @@ const kviz_megjelenit = (adat) => {
 
     document.getElementById("kviz_nev_modositas").value = adat[0].kviz_nev
     document.getElementById("leiras_modositas").value = adat[0].kviz_leiras
-    document.getElementById("kategoria_modositas").value = adat[0].kategoria_id
+    document.getElementById("kategoria_modositas").value = adat[0].kviz_kategoria
 
     document.getElementById("modositas_ok_gomb").addEventListener("click", function(){
         kviz_modositas_ellenorzes(adat[0].kviz_id)
@@ -64,7 +89,7 @@ const kviz_megjelenit = (adat) => {
 }
 
 const kategoriak_fetch = async () => {
-    let x = await fetch("http://localhost:3000/kategoriak");
+    let x = await fetch(`${server}/kategoriak`);
     let y = await x.json();
     kategoriak_megjelenit(y);
 }
@@ -84,12 +109,12 @@ const kategoriak_megjelenit = (adatok) => {
     }
 }
 
-const kviz_modositas = async (kviz_id) => {
-    let x = await fetch("http://localhost:3000/kviz_modositas",{
+export const kviz_modositas = async (kviz_id) => {
+    let x = await fetch(`${server}/kviz_modositas`,{
         method: "PUT",
         body: JSON.stringify({
             "kviz_nev":document.getElementById("kviz_nev_modositas").value,
-            "kategoria_id":document.getElementById("kategoria_modositas").value,
+            "kviz_kategoria":document.getElementById("kategoria_modositas").value,
             "kviz_leiras":document.getElementById("leiras_modositas").value,
             "kviz_id":kviz_id
         }),
@@ -120,8 +145,8 @@ const kviz_modositas_ellenorzes = (id) => {
 
 
 //---------------------------------------------Törlés---------------------------------------------
-const kvizek_torles_ellenorzes = async (id) => {
-    let x = await fetch("http://localhost:3000/kviz_id_alapjan",{
+export const kvizek_torles_ellenorzes = async (id) => {
+    let x = await fetch(`${server}/kviz_id_alapjan`,{
         method: "POST",
         body: JSON.stringify({
             "kviz_id":id
@@ -142,8 +167,8 @@ const kvizek_torles_ellenorzes = async (id) => {
     `
 }
 
-const kvizek_torles = async (id) => {
-    let x = await fetch("http://localhost:3000/kviz_torles",{
+export const kvizek_torles = async (id) => {
+    let x = await fetch(`${server}/kviz_torles`,{
         method: "DELETE",
         body: JSON.stringify({
             "kviz_id":id
@@ -163,7 +188,7 @@ const kvizek_torles = async (id) => {
 
 
 //---------------------------------------------Keresés---------------------------------------------
-const kvizek_kereses_ellenorzes = () =>
+export const kvizek_kereses_ellenorzes = () =>
 {
     let keresett = document.getElementById("kereses_bemenet").value;
     if(document.getElementById("kereses_bemenet").value == "")
@@ -175,14 +200,14 @@ const kvizek_kereses_ellenorzes = () =>
 }
 
 const kvizek_kereses = async (keresett) => {
-    let x = await fetch("http://localhost:3000/kvizek_kereses/" + keresett);
+    let x = await fetch(`${server}/kvizek_kereses/` + keresett);
     let y = await x.json();
     kvizek_megjelenit(y);
 }
 
 
 //---------------------------------------------Egyéb---------------------------------------------
-const kviz_uzenet_eltuntetes = () => {
+export const kviz_uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
     uzenet_ablak.style.display = "none"
 
@@ -203,3 +228,9 @@ if (kviz_id_modositas) {
     .then(() => kviz_fetch(kviz_id_modositas)
     .then(kviz_megjelenit));
 }
+
+window.kviz_modositas = kviz_modositas
+window.kvizek_torles_ellenorzes = kvizek_torles_ellenorzes
+window.kvizek_torles = kvizek_torles
+window.kvizek_kereses_ellenorzes = kvizek_kereses_ellenorzes
+window.kviz_uzenet_eltuntetes = kviz_uzenet_eltuntetes

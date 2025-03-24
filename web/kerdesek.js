@@ -1,11 +1,13 @@
+import { server } from "./backend_linkek.js";
+
 //--------------------------------------------------------Megjelenítés--------------------------------------------------------
 var adatok = []
 
 const kerdesek_fetch = async (kviz_id) => {
-    let x = await fetch("http://localhost:3000/kviz_kerdesek",{
+    let x = await fetch(`${server}/kviz_kerdesek`,{
         method: "POST",
         body: JSON.stringify({
-            "kviz_id":kviz_id
+            "kerdes_kviz":kviz_id
         }),
         headers: {"Content-type": "application/json; charset=UTF-8"}
     });
@@ -44,8 +46,8 @@ const kerdesek_megjelenit = (y) => {
 
 
 //--------------------------------------------------------Törlés--------------------------------------------------------
-const kerdesek_torles_ellenorzes = async (id) => {
-    let x = await fetch("http://localhost:3000/kerdes_id_alapjan",{
+export const kerdesek_torles_ellenorzes = async (id) => {
+    let x = await fetch(`${server}/kerdes_id_alapjan`,{
         method: "POST",
         body: JSON.stringify({
             "kerdes_id":id
@@ -64,8 +66,9 @@ const kerdesek_torles_ellenorzes = async (id) => {
         <button type="button" class="btn btn-secondary" onclick="kerdes_uzenet_eltuntetes()">Nem</button>
     `
 }
-const kerdesek_torles = async (id) => {
-    let x = await fetch("http://localhost:3000/kerdes_torles",{
+
+export const kerdesek_torles = async (id) => {
+    let x = await fetch(`${server}/kerdes_torles`,{
         method: "DELETE",
         body: JSON.stringify({
             "kerdes_id":id
@@ -86,7 +89,7 @@ const kerdesek_torles = async (id) => {
 
 //--------------------------------------------------------Módosítás--------------------------------------------------------
 const kerdes_fetch = async (kerdes_id) => {
-    let x = await fetch("http://localhost:3000/kerdes_id_alapjan",{
+    let x = await fetch(`${server}/kerdes_id_alapjan`,{
         method: "POST",
         body: JSON.stringify({
             "kerdes_id":kerdes_id
@@ -111,8 +114,8 @@ const kerdes_megjelenit = (adat) => {
     })
 }
 
-const kerdes_modositas = async (kerdes_id) => {
-    let x = await fetch("http://localhost:3000/kerdes_modositas",{
+export const kerdes_modositas = async (kerdes_id) => {
+    let x = await fetch(`${server}/kerdes_modositas`,{
         method: "PUT",
         body: JSON.stringify({
             "kerdes":document.getElementById("kerdes_modositas").value,
@@ -148,7 +151,7 @@ const kerdes_modositas_ellenorzes = (id) => {
 
 
 //--------------------------------------------------------Keresés--------------------------------------------------------
-const kerdesek_kereses_ellenorzes = () =>
+export const kerdesek_kereses_ellenorzes = () =>
 {
     let keresett = document.getElementById("kereses_bemenet").value;
     if(document.getElementById("kereses_bemenet").value == "")
@@ -160,10 +163,10 @@ const kerdesek_kereses_ellenorzes = () =>
 }
 
 const kerdesek_kereses = async (keresett) => {
-    let x = await fetch("http://localhost:3000/kerdesek_kereses/" + keresett, {
+    let x = await fetch(`${server}/kerdesek_kereses/` + keresett, {
         method: "POST",
         body: JSON.stringify({
-            "kviz_id":kviz_id
+            "kerdes_kviz":kviz_id
         }),
         headers: {"Content-type": "application/json; charset=UTF-8"}
     });
@@ -173,7 +176,7 @@ const kerdesek_kereses = async (keresett) => {
 
 
 //--------------------------------------------------------Egyéb--------------------------------------------------------
-const kerdes_uzenet_eltuntetes = () => {
+export const kerdes_uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
     uzenet_ablak.style.display = "none"
 
@@ -205,3 +208,9 @@ const kerdes_id = getQueryParam_kerdes("kerdes_id");
 if (kerdes_id) {
     kerdes_fetch(kerdes_id);
 }
+
+window.kerdesek_torles_ellenorzes = kerdesek_torles_ellenorzes
+window.kerdesek_torles = kerdesek_torles
+window.kerdes_modositas = kerdes_modositas
+window.kerdesek_kereses_ellenorzes = kerdesek_kereses_ellenorzes
+window.kerdes_uzenet_eltuntetes = kerdes_uzenet_eltuntetes
