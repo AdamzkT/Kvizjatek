@@ -1,4 +1,4 @@
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, TouchableOpacity, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
 import Ipcim from '../Ipcim';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,12 +26,14 @@ export default function BejelentkezesScreen({navigation}) {
           "felhasznalo_jelszo" : jelszo,
         })
       });
-      let y = await x.json()
-      if(y.length == 0) { setMegjegyzes("Rossz felhasználónév vagy jelszó.") }
-      else if(y.length == 1) {
+      if (x.status == 200) {
+        let y = await x.json()
         storeData(y[0].felhasznalo_email, y[0].felhasznalo_nev);
-        Alert.alert('',"Sikeres bejelentkezés",[{text: 'OK', onPress: () => navigation.popToTop()}]) }
-      else { Alert.alert("Valami nagyon nem jó") }
+        Alert.alert('',"Sikeres bejelentkezés",[{text: 'OK', onPress: () => navigation.goBack()}]) }
+      else {
+        let y = await x.text()
+        setMegjegyzes(y)
+      }
     }
 
     const signIn = () =>{
@@ -43,13 +45,19 @@ export default function BejelentkezesScreen({navigation}) {
 
     return (
         <View style={styles.container}>
-        <Text>Felhasználónév vagy Email</Text>
-        <TextInput autoCapitalize='none' style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setFelhasznalo} value={felhasznalo} onChange={() => setMegjegyzes("")}/>
-        <Text>Jelszó</Text>
-        <TextInput autoCapitalize='none' secureTextEntry={true} style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setJelszo} value={jelszo} onChange={() => setMegjegyzes("")}/>
-        <Button title='Bejelentkezés' onPress={() => signIn()}/>
-        <Button title='Regisztráció' onPress={() => navigation.navigate('Regisztráció')}/>
-        <Text>{megjegyzes}</Text>
+          <View style={styles.adat}>
+            <Text style={styles.szoveg}>Felhasználónév vagy Email</Text>
+            <TextInput autoCapitalize='none' style={styles.bemenet} onChangeText={setFelhasznalo} value={felhasznalo} onChange={() => setMegjegyzes("")}/>
+          </View>
+          <View style={styles.adat}>
+            <Text style={styles.szoveg}>Jelszó</Text>
+            <TextInput autoCapitalize='none' secureTextEntry={true} style={styles.bemenet} onChangeText={setJelszo} value={jelszo} onChange={() => setMegjegyzes("")}/>
+          </View>
+
+          <TouchableOpacity style={styles.gomb} onPress={() => signIn()}>
+            <Text>Bejelentkezés</Text>
+          </TouchableOpacity>
+          <Text>{megjegyzes}</Text>
         </View>
     );
 }
@@ -61,4 +69,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  adat: {
+    width: '50%',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  szoveg:{
+    fontSize: 14,
+    fontWeight: 500,
+    textAlign: 'center',
+    marginBottom: 5,
+  },
+  bemenet: {
+    backgroundColor: 'lightgray',
+    height: 40,
+    width: '100%',
+  },
+  gomb: {
+    width: '50%',
+    height: 50,
+    borderRadius: 5,
+    marginVertical: 10,
+    backgroundColor: 'lightblue',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
