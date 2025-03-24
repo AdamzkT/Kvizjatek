@@ -1,4 +1,4 @@
-﻿import { Button, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
+﻿import { TouchableOpacity, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import { useState } from 'react';
 import Ipcim from '../Ipcim';
 
@@ -23,12 +23,15 @@ export default function RegisztracioScreen({navigation}) {
         })
       });
       let y = await x.text()
-      Alert.alert('',y,[{text: 'OK', onPress: () => navigation.goBack()}])
       if( x.status == 200 ){
         setFelhasznalo("")
         setEmail("")
         setJelszo("")
         setJelszo2("")
+        Alert.alert('',y,[{text: 'OK', onPress: () => navigation.goBack()}])
+      }
+      else{
+        Alert.alert('',y,[{text: 'OK'}])
       }
     }
 
@@ -38,14 +41,13 @@ export default function RegisztracioScreen({navigation}) {
       const emailFoglaltE = await email_foglalt(email);
 
       const emailRegex = /^[a-zA-Z0-9](?!.*([._%+-=])\1)[a-zA-Z0-9._%+-=]{0,62}[a-zA-Z0-9]@[a-zA-Z0-9](?!.*--)[a-zA-Z0-9-]{0,62}[a-zA-Z0-9](\.[a-zA-Z]{2,})+$/;
-      // Max Length <= 254
 
       if (felhasznalo == "" || email == "" || jelszo == "" || jelszo2 == "") { setMegjegyzes("Minden adatot meg kell adni"); }
       // Felhasználó
       else if (felhasznalo.length < 2 || felhasznalo.length > 20) { setMegjegyzes("Felhasználónév 2-20 karakter hosszú legyen"); }
       else if (nevFoglaltE) { setMegjegyzes("Felhasználónév foglalt"); }
       // Email
-      else if (!emailRegex.test(email)) { setMegjegyzes("Nem megfelelő email formátum"); }
+      else if (!emailRegex.test(email) || email.length > 254) { setMegjegyzes("Nem megfelelő email formátum"); }
       else if (emailFoglaltE) { setMegjegyzes("Foglalt felhasználónév"); }
       // Jelszó
       else if (jelszo.length < 8 || jelszo.length > 64) { setMegjegyzes("Jelszó 8-64 karakter hosszú legyen"); }
@@ -89,16 +91,26 @@ export default function RegisztracioScreen({navigation}) {
 
     return (
         <View style={styles.container}>
-        <Text>Felhasználónév</Text>
-        <TextInput autoCapitalize='none' style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setFelhasznalo} value={felhasznalo}/>
-        <Text>Email</Text>
-        <TextInput autoCapitalize='none' style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setEmail} value={email}/>
-        <Text>Jelszó</Text>
-        <TextInput autoCapitalize='none' secureTextEntry={true} style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setJelszo} value={jelszo}/>
-        <Text>Jelszó megerősítés</Text>
-        <TextInput autoCapitalize='none' secureTextEntry={true} style={{backgroundColor: 'grey', height: 40, width: 150}} onChangeText={setJelszo2} value={jelszo2}/>
-        <Button title='Regisztráció' onPress={signUp}/>
-        <Text>{megjegyzes}</Text>
+          <View style={styles.adat}>
+            <Text style={styles.szoveg}>Felhasználónév</Text>
+            <TextInput autoCapitalize='none' style={styles.bemenet} onChangeText={setFelhasznalo} value={felhasznalo}/>
+          </View>
+          <View style={styles.adat}>
+            <Text style={styles.szoveg}>Email</Text>
+            <TextInput autoCapitalize='none' style={styles.bemenet} onChangeText={setEmail} value={email}/>
+          </View>
+          <View style={styles.adat}>
+            <Text style={styles.szoveg}>Jelszó</Text>
+            <TextInput autoCapitalize='none' secureTextEntry={true} style={styles.bemenet} onChangeText={setJelszo} value={jelszo}/>
+          </View>
+          <View style={styles.adat}>
+            <Text style={styles.szoveg}>Jelszó megerősítés</Text>
+            <TextInput autoCapitalize='none' secureTextEntry={true} style={styles.bemenet} onChangeText={setJelszo2} value={jelszo2}/>
+          </View>
+          <TouchableOpacity style={styles.gomb} onPress={() => signUp()}>
+            <Text>Regisztráció</Text>
+          </TouchableOpacity>
+          <Text>{megjegyzes}</Text>
         </View>
     );
 }
@@ -110,4 +122,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  adat: {
+    width: '50%',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  szoveg:{
+    fontSize: 14,
+    fontWeight: 500,
+    textAlign: 'center',
+    marginBottom: 5,
+  },
+  bemenet: {
+    backgroundColor: 'lightgray',
+    height: 40,
+    width: '100%',
+  },
+  gomb: {
+    width: '50%',
+    height: 50,
+    borderRadius: 5,
+    marginVertical: 10,
+    backgroundColor: 'lightblue',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });

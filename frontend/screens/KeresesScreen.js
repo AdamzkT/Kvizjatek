@@ -39,6 +39,7 @@ export default function App({navigation}) {
                     <Text>Keres</Text>
                 </TouchableOpacity>
             </View>
+            
             <View>
                 {megjelenit.length == 0 ?
                 <Text style={styles.nincs_talalat}>0 találat</Text>
@@ -47,7 +48,7 @@ export default function App({navigation}) {
                 data={megjelenit}
                 renderItem={({item}) =>
                     <View>
-                        <TouchableOpacity onPress={() => navigation.navigate('Kvíz', {kvizId: item.kviz_id})}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Kvíz', {kvizId: item.kviz_id, kvizNev: item.kviz_nev})}>
                             <Text style={styles.kerdes}>{item.kviz_nev}</Text>
                         </TouchableOpacity>
                     </View>

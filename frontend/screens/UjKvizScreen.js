@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import Ipcim from '../Ipcim';
-import { StyleSheet, View, Text, TextInput, FlatList, Modal, Pressable, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, FlatList, Modal, Alert, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker'
+import { FontAwesome } from 'react-native-vector-icons';
 
 export default function UjKvizScreen({route}) {
     const {email} = route.params;
@@ -10,7 +11,7 @@ export default function UjKvizScreen({route}) {
     const [ujCim, setUjCim] = useState("")
     const [ujLeiras, setUjLeiras] = useState("")
     const [kerdesek, setKerdesek] = useState([])
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalLathato, setModalLathato] = useState(false);
     const [ujKerdes, setUjKerdes] = useState("")
     const [joValasz, setJoValasz] = useState("")
     const [rosszValasz1, setRosszValasz1] = useState("")
@@ -54,7 +55,7 @@ export default function UjKvizScreen({route}) {
       {
         "felhasznalo_email": email,
         "kviz_nev": kviz_nev,
-        "kategoria_id": kategoria.kategoria_id,
+        "kviz_kategoria": kategoria.kategoria_id,
         "kviz_leiras": leiras
       }
       let x = await fetch(`${Ipcim.Server}/kviz_felvitel`, {
@@ -63,9 +64,9 @@ export default function UjKvizScreen({route}) {
         headers: {"Content-type": "application/json; charset=UTF-8"}
       })
       let y = await x.text()
-      if(y == "Sikeres kvíz felvitel!") {return true}
+      if(x.status == 200) {return true}
       else {
-        Alert.alert("Hiba történt a kvíz létrehozása közben!")
+        Alert.alert(y)
         return false
       }
     }
@@ -94,7 +95,7 @@ export default function UjKvizScreen({route}) {
     const kerdes_felvitel = async (id, kerdes, jo, rossz1, rossz2, rossz3) => {
       let adatok = 
       {
-        "kviz_id": id,
+        "kerdes_kviz": id,
         "kerdes": kerdes,
         "valasz_jo": jo,
         "valasz_rossz1": rossz1,
@@ -135,7 +136,7 @@ export default function UjKvizScreen({route}) {
           setRosszValasz1("")
           setRosszValasz2("")
           setRosszValasz3("")
-          setModalVisible(!modalVisible)
+          setModalLathato(!modalLathato)
         }
         else{ Alert.alert("Már van ilyen kérdés!")}
       }
@@ -143,7 +144,7 @@ export default function UjKvizScreen({route}) {
 
     const letrehoz = async () => {
       if(ujCim == "") {Alert.alert("A kvíznek nincs címe.")}
-      else if (kerdesek.length == 5) { Alert.alert("Legalább 5 kérdés kell egy kvíz létrehozásához.")}
+      else if (kerdesek.length < 5) { Alert.alert("Legalább 5 kérdés kell egy kvíz létrehozásához.")}
       else{
         const kvizNemFoglalt = await ellenorzes_kviz_nem_foglalt(email, ujCim)
         if (kvizNemFoglalt) {
@@ -166,79 +167,89 @@ export default function UjKvizScreen({route}) {
       console.log(elem);
       const updatedKerdesek = kerdesek.filter(item => item !== elem);
       setKerdesek(updatedKerdesek);
-      Alert.alert("Kérdés törölve");
     }
 
     return (
         <View style={styles.container}>
-          <Text>Név</Text>
-          <TextInput style={{backgroundColor: 'grey', height: 40, width: '90%'}} onChangeText={setUjCim} value={ujCim} maxLength={50}/>
-          <Text>Leírás</Text>
-          <TextInput style={{backgroundColor: 'grey', height: 120, width: '90%'}} onChangeText={setUjLeiras} value={ujLeiras} multiline={true} maxLength={255}/>
-          <Picker
-            style={{backgroundColor: 'white', width: '100%'}}
-            selectedValue={selectedKategoria}
-            onValueChange={(itemValue) =>
-              {setSelectedKategoria(itemValue)}
-            }>
-            {kategoriak.map((item) => <Picker.Item value={item} label={item.kategoria_nev} key={item.kategoria_id}/>)}
-          </Picker>
-          <View style={{height: 40, width: "90%", backgroundColor: 'black', flexDirection: "row"}}>
-            <Text style={{color: "white", flex: 1}}>Kérdések</Text>
-            <Pressable style={{flex: 1}} onPress={() => setModalVisible(true)}><Text style={{backgroundColor: "white"}}>Új Kérdés</Text></Pressable>
+          <View style={styles.adat}>
+            <Text style={styles.szoveg}>Cím</Text>
+            <TextInput style={[styles.bemenet, {height: 40}]} onChangeText={setUjCim} value={ujCim} maxLength={50}/>
           </View>
-          <View style={{height: 200, width: "90%"}}>
-            <FlatList style={{borderWidth: 2}}
+
+          <View style={styles.adat}>
+            <Text style={styles.szoveg}>Leírás</Text>
+            <TextInput style={[styles.bemenet, {height: 120}]} onChangeText={setUjLeiras} value={ujLeiras} multiline={true} maxLength={255}/>
+          </View>
+
+          <View style={styles.adat}>
+            <Text style={styles.szoveg}>Kategória</Text>
+            <Picker 
+              style={styles.bemenet}
+              selectedValue={selectedKategoria}
+              onValueChange={(itemValue) =>
+                {setSelectedKategoria(itemValue)}
+              }>
+              {kategoriak.map((item) => <Picker.Item value={item} label={item.kategoria_nev} key={item.kategoria_id}/>)}
+            </Picker>
+          </View>
+          
+          <View style={styles.kerdesek_fejlec}>
+            <Text style={{fontWeight: 500, fontSize: 18, flex: 7}}>Kérdések</Text>
+            <TouchableOpacity style={{alignItems: 'flex-end', flex: 1}} onPress={() => setModalLathato(true)}>
+              <FontAwesome name="plus-square" size={40} color='#3399ff'/>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.kerdesek_lista}>
+            <FlatList
               data={kerdesek}
               renderItem={({item}) =>
-                <View
-                  style={{flexDirection: "row", height: 40}}
-                >
-                  <Text style={{flex: 4}} numberOfLines={1}>{item.kerdes}</Text>
-                  <Pressable style={{flex: 1}} onPress={() => torol(item)}>
-                    <Text style={{borderWidth: 1, width: 30, height: 30, textAlignVertical: "center", textAlign: "center"}}>-</Text>
-                  </Pressable>
+                <View style={styles.kerdesek_elem}>
+                  <Text style={{flex: 7}} numberOfLines={1}>{item.kerdes}</Text>
+                  <TouchableOpacity style={{alignItems: 'flex-end', flex: 1}} onPress={() => torol(item)}>
+                    <FontAwesome name="minus-square" size={40} color='#ff8888'/>
+                  </TouchableOpacity>
                 </View>
             }
               keyExtractor={item => item.kerdes}
             />
           </View>
+
           <View>
             <Modal
               transparent={true}
-              visible={modalVisible}
+              visible={modalLathato}
               onRequestClose={() => {
-                setModalVisible(!modalVisible);
+                setModalLathato(!modalLathato);
               }}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <Text>Kérdés</Text>
-                  <TextInput style={{backgroundColor: 'grey', height: 80, width: 300}} onChangeText={setUjKerdes} value={ujKerdes} multiline={true} maxLength={255}/>
-                  <Text>Jó válasz</Text>
-                  <TextInput style={{backgroundColor: 'lightgreen', height: 40, width: 300}} onChangeText={setJoValasz} value={joValasz} maxLength={50}/>
-                  <Text>Rossz válaszok</Text>
-                  <TextInput style={{backgroundColor: 'pink', height: 40, width: 300}} onChangeText={setRosszValasz1} value={rosszValasz1} maxLength={50}/>
-                  <TextInput style={{backgroundColor: 'pink', height: 40, width: 300}} onChangeText={setRosszValasz2} value={rosszValasz2} maxLength={50}/>
-                  <TextInput style={{backgroundColor: 'pink', height: 40, width: 300}} onChangeText={setRosszValasz3} value={rosszValasz3} maxLength={50}/>
-                  <Pressable
-                    style = {{backgroundColor: "gold", height: 40}}
-                    onPress={() => hozzaad()}>
+                  <View style={styles.adat}>
+                    <Text style={styles.szoveg}>Kérdés</Text>
+                    <TextInput style={[styles.bemenet, {height: 80, width: 300}]} onChangeText={setUjKerdes} value={ujKerdes} multiline={true} maxLength={255}/>
+                  </View>
+                  <View style={styles.adat}>
+                    <Text style={styles.szoveg}>Jó válasz</Text>
+                    <TextInput style={[styles.bemenet, {backgroundColor: 'lightgreen', width: 300}]} onChangeText={setJoValasz} value={joValasz} maxLength={50}/>
+                  </View>
+                  <View style={styles.adat}>
+                    <Text style={styles.szoveg}>Rossz válaszok</Text>
+                    <TextInput style={[styles.bemenet, {backgroundColor: 'pink', width: 300, marginBottom: 5}]} onChangeText={setRosszValasz1} value={rosszValasz1} maxLength={50}/>
+                    <TextInput style={[styles.bemenet, {backgroundColor: 'pink', width: 300, marginBottom: 5}]} onChangeText={setRosszValasz2} value={rosszValasz2} maxLength={50}/>
+                    <TextInput style={[styles.bemenet, {backgroundColor: 'pink', width: 300, marginBottom: 5}]} onChangeText={setRosszValasz3} value={rosszValasz3} maxLength={50}/>
+                  </View>
+                  <TouchableOpacity style={[styles.gomb, {width: 150}]} onPress={() => hozzaad()}>
                     <Text>Hozzáad</Text>
-                  </Pressable>
-                  <Pressable
-                    onPress={() => setModalVisible(!modalVisible)}>
-                    <Text>Hide Modal</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               </View>
             </Modal>
           </View>
-          <View>
-            <Pressable
-              style = {{backgroundColor: "lightgreen", height: 40}}
-              onPress={() => letrehoz()}>
+
+          <View style={{width: '100%', alignItems: 'center'}}>
+            <TouchableOpacity style={styles.gomb} onPress={() => letrehoz()}>
               <Text>Létrehoz</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
     );
@@ -250,6 +261,46 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     paddingTop: 20,
+  },
+  adat: {
+    width: '90%',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  szoveg:{
+    fontSize: 14,
+    fontWeight: 500,
+    textAlign: 'center',
+    marginBottom: 5,
+  },
+  bemenet: {
+    backgroundColor: 'lightgray',
+    width: '100%',
+  },
+  kerdesek_fejlec:{
+    height: 50,
+    width: "90%",
+    borderWidth: 2,
+    alignItems: 'center',
+    flexDirection: "row",
+    paddingHorizontal: 10,
+    borderColor: 'lightgray',
+  },
+  kerdesek_lista:{
+    height: 200,
+    width: "90%",
+    paddingTop: 5,
+    borderWidth: 2,
+    borderColor: 'lightgray',
+    backgroundColor: 'lightgray'
+  },
+  kerdesek_elem:{
+    flexDirection: "row",
+    height: 40,
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    marginBottom: 5,
   },
   centeredView: {
     flex: 1,
@@ -270,4 +321,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
   },
+  gomb: {
+    width: '50%',
+    height: 50,
+    borderRadius: 5,
+    marginTop: 10,
+    backgroundColor: 'lightblue',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
