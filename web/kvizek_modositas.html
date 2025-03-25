@@ -17,16 +17,18 @@
         <button type="button" id="vissza_gomb" class="gombok" onclick="history.back()">Vissza</button>
 
         <div id="modositas_doboz">
-            <p class="modositas_cimkek">Kvíz neve</p>
-            <input type="text" id="kviz_nev_modositas" class="modositas_bemenetek" maxlength="50">
-            <p class="modositas_cimkek">Kategória</p>
-            <select id="kategoria_modositas" class="modositas_bemenetek">
-  
-            </select>
-            <p class="modositas_cimkek">Leírás</p>
-            <textarea id="leiras_modositas" rows="5" class="modositas_bemenetek" maxlength="255"></textarea>
-
-            <button type="button" id="modositas_ok_gomb">Módosítás</button>
+            <form id="modositas_form">
+                <p class="modositas_cimkek">Kvíz neve</p>
+                <input type="text" id="kviz_nev_modositas" class="modositas_bemenetek" maxlength="50">
+                <p class="modositas_cimkek">Kategória</p>
+                <select id="kategoria_modositas" class="modositas_bemenetek">
+      
+                </select>
+                <p class="modositas_cimkek">Leírás</p>
+                <textarea id="leiras_modositas" rows="5" class="modositas_bemenetek" maxlength="255"></textarea>
+    
+                <button type="button" id="modositas_ok_gomb">Módosítás</button>
+            </form>
         </div>
 
         <div class="uzenet_kulso" id="uzenet_kulso_id">

@@ -127,6 +127,18 @@ export const uzenet_eltuntetes = () => {
     kategoriak_fetch()
 }
 
+const kategoria_hozzadas_enter = () => {
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("kategoria_hozzadas").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevents any unintended behavior
+                kategoria_hozzadas_ellenorzes();
+            }
+        });
+    });
+}
+kategoria_hozzadas_enter()
+
 window.kategoria_hozzadas_ellenorzes = kategoria_hozzadas_ellenorzes
 window.kategoria_torles_ellenorzes = kategoria_torles_ellenorzes
 window.uzenet_eltuntetes = uzenet_eltuntetes

@@ -114,6 +114,19 @@ export const komment_uzenet_eltuntetes = () => {
     kommentek_fetch(kviz_id)
 }
 
+const kommentek_kereses_enter = () => {
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("kereses_bemenet").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevents any unintended behavior
+                kommentek_kereses_ellenorzes();
+            }
+        });
+    });
+}
+kommentek_kereses_enter()
+
+
 //------------------------------------Paraméter továbbadása másik html oldalra (chatGPT-vel)------------------------------------
 const getQueryParam_kviz = (param) => {
     const urlParams = new URLSearchParams(window.location.search);

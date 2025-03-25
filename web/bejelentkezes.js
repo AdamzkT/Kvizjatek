@@ -10,11 +10,13 @@ export const bejelentkezes_ellenorzes = () => {
 }
 
 const bejelentkeses_form_enter_hozzadasas = () => {
-    document.getElementById("bejelentkezes_form").addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevents form submission if inside a form
-            bejelentkezes_ellenorzes();
-        }
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("bejelentkezes_form").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevents form submission if inside a form
+                bejelentkezes_ellenorzes();
+            }
+        });
     });
 }
 bejelentkeses_form_enter_hozzadasas()

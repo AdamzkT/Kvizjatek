@@ -183,6 +183,17 @@ export const kerdes_uzenet_eltuntetes = () => {
     kerdesek_fetch(kviz_id)
 }
 
+const kerdesek_kereses_enter = () => {
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("kereses_bemenet").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevents any unintended behavior
+                kerdesek_kereses_ellenorzes();
+            }
+        });
+    });
+}
+kerdesek_kereses_enter()
 
 
 //------------------------------------Paraméter továbbadása másik html oldalra (chatGPT-vel)------------------------------------

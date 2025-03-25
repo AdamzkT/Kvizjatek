@@ -214,6 +214,18 @@ export const kviz_uzenet_eltuntetes = () => {
     kvizek_fetch()
 }
 
+const kvizek_kereses_enter = () => {
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("kereses_bemenet").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevents any unintended behavior
+                kvizek_kereses_ellenorzes();
+            }
+        });
+    });
+}
+kvizek_kereses_enter()
+
 
 //---------------------------------------------Paraméter továbbadása másik html oldalra (chatGPT-vel)---------------------------------------------
 const getQueryParam_kviz_modositas = (param) => {
