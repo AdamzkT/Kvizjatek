@@ -80,12 +80,12 @@ export const kategoria_torles_ellenorzes = async () => {
     uzenet.innerHTML = `
         <h2>Biztosan ki akarod törölni ezt a kategóriát?</h2>
         <p id="idezet">„${y[0].kategoria_nev}”</p>
-        <button type="button" class="btn btn-danger" onclick="kategoria_torles(${id})">Igen</button>
+        <button type="button" class="btn btn-danger" onclick="kvizek_kategoria_modositas(${id})">Igen</button>
         <button type="button" class="btn btn-secondary" onclick="uzenet_eltuntetes()">Nem</button>
     `
 }
 
-export const kategoria_torles = async (id) => {
+const kategoria_torles = async (id) => {
     let x = await fetch(`${server}/kategoria_torles`,{
         method: "DELETE",
         body: JSON.stringify({
@@ -104,6 +104,21 @@ export const kategoria_torles = async (id) => {
     `
 }
 
+export const kvizek_kategoria_modositas = async (id) => {
+    let x = await fetch(`${server}/kategoria_id_modositas`,{
+        method: "PUT",
+        body: JSON.stringify({
+            "kategoria_id":id
+        }),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
+    let y = await x.text();
+
+    console.log(y)
+
+    kategoria_torles(id)
+}
+
 //---------------------------------------------Egyéb---------------------------------------------
 export const uzenet_eltuntetes = () => {
     let uzenet_ablak = document.getElementById("uzenet_kulso_id")
@@ -114,5 +129,5 @@ export const uzenet_eltuntetes = () => {
 
 window.kategoria_hozzadas_ellenorzes = kategoria_hozzadas_ellenorzes
 window.kategoria_torles_ellenorzes = kategoria_torles_ellenorzes
-window.kategoria_torles = kategoria_torles
 window.uzenet_eltuntetes = uzenet_eltuntetes
+window.kvizek_kategoria_modositas = kvizek_kategoria_modositas

@@ -343,8 +343,8 @@ app.post('/kviz_felvitel',  (req, res) => {
     kapcsolat()
 
     const parameterek = [
-        req.body.felhasznalo_email,
         req.body.kviz_nev,
+        req.body.felhasznalo_email,
         req.body.kviz_kategoria,
         req.body.kviz_leiras,
     ]
@@ -1039,7 +1039,7 @@ app.put('/kviz_kitoltes', (req, res) => {
 
     connection.query(`
         UPDATE kvizek SET
-        kviz_kitoltes = kviz_kitoltes + 1
+        kviz_kitoltesek = kviz_kitoltesek + 1
         WHERE kviz_id = ?
         `, parameterek, (err, rows, fields) => {
         if (err)
