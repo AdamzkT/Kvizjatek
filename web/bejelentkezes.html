@@ -14,14 +14,15 @@
             <h1 id="cim">Bejelentkezés</h1>
 
             <div id="bejelentkezes_doboz">
-                <p class="bejelentkezes_cimkek">Felhasználó név:</p>
-                <input type="text" id="admin_felhasznalonev_bemenet" class="bejelentkezes_bemenetek">
-    
-                <p class="bejelentkezes_cimkek">Jelszó:</p>
-                <input type="password" id="admin_jelszo_bemenet" class="bejelentkezes_bemenetek">
-    
-                <button id="bejelentkezes_gomb" onclick="bejelentkezes_ellenorzes()">Bejelentkezés</button>
-
+                <form id="bejelentkezes_form">
+                    <p class="bejelentkezes_cimkek">Felhasználó név:</p>
+                    <input type="text" id="admin_felhasznalonev_bemenet" class="bejelentkezes_bemenetek">
+        
+                    <p class="bejelentkezes_cimkek">Jelszó:</p>
+                    <input type="password" id="admin_jelszo_bemenet" class="bejelentkezes_bemenetek">
+        
+                    <button type="button" id="bejelentkezes_gomb" onclick="bejelentkezes_ellenorzes()">Bejelentkezés</button>
+                </form>
                 <p id="hiba_uzenet"></p>
             </div>
         </div>
