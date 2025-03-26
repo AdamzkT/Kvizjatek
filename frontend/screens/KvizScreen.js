@@ -68,7 +68,7 @@ export default function KvizScreen({navigation, route}) {
           if(koviMasodperc > 0) { setMasodperc(koviMasodperc) }
           else { setMasodperc(0) }
         }, maxMasodperc/50*1000);
-    
+
         return () => clearInterval(timer)
       }
       else {
@@ -114,7 +114,7 @@ export default function KvizScreen({navigation, route}) {
       kerdesBetolt(kerdesek[kovi_index])
       setGombSzinek(["lightblue","lightblue","lightblue","lightblue"])
       setGombKapcsolo(false)
-      setKoviKerdesKapcsolo(true) 
+      setKoviKerdesKapcsolo(true)
     }
     else { setModalLathato(true) }
   }
@@ -204,20 +204,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   idozito_keret: {
-    borderColor: "black",
+    borderColor: 'black',
     borderWidth: 1,
-    borderStyle: "solid",
-    width: "90%",
+    borderStyle: 'solid',
+    width: '90%',
     marginBottom: 10,
   },
   idozito: {
-    backgroundColor: "gray",
+    backgroundColor: 'gray',
     height: 30
   },
   valaszok: {
-    width: "100%",
+    width: '100%',
     borderWidth: 1,
-    borderColor: "lightgray",
+    borderColor: 'lightgray',
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 10,
@@ -225,9 +225,9 @@ const styles = StyleSheet.create({
   gomb: {
     borderRadius: 10,
     height: 150,
-    width: "46%",
-    margin: "2%",
-    alignItems: "center",
+    width: '46%',
+    margin: '2%',
+    alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 25,
   },
