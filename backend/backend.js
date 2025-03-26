@@ -234,7 +234,29 @@ app.get('/ertekelesek_kvizenkent', (req, res) => {
     connection.end() 
 })
 
+app.get('/kvizek_bovitett', (req, res) => {
+    kapcsolat()
 
+    connection.query(`
+        SELECT kvizek.*, felhasznalok.felhasznalo_nev, SUM(ertekeles_pont) AS kviz_ertekeles FROM ertekelesek
+        INNER JOIN kvizek ON kvizek.kviz_id = ertekelesek.ertekeles_kviz
+        INNER JOIN felhasznalok ON felhasznalok.felhasznalo_email = kvizek.felhasznalo_email
+        GROUP BY ertekeles_kviz
+        `, (err, rows, fields) => {
+        if (err)
+        {
+            console.log("Hiba")
+            console.log(err)
+            res.status(500).send("Hiba")
+        }
+        else{
+            console.log(rows)
+            res.status(200).send(rows)
+        }
+    })
+
+    connection.end() 
+})
 
 //-------------------------------------------------------------Keresés-------------------------------------------------------------
 app.get('/kvizek_kereses/:keresett', (req, res) => {
@@ -336,7 +358,6 @@ app.post('/kvizek_szures', (req, res) => {
 
     connection.end() 
 })
-
 
 //-------------------------------------------------------------Felvitel-------------------------------------------------------------
 app.post('/kviz_felvitel',  (req, res) => {
@@ -511,7 +532,6 @@ app.post('/ertekeles_felvitel',  (req, res) => {
     connection.end() 
 })
 
-
 //-------------------------------------------------------------Megjelenítés id alapján-------------------------------------------------------------
 app.post('/kviz_kerdesek', (req, res) => {
     kapcsolat()
@@ -651,8 +671,10 @@ app.post('/kommentek_kviz_id_alapjan', (req, res) => {
     ]
 
     connection.query(`
-        SELECT * FROM kommentek
+        SELECT kommentek.*, felhasznalo_nev FROM kommentek
+		INNER JOIN felhasznalok ON felhasznalok.felhasznalo_email = kommentek.komment_felhasznalo
         WHERE komment_kviz = ?
+		ORDER BY komment_id DESC
         `, parameterek, (err, rows, fields) => {
         if (err)
         {
@@ -785,7 +807,6 @@ app.post('/admin_bejelentkezes', (req, res) => {
     connection.end();
 })
 
-
 //-------------------------------------------------------------Regisztráció-------------------------------------------------------------
 app.post('/regisztracio', async (req, res) => {
     kapcsolat()
@@ -871,7 +892,6 @@ app.post('/regisztracio_felhasznalo', (req, res) => {
 
     connection.end() 
 })
-
 
 //-------------------------------------------------------------Keresés-------------------------------------------------------------
 app.post('/kerdesek_kereses/:keresett', (req, res) => {
@@ -1224,7 +1244,6 @@ app.delete('/kategoria_torles', (req, res) => {
 
     connection.end() 
 })
-
 
 app.delete('/komment_torles', (req, res) => {
     kapcsolat()
