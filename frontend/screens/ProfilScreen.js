@@ -1,4 +1,4 @@
-import { Button, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect, useCallback} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
@@ -9,14 +9,14 @@ const getData = async () => {
   return email != null && felhasznalo != null ? [felhasznalo, email] : ["",""];
 };
 
-export default function ProfilScreen({navigation, route}) {
+export default function ProfilScreen({navigation}) {
   const [felhasznalo,setFelhasznalo] = useState("")
   const [email,setEmail] = useState("")
 
   useEffect(() => {
       getData().then(adat => {setFelhasznalo(adat[0]); setEmail(adat[1])})
-  },[])
-  
+  },[felhasznalo])
+
   useFocusEffect(
       useCallback(() => {
           getData().then(adat => {setFelhasznalo(adat[0]); setEmail(adat[1])})
@@ -30,7 +30,7 @@ export default function ProfilScreen({navigation, route}) {
 
   const kijelentkezes = async() => {
       await storeData("","")
-      navigation.popToTop()
+      setFelhasznalo("")
   }
 
   return (
@@ -40,10 +40,10 @@ export default function ProfilScreen({navigation, route}) {
         ?
         <View style={[styles.container, {width: '100%', height: '100%'}]}>
           <TouchableOpacity style={styles.gomb} onPress={() => { navigation.navigate('Bejelentkezés')}}>
-            <Text>Bejelentkezés</Text>
+            <Text style={styles.gomb_szoveg}>Bejelentkezés</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.gomb} onPress={() => { navigation.navigate('Regisztráció')}}>
-            <Text>Regisztráció</Text>
+            <Text style={styles.gomb_szoveg}>Regisztráció</Text>
           </TouchableOpacity>
         </View>
         :
@@ -51,16 +51,16 @@ export default function ProfilScreen({navigation, route}) {
           <Text style={styles.felhasznalo}>{email}</Text>
           <View style={styles.container}>
             <TouchableOpacity style={styles.gomb} onPress={() => { navigation.navigate('Új Kvíz', {email:email})}}>
-              <Text>Új Kvíz</Text>
+              <Text style={styles.gomb_szoveg}>Új Kvíz</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.gomb} onPress={() => { navigation.navigate('Kapcsolat', {email:email})}}>
-              <Text>Kapcsolat</Text>
+              <Text style={styles.gomb_szoveg}>Kapcsolat</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.gomb, {backgroundColor: '#ff8888'}]} onPress={() => kijelentkezes()}>
-              <Text>Kijelentkezés</Text>
+            <TouchableOpacity style={[styles.gomb, {backgroundColor: 'red'}]} onPress={() => kijelentkezes()}>
+              <Text style={styles.gomb_szoveg}>Kijelentkezés</Text>
             </TouchableOpacity>
           </View>
-          
+
         </View>
       }
       </View>
@@ -83,12 +83,17 @@ const styles = StyleSheet.create({
     color: '#3399ff',
   },
   gomb: {
-    width: '50%',
-    height: 50,
+    backgroundColor: '#3399ff',
+    width: '60%',
+    height: 80,
     borderRadius: 5,
-    marginVertical: 5,
-    backgroundColor: 'lightblue',
+    marginVertical: '2%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  gomb_szoveg: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 500,
   }
 });

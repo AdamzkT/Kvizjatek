@@ -69,7 +69,7 @@ export default function RegisztracioScreen({navigation}) {
         })
       });
       let y = await x.json()
-      
+
       return y.length !== 0
     }
 
@@ -85,7 +85,7 @@ export default function RegisztracioScreen({navigation}) {
         })
       });
       let y = await x.json()
-      
+
       return y.length !== 0
     }
 
@@ -108,9 +108,9 @@ export default function RegisztracioScreen({navigation}) {
             <TextInput autoCapitalize='none' secureTextEntry={true} style={styles.bemenet} onChangeText={setJelszo2} value={jelszo2}/>
           </View>
           <TouchableOpacity style={styles.gomb} onPress={() => signUp()}>
-            <Text>Regisztráció</Text>
+            <Text style={styles.gomb_szoveg}>Regisztráció</Text>
           </TouchableOpacity>
-          <Text>{megjegyzes}</Text>
+          <Text style={styles.megjegyzes_szoveg}>{megjegyzes}</Text>
         </View>
     );
 }
@@ -123,28 +123,39 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   adat: {
-    width: '50%',
+    width: '60%',
     alignItems: 'center',
-    paddingBottom: 10,
+    paddingBottom: '3%',
   },
   szoveg:{
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 500,
     textAlign: 'center',
-    marginBottom: 5,
+    marginBottom: '2%',
   },
   bemenet: {
     backgroundColor: 'lightgray',
     height: 40,
+    fontSize: 14,
     width: '100%',
   },
   gomb: {
-    width: '50%',
-    height: 50,
+    width: '60%',
+    height: 70,
     borderRadius: 5,
-    marginVertical: 10,
-    backgroundColor: 'lightblue',
+    marginTop: 15,
+    backgroundColor: '#3399ff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  gomb_szoveg: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: 500,
+  },
+  megjegyzes_szoveg: {
+    marginTop: '2%',
+    fontSize: 16,
+    fontWeight: 500,
   }
 });
