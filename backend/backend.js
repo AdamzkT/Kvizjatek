@@ -359,7 +359,6 @@ app.post('/kvizek_szures', (req, res) => {
     connection.end() 
 })
 
-
 //-------------------------------------------------------------Felvitel-------------------------------------------------------------
 app.post('/kviz_felvitel',  (req, res) => {
     kapcsolat()
@@ -532,7 +531,6 @@ app.post('/ertekeles_felvitel',  (req, res) => {
 
     connection.end() 
 })
-
 
 //-------------------------------------------------------------Megjelenítés id alapján-------------------------------------------------------------
 app.post('/kviz_kerdesek', (req, res) => {
@@ -809,7 +807,6 @@ app.post('/admin_bejelentkezes', (req, res) => {
     connection.end();
 })
 
-
 //-------------------------------------------------------------Regisztráció-------------------------------------------------------------
 app.post('/regisztracio', async (req, res) => {
     kapcsolat()
@@ -895,7 +892,6 @@ app.post('/regisztracio_felhasznalo', (req, res) => {
 
     connection.end() 
 })
-
 
 //-------------------------------------------------------------Keresés-------------------------------------------------------------
 app.post('/kerdesek_kereses/:keresett', (req, res) => {
@@ -1248,7 +1244,6 @@ app.delete('/kategoria_torles', (req, res) => {
 
     connection.end() 
 })
-
 
 app.delete('/komment_torles', (req, res) => {
     kapcsolat()
