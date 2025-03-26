@@ -235,7 +235,6 @@ app.get('/ertekelesek_kvizenkent', (req, res) => {
 })
 
 
-
 //-------------------------------------------------------------Keresés-------------------------------------------------------------
 app.get('/kvizek_kereses/:keresett', (req, res) => {
     kapcsolat()
