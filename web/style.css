@@ -49,6 +49,11 @@ input:focus::placeholder{
     color: rgba(255, 255, 255, 0.7);
 }
 
+#reszletek_modal p, #uzenet_kulso_id p, #visszajelzesek_doboz p, #modal_fej_cim{
+    max-width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /*-----------------------------------------------------Navbar-----------------------------------------------------*/
 .nav_design{
@@ -106,6 +111,12 @@ table tr{
     border: 3px solid #052a5a;
 }
 
+td{
+    max-width: 250px;
+    /*white-space: nowrap;*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /*-----------------------------------------------------Keresés-----------------------------------------------------*/
 .kereses {
@@ -318,6 +329,7 @@ table tr{
     color: gray;
     font-style: italic;
     font-size: 20px;
+    text-align: center;
 }
 
 
