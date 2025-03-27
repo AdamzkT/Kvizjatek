@@ -49,12 +49,11 @@ input:focus::placeholder{
     color: rgba(255, 255, 255, 0.7);
 }
 
-p, #modal_fej_cim{
-    max-width: 300px;
+p, span, #modal_fej_cim{
+    max-width: 500px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 
 /*-----------------------------------------------------Navbar-----------------------------------------------------*/
 .nav_design{
