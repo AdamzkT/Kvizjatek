@@ -100,7 +100,7 @@ export default function App({navigation}) {
     }, [modalLathato]);
 
     const kereses = (keresettKategoria, rendezesSzempont, rendezesMod) => {
-        let talalatok = adatok;
+        let talalatok = adatok.slice();
 
         if(keresettKategoria.kategoria_id != 0){
             let jo_kategoria = []
@@ -117,16 +117,46 @@ export default function App({navigation}) {
             talalatok = keresett
         }
 
-        if(rendezesSzempont == "") { setRendezesTipus(["",""]) }
+        if(rendezesSzempont == "" || rendezesMod == "") { setRendezesTipus(["",""]) }
         else {
-            talalatok = talalatok.sort(function (a,b) {
-                if (a.kviz_kitoltesek > b.kviz_kitoltesek) { return -1 }
-                if (a.kviz_kitoltesek < b.kviz_kitoltesek) { return 1 }
-                return 0
-            })
+            if(rendezesSzempont == "nev") {
+                // Fordított, így több értelme van
+                if(rendezesMod == "csokkeno") { talalatok = rendezes_nev_szerint(talalatok,1,-1) }
+                if(rendezesMod == "novekvo") { talalatok = rendezes_nev_szerint(talalatok,-1,1) }
+            }
+            if(rendezesSzempont == "nepszeruseg") {
+                if(rendezesMod == "csokkeno") { talalatok = rendezes_nepszeruseg_szerint(talalatok,-1,1) }
+                if(rendezesMod == "novekvo") { talalatok = rendezes_nepszeruseg_szerint(talalatok,1,-1) }
+            }
+            if(rendezesSzempont == "ertekeles") {
+                if(rendezesMod == "csokkeno") { talalatok = rendezes_ertekeles_szerint(talalatok,-1,1) }
+                if(rendezesMod == "novekvo") { talalatok = rendezes_ertekeles_szerint(talalatok,1,-1) }
+            }
         }
 
         setMegjelenit(talalatok)
+    }
+
+    const rendezes_nev_szerint = (lista,szam1,szam2) => {
+        return lista.sort(function (a,b) {
+            if (a.kviz_nev > b.kviz_nev) { return szam1 }
+            if (a.kviz_nev < b.kviz_nev) { return szam2 }
+            return 0
+        })
+    }
+    const rendezes_nepszeruseg_szerint = (lista,szam1,szam2) => {
+        return lista.sort(function (a,b) {
+            if (a.kviz_kitoltesek > b.kviz_kitoltesek) { return szam1 }
+            if (a.kviz_kitoltesek < b.kviz_kitoltesek) { return szam2 }
+            return 0
+        })
+    }
+    const rendezes_ertekeles_szerint = (lista,szam1,szam2) => {
+        return lista.sort(function (a,b) {
+            if (a.kviz_ertekeles > b.kviz_ertekeles) { return szam1 }
+            if (a.kviz_ertekeles < b.kviz_ertekeles) { return szam2 }
+            return 0
+        })
     }
 
     const szam_formatum = (szam) =>{
@@ -207,23 +237,21 @@ export default function App({navigation}) {
     }
 
     const rendezes = (uj_szempont) => {
-        console.log(uj_szempont)
-        console.log(rendezesTipus)
         let rendezes_szempont = rendezesTipus[0]
         let rendezes_tipus = rendezesTipus[1]
         if(rendezes_szempont == uj_szempont) {
             rendezes_szempont = uj_szempont
-            if( rendezes_tipus = "") { rendezes_tipus = "novekvo"}
-            if( rendezes_tipus = "novekvo") { rendezes_tipus = "csokkeno"}
-            if( rendezes_tipus = "csokkeno") { rendezes_tipus = "", rendezes_szempont = ""}
+            if( rendezes_tipus == "") { rendezes_tipus = "csokkeno"}
+            else if( rendezes_tipus == "csokkeno") { rendezes_tipus = "novekvo"}
+            else if( rendezes_tipus == "novekvo") { rendezes_tipus = "", rendezes_szempont = ""}
             setRendezesTipus([rendezes_szempont, rendezes_tipus])
         }
         else {
-            rendezes_tipus = "novekvo"
-            setRendezesTipus([uj_szempont, rendezes_tipus])
+            rendezes_tipus = "csokkeno"
+            rendezes_szempont = uj_szempont
+            setRendezesTipus([rendezes_szempont, rendezes_tipus])
         }
-        console.log(rendezes_szempont + " " + rendezes_tipus)
-        kereses(selectedKategoria, uj_szempont, rendezes_tipus)
+        kereses(selectedKategoria, rendezes_szempont, rendezes_tipus)
     }
 
     const jatek = (kviz) =>{
@@ -254,31 +282,32 @@ export default function App({navigation}) {
                 </View>
             </View>
 
+            <View style={styles.rendezes}>
+                <TouchableOpacity style={styles.rendezes_szoveg} onPress={() => rendezes("nev")}>
+                    <Text style={{color: 'white', fontSize: 18, fontWeight: 600}}>Kvíz neve</Text>
+                    {rendezesTipus[0] != "nev" ? "" :
+                        <AntDesign style={{textAlign: 'right'}} name={rendezesTipus[1] == "novekvo" ? "arrowdown" : "arrowup"} size={20} color='white'/>
+                    }
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.rendezes_szam} onPress={() => rendezes("nepszeruseg")}>
+                    <AntDesign name="eye" size={20} color='white'/>
+                    {rendezesTipus[0] != "nepszeruseg" ? "" :
+                        <AntDesign style={{textAlign: 'right'}} name={rendezesTipus[1] == "novekvo" ? "arrowup" : "arrowdown"} size={20} color='white'/>
+                    }
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.rendezes_szam} onPress={() => rendezes("ertekeles")}>
+                    <AntDesign name="heart" size={20} color='white'/>
+                    {rendezesTipus[0] != "ertekeles" ? "" :
+                        <AntDesign style={{textAlign: 'right'}} name={rendezesTipus[1] == "novekvo" ? "arrowup" : "arrowdown"} size={20} color='white'/>
+                    }
+                </TouchableOpacity>
+            </View>
+
             <View style={{width: '100%', flex: 1}}>
                 {megjelenit.length == 0 ?
                 <Text style={styles.nincs_talalat}>0 találat</Text>
                 :
                 <View>
-                    <View style={{flexDirection: 'row', backgroundColor: '#3399ff', borderBottomWidth: 2, borderColor: 'white', height: 50}}>
-                        <TouchableOpacity onPress={() => rendezes("nev")}>
-                            <Text style={{flex: 4, paddingHorizontal: 20, height: '100%'}}>Kvíz neve</Text>
-                            {rendezesTipus[0] != "nev" ? "" :
-                                <AntDesign style={{textAlign: 'right'}} name={rendezesTipus[1] == "novekvo" ? "arrowup" : "arrowdown"} size={20} color='white'/>
-                            }
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => rendezes("nepszeruseg")}>
-                            <AntDesign style={{flex: 1, borderLeftWidth: 1, borderColor: 'white', textAlign: 'center', height: '100%'}} name="eye" size={20} color='white'/>
-                            {rendezesTipus[0] != "nepszeruseg" ? "" :
-                                <AntDesign style={{textAlign: 'right'}} name={rendezesTipus[1] == "novekvo" ? "arrowup" : "arrowdown"} size={20} color='white'/>
-                            }
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => rendezes("ertekeles")}>
-                            <AntDesign style={{flex: 1, borderLeftWidth: 1, borderColor: 'white', textAlign: 'center', height: '100%'}} name="heart" size={20} color='white'/>
-                            {rendezesTipus[0] != "ertekeles" ? "" :
-                                <AntDesign style={{textAlign: 'right'}} name={rendezesTipus[1] == "novekvo" ? "arrowup" : "arrowdown"} size={20} color='white'/>
-                            }
-                        </TouchableOpacity>
-                    </View>
                     <FlatList
                     data={megjelenit}
                     renderItem={({item}) =>
@@ -474,5 +503,29 @@ const styles = StyleSheet.create({
         height: 60,
         paddingHorizontal: 10,
         marginBottom: 10,
+    },
+    rendezes: {
+        flexDirection: 'row',
+        backgroundColor: '#3399ff',
+        borderBottomWidth: 2,
+        borderColor: 'white',
+        height: 50,
+    },
+    rendezes_szoveg: {
+        flex: 4,
+        paddingHorizontal: 20,
+        height: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    rendezes_szam: {
+        flex: 1,
+        borderLeftWidth: 1,
+        borderColor: 'white',
+        justifyContent: 'center',
+        height: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
     }
 });
