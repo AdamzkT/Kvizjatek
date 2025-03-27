@@ -634,7 +634,7 @@ app.post('/kategoria_id_alapjan', (req, res) => {
         }
     })
 
-    connection.end() 
+    connection.end()
 })
 
 app.post('/ertekeles_felhasznalo_alapjan', (req, res) => {
@@ -714,7 +714,7 @@ app.post('/komment_id_alapjan', (req, res) => {
         }
     })
 
-    connection.end();
+    connection.end()
 })
 
 //-------------------------------------------------------------Bejelentkezés-------------------------------------------------------------
@@ -756,7 +756,7 @@ app.post('/bejelentkezes', (req, res) => {
         }
     });
 
-    connection.end();
+    connection.end()
 })
 
 app.post('/admin_bejelentkezes', (req, res) => {
@@ -804,7 +804,7 @@ app.post('/admin_bejelentkezes', (req, res) => {
         }
     });
 
-    connection.end();
+    connection.end()
 })
 
 //-------------------------------------------------------------Regisztráció-------------------------------------------------------------
