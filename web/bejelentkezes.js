@@ -1,13 +1,13 @@
 import { server } from "./backend_linkek.js";
 
-var admin_nev = ""
-var admin_jelszo = ""
+var admin_nev = "";
+var admin_jelszo = "";
 
 export const bejelentkezes_ellenorzes = () => {
     admin_nev = document.getElementById("admin_felhasznalonev_bemenet").value;
     admin_jelszo = document.getElementById("admin_jelszo_bemenet").value;
-    bejelentkezes_fetch()
-}
+    bejelentkezes_fetch();
+};
 
 const bejelentkeses_form_enter_hozzadasas = () => {
     document.addEventListener("DOMContentLoaded", () => {
@@ -18,10 +18,13 @@ const bejelentkeses_form_enter_hozzadasas = () => {
             }
         });
     });
-}
-bejelentkeses_form_enter_hozzadasas()
+};
+bejelentkeses_form_enter_hozzadasas();
 
 const bejelentkezes_fetch = async () => {
+    const loadingOverlay = document.getElementById("loading-overlay");
+    if (loadingOverlay) loadingOverlay.style.display = "flex"; // Show loading screen only if it exists
+
     try {
         let response = await fetch(`${server}/admin_bejelentkezes`, {
             method: "POST",
@@ -35,16 +38,18 @@ const bejelentkezes_fetch = async () => {
         let data = await response.json();
 
         if (response.ok && data.token) {
-            // Store the token in localStorage for subsequent requests
-            localStorage.setItem('adminToken', data.token);
+            localStorage.setItem("adminToken", data.token);
             window.location.href = "kvizek.html"; // Navigate to admin page
         } else {
             document.getElementById("hiba_uzenet").innerHTML = "Hibás felhasználó név vagy jelszó!";
         }
     } catch (error) {
         console.error("Hiba a bejelentkezés során:", error);
-        document.getElementById("hiba_uzenet").innerHTML = "Hibás felhasználó név vagy jelszó!";
+        document.getElementById("hiba_uzenet").innerHTML = "Hiba történt. Próbáld újra!";
+    } finally {
+        if (loadingOverlay) loadingOverlay.style.display = "none"; // Hide loading screen
     }
-}
+};
+
 
 window.bejelentkezes_ellenorzes = bejelentkezes_ellenorzes;
