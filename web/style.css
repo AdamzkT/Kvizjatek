@@ -49,6 +49,12 @@ input:focus::placeholder{
     color: rgba(255, 255, 255, 0.7);
 }
 
+p, #modal_fej_cim{
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 /*-----------------------------------------------------Navbar-----------------------------------------------------*/
 .nav_design{
@@ -106,12 +112,12 @@ table tr{
     border: 3px solid #052a5a;
 }
 
-td {
+td{
     max-width: 250px;
     /*white-space: nowrap;*/
     overflow: hidden;
     text-overflow: ellipsis;
-  }
+}
 
 /*-----------------------------------------------------Keresés-----------------------------------------------------*/
 .kereses {
