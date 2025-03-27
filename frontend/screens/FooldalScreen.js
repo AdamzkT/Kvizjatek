@@ -7,7 +7,7 @@ export default function FooldalScreen({navigation}) {
           <View>
               <View style={styles.cim}>
                   <Text style={styles.szoveg}>Pocket</Text>
-                  <Text style={[styles.szoveg, {textAlign: 'right'}]}>Kvíz</Text>
+                  <Text style={[styles.szoveg, {textAlign: 'right'}]}>Quiz</Text>
               </View>
               <Pressable style={{alignItems: 'flex-start', marginBottom: 0}} onPress={() => {navigation.navigate('Kvízek')}}>
                   <FontAwesome5 name="play-circle" size={210} color='#3399ff'/>
