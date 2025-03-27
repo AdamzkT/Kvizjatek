@@ -49,7 +49,7 @@ input:focus::placeholder{
     color: rgba(255, 255, 255, 0.7);
 }
 
-p, span, #modal_fej_cim{
+#reszletek_modal p, #uzenet_kulso_id p, #visszajelzesek_doboz p, #modal_fej_cim{
     max-width: 500px;
     overflow: hidden;
     text-overflow: ellipsis;
