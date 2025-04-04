@@ -86,6 +86,14 @@ input:focus::placeholder{
     margin-bottom: 60px;
 }
 
+.logo_name {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white;
+    margin-right: 20px;
+    margin-bottom: 5px;
+}
+
 /*-----------------------------------------------------Táblázatok-----------------------------------------------------*/
 table{
     width: 100%;
